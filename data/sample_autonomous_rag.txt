@@ -1,0 +1,50 @@
+1. CVE-2024-3094 is a critical supply-chain backdoor discovered in upstream tarballs of xz-utils (specifically liblzma versions 5.6.0 and 5.6.1) that intercepts sshd authentication.
+2. HTTP 504 Gateway Timeout indicates an intermediary server or proxy did not receive a timely response from the upstream backend server.
+3. Kubernetes v1.27 promoted in-tree storage plugin migration to CSI (Container Storage Interface) to General Availability (GA).
+4. OAuth 2.0 RFC 7636 Proof Key for Code Exchange (PKCE) prevents authorization code interception attacks on public clients using code_verifier and code_challenge.
+5. Reciprocal Rank Fusion RRF scores documents by summing 1/(rrf_k + rank) where default rrf_k constant is 60 to merge diverse retriever rankings.
+6. CACHE_TTL_SECONDS is configured to 3600 seconds (1 hour) to evict stale query embeddings from local memory and manage RAM capacity.
+7. The primary LLM model checkpoint is llama-3.3-70b-versatile served via Groq inference engine with temperature 0.0 for deterministic answers.
+8. Response memoization caches frequent user queries in an in-memory TTL dictionary, eliminating redundant LLM API calls and dropping repeat latency to 3ms.
+9. Score unification merges ranked candidate lists from sparse lexical and dense semantic retrievers into a single composite ranking using Reciprocal Rank Fusion.
+10. The Grafana observability dashboard provides real-time visualization of p50, p90, and p99 request latency percentiles, error rates, and query throughput.
+11. Continuous evaluation monitors RAG faithfulness, groundedness, and context relevance against a golden test set to prevent hallucinations and retrieval degradation.
+12. BM25 Okapi evaluates term frequency saturation and inverted document frequency (IDF) for exact keyword retrieval across structured corpora.
+13. Dense embedding representations map textual meaning into a continuous 384-dimensional vector space to recognize synonyms and semantic relevance.
+14. Ingestion manifests track document checksums and version history, while automated CI evaluation detects retrieval drift before deployments.
+15. Hybrid search in Autonomous RAG combines dense semantic vectors with BM25 lexical retrieval using a tunable alpha parameter to maximize recall.
+16. Prometheus scrapes histogram metrics such as rag_request_duration_seconds across predefined latency buckets from 0.05s to 10.0s.
+17. Streamlit user feedback thumbs up and thumbs down triggers POST /feedback, updating rag_feedback_total counters in Prometheus.
+18. The hybrid alpha parameter weights the fusion between sparse BM25 (alpha 0.0) and dense vector search (alpha 1.0) with 0.5 as balanced default.
+19. docker-compose.yml orchestrates four coordinated containers: FastAPI chatbot-api, Streamlit frontend UI, Prometheus, and Grafana.
+20. data_validation.py computes MD5 hashes of document chunks to detect duplicates and enforce minimum and maximum chunk length boundaries.
+21. CVE-2021-44228 is a remote code execution vulnerability in Apache Log4j JNDI lookup mechanisms.
+22. CVE-2023-4863 is a heap buffer overflow vulnerability in libwebp image rendering libraries affecting browsers.
+23. CVE-2022-0847 known as Dirty Pipe allows local privilege escalation by overwriting read-only page cache files in Linux.
+24. HTTP 500 Internal Server Error represents an unexpected condition encountered by the server preventing request fulfillment.
+25. HTTP 502 Bad Gateway indicates an edge server received an invalid response from an inbound server while proxying.
+26. HTTP 503 Service Unavailable occurs when the application server is overloaded or down for planned maintenance.
+27. Kubernetes v1.26 introduced support for cross-namespace volume data source transfers and non-graceful node shutdown.
+28. Kubernetes v1.28 introduced native sidecar container management and relaxed node-to-control-plane version skew policies.
+29. Kubernetes v1.29 focused on ReadWriteOncePod volume access mode GA and KMS v2 key encryption improvements.
+30. OAuth 2.0 RFC 6749 defines authorization flows including authorization code, implicit, and client credentials grants.
+31. OAuth 2.0 RFC 7519 specifies JSON Web Tokens JWT for securely transmitting claims between authenticated parties.
+32. OAuth 2.0 RFC 8414 provides metadata discovery mechanisms for authorization server endpoints and supported scopes.
+33. Prometheus alertmanager dispatches alerts via PagerDuty and Slack when metric rules cross configured thresholds.
+34. Grafana Loki aggregates streaming log lines indexed by tenant labels without indexing raw text contents.
+35. Grafana Tempo delivers distributed tracing visualization integrated with OpenTelemetry trace collectors.
+36. MLflow tracks experimental runs, parameters, metrics artifacts, and models across the machine learning lifecycle.
+37. Eviction policy in Redis supports LRU and LFU algorithms to reclaim system memory under constrained conditions.
+38. PostgreSQL full text search uses tsvector and tsquery data types to execute stemmed lexical queries.
+39. FAISS from Meta AI provides GPU-accelerated nearest neighbor search over billions of dense vector embeddings.
+40. Chroma DB is an open-source AI-native vector database designed to store document embeddings and metadata locally.
+41. Milvus is a distributed vector database built for massive-scale semantic similarity search and AI applications.
+42. LangChain provides composable chains, agent executors, and tool integrations for building LLM applications.
+43. LlamaIndex specializes in data ingestion, indexing strategies, and retrieval structures for contextual RAG.
+44. SentenceTransformers provides pre-trained neural networks for mapping sentences into dense 768-dimensional spaces.
+45. HuggingFace Transformers offers state-of-the-art models for sequence classification and natural language understanding.
+46. Groq LPUs Language Processing Units utilize tensor streaming processors to execute inference at ultra-high token speeds.
+47. Continuous integration pipelines with GitHub Actions trigger automated test runners upon push events to main.
+48. Docker build multi-stage patterns reduce final container image sizes by excluding development compilers and build tools.
+49. Kubernetes horizontal pod autoscalers scale deployment replicas according to observed CPU utilization and custom metrics.
+50. Istio service mesh manages mutual TLS authentication and distributed traffic routing between cluster microservices.

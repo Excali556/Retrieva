@@ -1,0 +1,269 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "title": "Key Performance Indicators (KPIs)",
+      "type": "row"
+    },
+    {
+      "id": 1,
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 },
+      "type": "stat",
+      "title": "Total RAG Queries",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(rag_requests_total) or vector(0)",
+          "refId": "A",
+          "legendFormat": "Queries"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "mappings": [],
+          "unit": "short"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 },
+      "type": "stat",
+      "title": "Cache Hit Ratio",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "(sum(rag_cache_hits_total) / (sum(rag_cache_hits_total) + sum(rag_cache_misses_total))) * 100 or vector(0)",
+          "refId": "A",
+          "legendFormat": "Cache Hit %"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 30 },
+              { "color": "green", "value": 70 }
+            ]
+          },
+          "unit": "percent"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 },
+      "type": "stat",
+      "title": "Avg End-to-End Latency",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(rag_request_duration_seconds_sum[5m]) / rate(rag_request_duration_seconds_count[5m]) or vector(0)",
+          "refId": "A",
+          "legendFormat": "Avg Latency"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 1.5 },
+              { "color": "red", "value": 4.0 }
+            ]
+          },
+          "unit": "s"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 },
+      "type": "stat",
+      "title": "User Satisfaction (Positive Ratio)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "(sum(rag_feedback_total{rating=\"positive\"}) / sum(rag_feedback_total)) * 100 or vector(100)",
+          "refId": "A",
+          "legendFormat": "Positive %"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 75 },
+              { "color": "green", "value": 90 }
+            ]
+          },
+          "unit": "percent"
+        }
+      }
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "id": 101,
+      "title": "Latency Analysis & Breakdown",
+      "type": "row"
+    },
+    {
+      "id": 5,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "type": "timeseries",
+      "title": "RAG End-to-End Latency Percentiles",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(rag_request_duration_seconds_bucket[1m])) by (le))",
+          "refId": "P50",
+          "legendFormat": "p50 (Median)"
+        },
+        {
+          "expr": "histogram_quantile(0.90, sum(rate(rag_request_duration_seconds_bucket[1m])) by (le))",
+          "refId": "P90",
+          "legendFormat": "p90"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(rag_request_duration_seconds_bucket[1m])) by (le))",
+          "refId": "P99",
+          "legendFormat": "p99"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth"
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "type": "timeseries",
+      "title": "Component Latency: Retrieval vs LLM Generation",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(rag_retrieval_duration_seconds_sum[1m]) / rate(rag_retrieval_duration_seconds_count[1m])",
+          "refId": "Retrieval",
+          "legendFormat": "Hybrid Retrieval Latency"
+        },
+        {
+          "expr": "rate(rag_llm_duration_seconds_sum[1m]) / rate(rag_llm_duration_seconds_count[1m])",
+          "refId": "LLM",
+          "legendFormat": "LLM Generation Latency"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth"
+          }
+        }
+      }
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 },
+      "id": 102,
+      "title": "Hybrid Retrieval & Quality Metrics",
+      "type": "row"
+    },
+    {
+      "id": 7,
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 15 },
+      "type": "timeseries",
+      "title": "Query Throughput & Status Code Rate (QPS)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(rate(rag_requests_total[1m])) by (status)",
+          "refId": "A",
+          "legendFormat": "{{status}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 15 },
+      "type": "timeseries",
+      "title": "User Feedback Trend (Positive vs Negative)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(increase(rag_feedback_total{rating=\"positive\"}[5m]))",
+          "refId": "Pos",
+          "legendFormat": "Positive"
+        },
+        {
+          "expr": "sum(increase(rag_feedback_total{rating=\"negative\"}[5m]))",
+          "refId": "Neg",
+          "legendFormat": "Negative"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "drawStyle": "bars"
+          }
+        }
+      }
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": ["rag", "mlops", "hybrid-search", "fastapi"],
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m"]
+  },
+  "timezone": "browser",
+  "title": "Autonomous RAG & MLOps Observability Dashboard",
+  "uid": "rag-mlops-dashboard",
+  "version": 1
+}

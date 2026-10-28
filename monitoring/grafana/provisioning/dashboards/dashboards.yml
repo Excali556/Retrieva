@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: 'RAG MLOps Dashboards'
+    orgId: 1
+    folder: 'RAG MLOps'
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /etc/grafana/provisioning/dashboards

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "q1_cve_xz",
+    "query": "What vulnerability is identified by CVE-2024-3094 in xz-utils liblzma?",
+    "ground_truth_answer": "CVE-2024-3094 is a critical supply-chain backdoor discovered in upstream tarballs of xz-utils (specifically liblzma versions 5.6.0 and 5.6.1) that intercepts sshd authentication.",
+    "expected_keywords": ["cve-2024-3094", "xz-utils", "liblzma", "backdoor", "sshd"],
+    "expected_context_substr": "CVE-2024-3094 is a critical supply-chain backdoor discovered in upstream tarballs of xz-utils"
+  },
+  {
+    "id": "q2_http_504",
+    "query": "What causes HTTP 504 Gateway Timeout error code from a proxy?",
+    "ground_truth_answer": "HTTP 504 Gateway Timeout indicates an intermediary server or proxy did not receive a timely response from the upstream backend server.",
+    "expected_keywords": ["http 504", "gateway timeout", "intermediary", "proxy", "upstream"],
+    "expected_context_substr": "HTTP 504 Gateway Timeout indicates an intermediary server or proxy"
+  },
+  {
+    "id": "q3_k8s_version",
+    "query": "Which Kubernetes release promoted in-tree storage plugin migration to CSI to GA in k8s v1.27?",
+    "ground_truth_answer": "Kubernetes v1.27 promoted in-tree storage plugin migration to CSI to General Availability (GA).",
+    "expected_keywords": ["k8s v1.27", "kubernetes", "in-tree storage plugin", "csi", "ga"],
+    "expected_context_substr": "Kubernetes v1.27 promoted in-tree storage plugin migration to CSI"
+  },
+  {
+    "id": "q4_oauth_pkce",
+    "query": "How does OAuth 2.0 RFC 7636 Proof Key for Code Exchange PKCE protect public clients?",
+    "ground_truth_answer": "OAuth 2.0 RFC 7636 Proof Key for Code Exchange (PKCE) prevents authorization code interception attacks on public clients using code_verifier and code_challenge.",
+    "expected_keywords": ["oauth 2.0", "rfc 7636", "pkce", "code_verifier", "code_challenge"],
+    "expected_context_substr": "OAuth 2.0 RFC 7636 Proof Key for Code Exchange (PKCE) prevents authorization code interception"
+  },
+  {
+    "id": "q5_rrf_k",
+    "query": "What default constant is used for rrf_k in Reciprocal Rank Fusion?",
+    "ground_truth_answer": "Reciprocal Rank Fusion RRF scores documents by summing 1/(rrf_k + rank) where default rrf_k constant is 60.",
+    "expected_keywords": ["rrf_k", "reciprocal rank fusion", "constant is 60"],
+    "expected_context_substr": "Reciprocal Rank Fusion RRF scores documents by summing 1/(rrf_k + rank) where default rrf_k constant is 60"
+  },
+  {
+    "id": "q6_cache_ttl",
+    "query": "What value in seconds is assigned to CACHE_TTL_SECONDS?",
+    "ground_truth_answer": "CACHE_TTL_SECONDS is configured to 3600 seconds (1 hour) to evict stale query embeddings from local memory.",
+    "expected_keywords": ["cache_ttl_seconds", "3600", "1 hour", "evict"],
+    "expected_context_substr": "CACHE_TTL_SECONDS is configured to 3600 seconds (1 hour) to evict stale query embeddings"
+  },
+  {
+    "id": "q7_llama_model",
+    "query": "Which Groq LLM model identifier is set as the default LLM_MODEL checkpoint?",
+    "ground_truth_answer": "The primary LLM model checkpoint is llama-3.3-70b-versatile served via Groq inference engine with temperature 0.0.",
+    "expected_keywords": ["llama-3.3-70b-versatile", "groq", "temperature 0.0"],
+    "expected_context_substr": "The primary LLM model checkpoint is llama-3.3-70b-versatile served via Groq"
+  },
+  {
+    "id": "q8_synonym_caching",
+    "query": "How does the assistant remember previously computed responses without recalculating?",
+    "ground_truth_answer": "Response memoization caches frequent user queries in an in-memory TTL dictionary, eliminating redundant LLM API calls and dropping repeat latency to 3ms.",
+    "expected_keywords": ["caches", "memoization", "ttl", "latency"],
+    "expected_context_substr": "Response memoization caches frequent user queries in an in-memory TTL dictionary"
+  },
+  {
+    "id": "q9_synonym_rrf",
+    "query": "How are different search ranking outputs blended together into one ordered candidate list?",
+    "ground_truth_answer": "Score unification merges ranked candidate lists from sparse lexical and dense semantic retrievers into a single composite ranking using Reciprocal Rank Fusion.",
+    "expected_keywords": ["merges", "ranked", "sparse lexical", "dense semantic", "composite ranking"],
+    "expected_context_substr": "Score unification merges ranked candidate lists from sparse lexical and dense semantic"
+  },
+  {
+    "id": "q10_synonym_monitoring",
+    "query": "Where can operations engineers view visual graphs of response latency percentiles and query rates?",
+    "ground_truth_answer": "The Grafana observability dashboard provides real-time visualization of p50, p90, and p99 request latency percentiles, error rates, and query throughput.",
+    "expected_keywords": ["grafana", "dashboard", "latency percentiles", "throughput"],
+    "expected_context_substr": "The Grafana observability dashboard provides real-time visualization of p50, p90, and p99"
+  },
+  {
+    "id": "q11_synonym_hallucination",
+    "query": "What quality checks verify that generated answers remain truthful without making up information?",
+    "ground_truth_answer": "Continuous evaluation monitors RAG faithfulness, groundedness, and context relevance against a golden test set to prevent hallucinations and retrieval degradation.",
+    "expected_keywords": ["faithfulness", "groundedness", "hallucinations"],
+    "expected_context_substr": "Continuous evaluation monitors RAG faithfulness, groundedness, and context relevance"
+  },
+  {
+    "id": "q12_synonym_sparse",
+    "query": "Which information retrieval technique scores document relevance based on word occurrence counts and inverse rarity?",
+    "ground_truth_answer": "BM25 Okapi evaluates term frequency saturation and inverted document frequency (IDF) for exact keyword retrieval across structured corpora.",
+    "expected_keywords": ["bm25 okapi", "term frequency", "inverted document frequency"],
+    "expected_context_substr": "BM25 Okapi evaluates term frequency saturation and inverted document frequency"
+  },
+  {
+    "id": "q13_synonym_embeddings",
+    "query": "How do continuous mathematical coordinate vectors capture nuanced conceptual topics?",
+    "ground_truth_answer": "Dense embedding representations map textual meaning into a continuous 384-dimensional vector space to recognize synonyms and semantic relevance.",
+    "expected_keywords": ["dense embedding", "384-dimensional", "vector space", "synonyms"],
+    "expected_context_substr": "Dense embedding representations map textual meaning into a continuous 384-dimensional vector space"
+  },
+  {
+    "id": "q14_synonym_drift",
+    "query": "How does the deployment pipeline detect when retrieval accuracy decays after ingesting new materials?",
+    "ground_truth_answer": "Ingestion manifests track document checksums and version history, while automated CI evaluation detects retrieval drift before deployments.",
+    "expected_keywords": ["ingestion manifests", "checksums", "retrieval drift", "ci evaluation"],
+    "expected_context_substr": "Ingestion manifests track document checksums and version history, while automated CI evaluation"
+  },
+  {
+    "id": "q15_hybrid_rag",
+    "query": "How does hybrid search in Autonomous RAG combine dense semantic vectors with BM25?",
+    "ground_truth_answer": "Hybrid search in Autonomous RAG combines dense semantic vectors with BM25 lexical retrieval using a tunable alpha parameter to maximize recall.",
+    "expected_keywords": ["hybrid search", "autonomous rag", "dense semantic", "bm25", "alpha"],
+    "expected_context_substr": "Hybrid search in Autonomous RAG combines dense semantic vectors with BM25"
+  },
+  {
+    "id": "q16_prometheus_hist",
+    "query": "How does Prometheus scrape request latency distributions using rag_request_duration_seconds histogram buckets?",
+    "ground_truth_answer": "Prometheus scrapes histogram metrics such as rag_request_duration_seconds across predefined latency buckets from 0.05s to 10.0s.",
+    "expected_keywords": ["prometheus", "rag_request_duration_seconds", "buckets", "histogram"],
+    "expected_context_substr": "Prometheus scrapes histogram metrics such as rag_request_duration_seconds"
+  },
+  {
+    "id": "q17_feedback_loop",
+    "query": "How does the UI record thumbs up and thumbs down user feedback into Prometheus metrics?",
+    "ground_truth_answer": "Streamlit user feedback thumbs up and thumbs down triggers POST /feedback, updating rag_feedback_total counters in Prometheus.",
+    "expected_keywords": ["streamlit", "thumbs up", "rag_feedback_total", "prometheus"],
+    "expected_context_substr": "Streamlit user feedback thumbs up and thumbs down triggers POST /feedback"
+  },
+  {
+    "id": "q18_alpha_parameter",
+    "query": "What role does the hybrid alpha parameter play between BM25 alpha 0.0 and dense search alpha 1.0?",
+    "ground_truth_answer": "The hybrid alpha parameter weights the fusion between sparse BM25 (alpha 0.0) and dense vector search (alpha 1.0) with 0.5 as balanced default.",
+    "expected_keywords": ["hybrid alpha", "sparse bm25", "dense vector", "0.5"],
+    "expected_context_substr": "The hybrid alpha parameter weights the fusion between sparse BM25"
+  },
+  {
+    "id": "q19_docker_compose",
+    "query": "What four coordinated services are orchestrated by docker-compose.yml?",
+    "ground_truth_answer": "docker-compose.yml orchestrates four coordinated containers: FastAPI chatbot-api, Streamlit frontend UI, Prometheus, and Grafana.",
+    "expected_keywords": ["docker-compose.yml", "chatbot-api", "streamlit", "prometheus", "grafana"],
+    "expected_context_substr": "docker-compose.yml orchestrates four coordinated containers"
+  },
+  {
+    "id": "q20_data_validation",
+    "query": "How does data_validation.py compute MD5 hashes to detect duplicate document chunks?",
+    "ground_truth_answer": "data_validation.py computes MD5 hashes of document chunks to detect duplicates and enforce minimum and maximum chunk length boundaries.",
+    "expected_keywords": ["data_validation.py", "md5 hashes", "duplicates", "chunk length"],
+    "expected_context_substr": "data_validation.py computes MD5 hashes of document chunks to detect duplicates"
+  }
+]
