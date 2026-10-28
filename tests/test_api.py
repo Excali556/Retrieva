@@ -45,6 +45,16 @@ class TestAPI(unittest.TestCase):
         self.assertIn("latency_seconds", data)
         self.assertEqual(data["retriever_type"], "hybrid")
 
+    def test_chat_endpoint_cached(self):
+        payload = {"question": "What is hybrid search?", "retriever_type": "hybrid", "alpha": 0.5, "top_k": 2}
+        # First request populates cache
+        self.client.post("/chat", json=payload)
+        # Second identical request hits cache
+        response = self.client.post("/chat", json=payload)
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data.get("cached"))
+
     def test_feedback_endpoint(self):
         response = self.client.post(
             "/feedback",

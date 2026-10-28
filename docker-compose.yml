@@ -13,6 +13,7 @@ services:
       - HYBRID_ALPHA=0.3
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - CACHE_BACKEND=redis
     depends_on:
       redis:
         condition: service_healthy

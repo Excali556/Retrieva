@@ -46,7 +46,7 @@ try:
 
         # Cache Settings
         enable_cache: bool = True
-        cache_backend: str = "redis"    # "redis" or "memory"
+        cache_backend: str = "memory"   # "redis" or "memory" (defaults to memory for tests/local, redis in Docker)
         cache_ttl_seconds: int = 3600
         cache_max_size: int = 1000
         redis_host: str = "localhost"
@@ -97,7 +97,7 @@ except ImportError:
             self.bm25_index_path = os.getenv("BM25_INDEX_PATH", "./data/bm25_index.pkl")
 
             self.enable_cache = os.getenv("ENABLE_CACHE", "true").lower() in ("true", "1")
-            self.cache_backend = os.getenv("CACHE_BACKEND", "redis").lower()
+            self.cache_backend = os.getenv("CACHE_BACKEND", "memory").lower()
             self.cache_ttl_seconds = int(os.getenv("CACHE_TTL_SECONDS", "3600"))
             self.cache_max_size = int(os.getenv("CACHE_MAX_SIZE", "1000"))
             self.redis_host = os.getenv("REDIS_HOST", "localhost")

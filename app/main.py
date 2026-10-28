@@ -200,7 +200,10 @@ async def chat_endpoint(request: ChatRequest):
             RAG_REQUESTS_TOTAL.labels(endpoint=endpoint, status="success_cached").inc()
             latency = time.time() - req_start
             RAG_REQUEST_DURATION_SECONDS.labels(endpoint=endpoint).observe(latency)
-            return ChatResponse(**cached_result, latency_seconds=latency, cached=True)
+            result = dict(cached_result)
+            result["latency_seconds"] = round(latency, 4)
+            result["cached"] = True
+            return ChatResponse(**result)
 
         # 1. Retrieve Contexts using Hybrid / Dense / BM25
         retrieved_chunks = retriever.retrieve(
