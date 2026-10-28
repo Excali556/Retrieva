@@ -25,7 +25,6 @@ app = FastAPI(
 # 2. Expose Prometheus Metrics via Instrumentator
 instrumentator = Instrumentator(
     should_group_status_codes=False,
-    should_ignore_untemplated=False,
     should_instrument_requests_inprogress=True,
     excluded_handlers=["/metrics"]
 )
