@@ -40,6 +40,13 @@ A Retrieval-Augmented Generation (RAG) system built with FastAPI, Streamlit, and
 
 ---
 
+## Demo
+
+![Streamlit UI Screenshot](assets/demo.png)
+*Figure: Streamlit web interface with hybrid retrieval slider, live latency metrics, and document source citations.*
+
+---
+
 ## Key Components
 
 ### 1. Hybrid Search (Dense and Sparse Fusion)
@@ -99,8 +106,7 @@ docker compose up -d --build
 | **Grafana Dashboard** | `http://localhost:3000` | Pre-configured dashboard (admin/admin) |
 | **Redis Cache** | `localhost:6379` | Query cache store |
 
-![Streamlit Interface Preview](assets/demo.png)
-*Figure: Streamlit Chatbot Interface.*
+
 
 ---
 
