@@ -1,8 +1,8 @@
 {
   "version": "1.0",
-  "ingested_at": "2026-10-26T17:49:52.268532",
+  "ingested_at": "2026-10-29T17:03:40.318285",
   "total_documents": 1,
   "total_chunks": 50,
   "corpus_file": "./data\\bm25_corpus.json",
-  "pinecone_index": "autonomous-rag"
+  "pinecone_index": "retrieva"
 }

@@ -30,7 +30,7 @@ def run_benchmark(num_queries: int = 100):
         "hybrid retrieval mechanisms",
         "low latency and high performance",
         "dense and sparse index structures",
-        "autonomous rag systems"
+        "retrieva systems"
     ]
 
     for mode in ["bm25", "semantic", "hybrid"]:

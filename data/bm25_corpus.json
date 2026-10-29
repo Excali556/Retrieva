@@ -2,7 +2,7 @@
   {
     "page_content": "1. CVE-2024-3094 is a critical supply-chain backdoor discovered in upstream tarballs of xz-utils (specifically liblzma versions 5.6.0 and 5.6.1) that intercepts sshd authentication.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_0_0c266e19",
       "chunk_index": 0,
       "char_length": 181
@@ -12,7 +12,7 @@
   {
     "page_content": "2. HTTP 504 Gateway Timeout indicates an intermediary server or proxy did not receive a timely response from the upstream backend server.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_1_34dc726c",
       "chunk_index": 1,
       "char_length": 137
@@ -22,7 +22,7 @@
   {
     "page_content": "3. Kubernetes v1.27 promoted in-tree storage plugin migration to CSI (Container Storage Interface) to General Availability (GA).",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_2_dfe0c295",
       "chunk_index": 2,
       "char_length": 128
@@ -32,7 +32,7 @@
   {
     "page_content": "4. OAuth 2.0 RFC 7636 Proof Key for Code Exchange (PKCE) prevents authorization code interception attacks on public clients using code_verifier and code_challenge.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_3_107f9154",
       "chunk_index": 3,
       "char_length": 163
@@ -42,7 +42,7 @@
   {
     "page_content": "5. Reciprocal Rank Fusion RRF scores documents by summing 1/(rrf_k + rank) where default rrf_k constant is 60 to merge diverse retriever rankings.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_4_6ef08e2a",
       "chunk_index": 4,
       "char_length": 146
@@ -52,7 +52,7 @@
   {
     "page_content": "6. CACHE_TTL_SECONDS is configured to 3600 seconds (1 hour) to evict stale query embeddings from local memory and manage RAM capacity.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_5_3fbe5af3",
       "chunk_index": 5,
       "char_length": 134
@@ -62,7 +62,7 @@
   {
     "page_content": "7. The primary LLM model checkpoint is llama-3.3-70b-versatile served via Groq inference engine with temperature 0.0 for deterministic answers.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_6_16dca333",
       "chunk_index": 6,
       "char_length": 143
@@ -72,7 +72,7 @@
   {
     "page_content": "8. Response memoization caches frequent user queries in an in-memory TTL dictionary, eliminating redundant LLM API calls and dropping repeat latency to 3ms.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_7_0b1b3ed0",
       "chunk_index": 7,
       "char_length": 156
@@ -82,7 +82,7 @@
   {
     "page_content": "9. Score unification merges ranked candidate lists from sparse lexical and dense semantic retrievers into a single composite ranking using Reciprocal Rank Fusion.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_8_d88deed8",
       "chunk_index": 8,
       "char_length": 162
@@ -92,7 +92,7 @@
   {
     "page_content": "10. The Grafana observability dashboard provides real-time visualization of p50, p90, and p99 request latency percentiles, error rates, and query throughput.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_9_c9231a54",
       "chunk_index": 9,
       "char_length": 157
@@ -102,7 +102,7 @@
   {
     "page_content": "11. Continuous evaluation monitors RAG faithfulness, groundedness, and context relevance against a golden test set to prevent hallucinations and retrieval degradation.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_10_c13f33c7",
       "chunk_index": 10,
       "char_length": 167
@@ -112,7 +112,7 @@
   {
     "page_content": "12. BM25 Okapi evaluates term frequency saturation and inverted document frequency (IDF) for exact keyword retrieval across structured corpora.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_11_f0d3213d",
       "chunk_index": 11,
       "char_length": 143
@@ -122,7 +122,7 @@
   {
     "page_content": "13. Dense embedding representations map textual meaning into a continuous 384-dimensional vector space to recognize synonyms and semantic relevance.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_12_d3e8cf6f",
       "chunk_index": 12,
       "char_length": 148
@@ -132,7 +132,7 @@
   {
     "page_content": "14. Ingestion manifests track document checksums and version history, while automated CI evaluation detects retrieval drift before deployments.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_13_eb202dcb",
       "chunk_index": 13,
       "char_length": 143
@@ -140,19 +140,19 @@
     "score": 0.0
   },
   {
-    "page_content": "15. Hybrid search in Autonomous RAG combines dense semantic vectors with BM25 lexical retrieval using a tunable alpha parameter to maximize recall.",
+    "page_content": "15. Hybrid search in Retrieva combines dense semantic vectors with BM25 lexical retrieval using a tunable alpha parameter to maximize recall.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
-      "chunk_id": "chunk_14_6e07c966",
+      "source": "./data\\sample_retrieva.txt",
+      "chunk_id": "chunk_14_31111983",
       "chunk_index": 14,
-      "char_length": 147
+      "char_length": 141
     },
     "score": 0.0
   },
   {
     "page_content": "16. Prometheus scrapes histogram metrics such as rag_request_duration_seconds across predefined latency buckets from 0.05s to 10.0s.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_15_1c2828c1",
       "chunk_index": 15,
       "char_length": 132
@@ -162,7 +162,7 @@
   {
     "page_content": "17. Streamlit user feedback thumbs up and thumbs down triggers POST /feedback, updating rag_feedback_total counters in Prometheus.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_16_e65152d3",
       "chunk_index": 16,
       "char_length": 130
@@ -172,7 +172,7 @@
   {
     "page_content": "18. The hybrid alpha parameter weights the fusion between sparse BM25 (alpha 0.0) and dense vector search (alpha 1.0) with 0.5 as balanced default.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_17_4e4d2c36",
       "chunk_index": 17,
       "char_length": 147
@@ -182,7 +182,7 @@
   {
     "page_content": "19. docker-compose.yml orchestrates four coordinated containers: FastAPI chatbot-api, Streamlit frontend UI, Prometheus, and Grafana.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_18_b7debb68",
       "chunk_index": 18,
       "char_length": 133
@@ -192,7 +192,7 @@
   {
     "page_content": "20. data_validation.py computes MD5 hashes of document chunks to detect duplicates and enforce minimum and maximum chunk length boundaries.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_19_3860718a",
       "chunk_index": 19,
       "char_length": 139
@@ -202,7 +202,7 @@
   {
     "page_content": "21. CVE-2021-44228 is a remote code execution vulnerability in Apache Log4j JNDI lookup mechanisms.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_20_482765c8",
       "chunk_index": 20,
       "char_length": 99
@@ -212,7 +212,7 @@
   {
     "page_content": "22. CVE-2023-4863 is a heap buffer overflow vulnerability in libwebp image rendering libraries affecting browsers.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_21_306440a7",
       "chunk_index": 21,
       "char_length": 114
@@ -222,7 +222,7 @@
   {
     "page_content": "23. CVE-2022-0847 known as Dirty Pipe allows local privilege escalation by overwriting read-only page cache files in Linux.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_22_48556bdb",
       "chunk_index": 22,
       "char_length": 123
@@ -232,7 +232,7 @@
   {
     "page_content": "24. HTTP 500 Internal Server Error represents an unexpected condition encountered by the server preventing request fulfillment.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_23_131f75a0",
       "chunk_index": 23,
       "char_length": 127
@@ -242,7 +242,7 @@
   {
     "page_content": "25. HTTP 502 Bad Gateway indicates an edge server received an invalid response from an inbound server while proxying.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_24_b05f2e14",
       "chunk_index": 24,
       "char_length": 117
@@ -252,7 +252,7 @@
   {
     "page_content": "26. HTTP 503 Service Unavailable occurs when the application server is overloaded or down for planned maintenance.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_25_ad3dbcdb",
       "chunk_index": 25,
       "char_length": 114
@@ -262,7 +262,7 @@
   {
     "page_content": "27. Kubernetes v1.26 introduced support for cross-namespace volume data source transfers and non-graceful node shutdown.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_26_c0ccce7c",
       "chunk_index": 26,
       "char_length": 120
@@ -272,7 +272,7 @@
   {
     "page_content": "28. Kubernetes v1.28 introduced native sidecar container management and relaxed node-to-control-plane version skew policies.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_27_63f70e54",
       "chunk_index": 27,
       "char_length": 124
@@ -282,7 +282,7 @@
   {
     "page_content": "29. Kubernetes v1.29 focused on ReadWriteOncePod volume access mode GA and KMS v2 key encryption improvements.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_28_9ad7b946",
       "chunk_index": 28,
       "char_length": 110
@@ -292,7 +292,7 @@
   {
     "page_content": "30. OAuth 2.0 RFC 6749 defines authorization flows including authorization code, implicit, and client credentials grants.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_29_b22b3d86",
       "chunk_index": 29,
       "char_length": 121
@@ -302,7 +302,7 @@
   {
     "page_content": "31. OAuth 2.0 RFC 7519 specifies JSON Web Tokens JWT for securely transmitting claims between authenticated parties.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_30_bba8ec45",
       "chunk_index": 30,
       "char_length": 116
@@ -312,7 +312,7 @@
   {
     "page_content": "32. OAuth 2.0 RFC 8414 provides metadata discovery mechanisms for authorization server endpoints and supported scopes.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_31_7ac3fd3a",
       "chunk_index": 31,
       "char_length": 118
@@ -322,7 +322,7 @@
   {
     "page_content": "33. Prometheus alertmanager dispatches alerts via PagerDuty and Slack when metric rules cross configured thresholds.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_32_8128c05d",
       "chunk_index": 32,
       "char_length": 116
@@ -332,7 +332,7 @@
   {
     "page_content": "34. Grafana Loki aggregates streaming log lines indexed by tenant labels without indexing raw text contents.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_33_ec227ed0",
       "chunk_index": 33,
       "char_length": 108
@@ -342,7 +342,7 @@
   {
     "page_content": "35. Grafana Tempo delivers distributed tracing visualization integrated with OpenTelemetry trace collectors.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_34_14ffffaa",
       "chunk_index": 34,
       "char_length": 108
@@ -352,7 +352,7 @@
   {
     "page_content": "36. MLflow tracks experimental runs, parameters, metrics artifacts, and models across the machine learning lifecycle.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_35_204df706",
       "chunk_index": 35,
       "char_length": 117
@@ -362,7 +362,7 @@
   {
     "page_content": "37. Eviction policy in Redis supports LRU and LFU algorithms to reclaim system memory under constrained conditions.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_36_a135dcdc",
       "chunk_index": 36,
       "char_length": 115
@@ -372,7 +372,7 @@
   {
     "page_content": "38. PostgreSQL full text search uses tsvector and tsquery data types to execute stemmed lexical queries.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_37_fd04f0a3",
       "chunk_index": 37,
       "char_length": 104
@@ -382,7 +382,7 @@
   {
     "page_content": "39. FAISS from Meta AI provides GPU-accelerated nearest neighbor search over billions of dense vector embeddings.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_38_c044f15d",
       "chunk_index": 38,
       "char_length": 113
@@ -392,7 +392,7 @@
   {
     "page_content": "40. Chroma DB is an open-source AI-native vector database designed to store document embeddings and metadata locally.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_39_6b095212",
       "chunk_index": 39,
       "char_length": 117
@@ -402,7 +402,7 @@
   {
     "page_content": "41. Milvus is a distributed vector database built for massive-scale semantic similarity search and AI applications.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_40_a45813ec",
       "chunk_index": 40,
       "char_length": 115
@@ -412,7 +412,7 @@
   {
     "page_content": "42. LangChain provides composable chains, agent executors, and tool integrations for building LLM applications.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_41_ecfa8fd5",
       "chunk_index": 41,
       "char_length": 111
@@ -422,7 +422,7 @@
   {
     "page_content": "43. LlamaIndex specializes in data ingestion, indexing strategies, and retrieval structures for contextual RAG.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_42_6ba1f4ff",
       "chunk_index": 42,
       "char_length": 111
@@ -432,7 +432,7 @@
   {
     "page_content": "44. SentenceTransformers provides pre-trained neural networks for mapping sentences into dense 768-dimensional spaces.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_43_c3c42c7f",
       "chunk_index": 43,
       "char_length": 118
@@ -442,7 +442,7 @@
   {
     "page_content": "45. HuggingFace Transformers offers state-of-the-art models for sequence classification and natural language understanding.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_44_b89097e8",
       "chunk_index": 44,
       "char_length": 123
@@ -452,7 +452,7 @@
   {
     "page_content": "46. Groq LPUs Language Processing Units utilize tensor streaming processors to execute inference at ultra-high token speeds.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_45_9eb4effc",
       "chunk_index": 45,
       "char_length": 124
@@ -462,7 +462,7 @@
   {
     "page_content": "47. Continuous integration pipelines with GitHub Actions trigger automated test runners upon push events to main.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_46_c3283a4d",
       "chunk_index": 46,
       "char_length": 113
@@ -472,7 +472,7 @@
   {
     "page_content": "48. Docker build multi-stage patterns reduce final container image sizes by excluding development compilers and build tools.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_47_39efd916",
       "chunk_index": 47,
       "char_length": 124
@@ -482,7 +482,7 @@
   {
     "page_content": "49. Kubernetes horizontal pod autoscalers scale deployment replicas according to observed CPU utilization and custom metrics.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_48_71a4cedb",
       "chunk_index": 48,
       "char_length": 125
@@ -492,7 +492,7 @@
   {
     "page_content": "50. Istio service mesh manages mutual TLS authentication and distributed traffic routing between cluster microservices.",
     "metadata": {
-      "source": "./data\\sample_autonomous_rag.txt",
+      "source": "./data\\sample_retrieva.txt",
       "chunk_id": "chunk_49_c79eea54",
       "chunk_index": 49,
       "char_length": 119

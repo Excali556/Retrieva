@@ -50,7 +50,7 @@ switch ($Command) {
         docker compose logs -f
     }
     default {
-        Write-Host "RAG Task Runner" -ForegroundColor Yellow
+        Write-Host "Retrieva Task Runner" -ForegroundColor Yellow
         Write-Host "Usage: .\tasks.ps1 [command]"
         Write-Host "Commands:"
         Write-Host "  install   - Install dependencies"

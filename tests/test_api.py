@@ -18,6 +18,7 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertEqual(data["status"], "online")
+        self.assertEqual(data["app"], "Retrieva")
         self.assertIn("metrics_url", data)
 
     def test_health_endpoint(self):
@@ -25,6 +26,7 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertEqual(data["status"], "healthy")
+        self.assertEqual(data["app_name"], "Retrieva")
         self.assertIn("retriever_type", data)
 
     def test_metrics_endpoint(self):

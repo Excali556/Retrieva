@@ -10,7 +10,7 @@ GRAFANA_URL = os.getenv("GRAFANA_URL", "http://localhost:3000")
 PROMETHEUS_URL = os.getenv("PROMETHEUS_URL", "http://localhost:9090")
 
 # --- UI CONFIG ---
-st.set_page_config(page_title="RAG Query Interface", layout="wide")
+st.set_page_config(page_title="Retrieva", layout="wide")
 
 # Custom CSS for styling
 st.markdown("""
@@ -57,7 +57,7 @@ lottie_ai = load_lottieurl("https://lottie.host/78229c29-399d-4340-bb53-39327318
 with st.sidebar:
     if lottie_ai:
         st_lottie(lottie_ai, height=130, key="sidebar_robot")
-    st.title("RAG Query Interface")
+    st.title("Retrieva")
     st.caption("Hybrid Search with Prometheus and Grafana Observability")
 
     st.subheader("Retrieval Strategy")
@@ -107,7 +107,7 @@ with st.sidebar:
         st.rerun()
 
 # --- MAIN CHAT AREA ---
-st.title("Document Search and Question Answering")
+st.title("Retrieva: Document Search and QA")
 st.markdown("Query ingested documents with hybrid retrieval (BM25 keyword matching and dense embeddings) and telemetry tracking.")
 
 if "messages" not in st.session_state:

@@ -12,7 +12,7 @@
 12. BM25 Okapi evaluates term frequency saturation and inverted document frequency (IDF) for exact keyword retrieval across structured corpora.
 13. Dense embedding representations map textual meaning into a continuous 384-dimensional vector space to recognize synonyms and semantic relevance.
 14. Ingestion manifests track document checksums and version history, while automated CI evaluation detects retrieval drift before deployments.
-15. Hybrid search in Autonomous RAG combines dense semantic vectors with BM25 lexical retrieval using a tunable alpha parameter to maximize recall.
+15. Hybrid search in Retrieva combines dense semantic vectors with BM25 lexical retrieval using a tunable alpha parameter to maximize recall.
 16. Prometheus scrapes histogram metrics such as rag_request_duration_seconds across predefined latency buckets from 0.05s to 10.0s.
 17. Streamlit user feedback thumbs up and thumbs down triggers POST /feedback, updating rag_feedback_total counters in Prometheus.
 18. The hybrid alpha parameter weights the fusion between sparse BM25 (alpha 0.0) and dense vector search (alpha 1.0) with 0.5 as balanced default.

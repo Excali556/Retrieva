@@ -1,7 +1,7 @@
 .PHONY: help install ingest eval benchmark test validate up down logs
 
 help:
-	@echo "RAG Project Commands:"
+	@echo "Retrieva Project Commands:"
 	@echo "  make install    - Install python dependencies"
 	@echo "  make ingest     - Run document ingestion pipeline"
 	@echo "  make eval       - Run retrieval evaluation against test dataset"

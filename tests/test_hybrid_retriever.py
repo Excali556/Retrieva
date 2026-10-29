@@ -3,10 +3,10 @@ from app.retrieval import HybridRetriever, DocumentChunk, simple_tokenize
 
 class TestHybridRetriever(unittest.TestCase):
     def test_simple_tokenize(self):
-        text = "Autonomous RAG: Hybrid Search 2026!"
+        text = "Retrieva: Hybrid Search 2026!"
         tokens = simple_tokenize(text)
-        self.assertIn("autonomous", tokens)
-        self.assertIn("rag", tokens)
+        self.assertIn("retrieva", tokens)
+
         self.assertIn("hybrid", tokens)
         self.assertIn("search", tokens)
         self.assertIn("2026", tokens)

@@ -12,7 +12,7 @@ try:
     
     class Settings(BaseSettings):
         # App Settings
-        app_name: str = "Autonomous RAG System"
+        app_name: str = "Retrieva"
         app_version: str = "2.0.0"
         environment: str = "production"
         
@@ -24,7 +24,7 @@ try:
 
         # Pinecone Settings
         pinecone_api_key: Optional[str] = None
-        pinecone_index_name: str = "autonomous-rag"
+        pinecone_index_name: str = "retrieva"
         pinecone_cloud: str = "aws"
         pinecone_region: str = "us-east-1"
 
@@ -69,7 +69,7 @@ except ImportError:
     # Pure Python fallback configuration if pydantic-settings is not yet installed
     class FallbackSettings:
         def __init__(self):
-            self.app_name = os.getenv("APP_NAME", "Autonomous RAG System")
+            self.app_name = os.getenv("APP_NAME", "Retrieva")
             self.app_version = os.getenv("APP_VERSION", "2.0.0")
             self.environment = os.getenv("ENVIRONMENT", "production")
 
@@ -79,7 +79,7 @@ except ImportError:
             self.llm_max_tokens = int(os.getenv("LLM_MAX_TOKENS", "1024"))
 
             self.pinecone_api_key = os.getenv("PINECONE_API_KEY")
-            self.pinecone_index_name = os.getenv("PINECONE_INDEX_NAME", "autonomous-rag")
+            self.pinecone_index_name = os.getenv("PINECONE_INDEX_NAME", "retrieva")
             self.pinecone_cloud = os.getenv("PINECONE_CLOUD", "aws")
             self.pinecone_region = os.getenv("PINECONE_REGION", "us-east-1")
 

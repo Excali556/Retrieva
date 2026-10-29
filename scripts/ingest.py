@@ -41,7 +41,7 @@ def fallback_chunk_text(text: str, chunk_size: int = 1000, chunk_overlap: int = 
 
 def run_ingestion(data_dir: str = DATA_DIR):
     print("=" * 60)
-    print(f"Starting RAG Ingestion Pipeline (Data Directory: {data_dir})")
+    print(f"Starting Retrieva Ingestion Pipeline (Data Directory: {data_dir})")
     print("=" * 60)
 
     raw_docs = []
@@ -76,9 +76,9 @@ def run_ingestion(data_dir: str = DATA_DIR):
     # If no documents, create sample document
     if not raw_docs:
         print("No documents found in data folder. Generating sample knowledge file...")
-        sample_file = os.path.join(data_dir, "sample_autonomous_rag.txt")
+        sample_file = os.path.join(data_dir, "sample_retrieva.txt")
         sample_text = (
-            "Autonomous RAG (Retrieval-Augmented Generation) combines generative AI with targeted search.\n"
+            "Retrieva (Retrieval-Augmented Generation) combines generative AI with targeted search.\n"
             "Hybrid search integrates dense vector search (embeddings) with sparse lexical search (BM25).\n"
             "Reciprocal Rank Fusion (RRF) merges dense and sparse rankings to produce optimal results.\n"
             "Prometheus monitors API latency, retrieval duration, LLM generation time, and cache hits.\n"
@@ -130,7 +130,7 @@ def run_ingestion(data_dir: str = DATA_DIR):
 
     # Pinecone Vector Store Ingestion (if credentials provided)
     pinecone_api_key = os.getenv("PINECONE_API_KEY")
-    index_name = os.getenv("PINECONE_INDEX_NAME", "autonomous-rag")
+    index_name = os.getenv("PINECONE_INDEX_NAME", "retrieva")
     hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
     if pinecone_api_key and hf_token and LANGCHAIN_AVAILABLE:

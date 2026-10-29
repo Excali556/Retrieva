@@ -99,10 +99,10 @@
   },
   {
     "id": "q15_hybrid_rag",
-    "query": "How does hybrid search in Autonomous RAG combine dense semantic vectors with BM25?",
-    "ground_truth_answer": "Hybrid search in Autonomous RAG combines dense semantic vectors with BM25 lexical retrieval using a tunable alpha parameter to maximize recall.",
-    "expected_keywords": ["hybrid search", "autonomous rag", "dense semantic", "bm25", "alpha"],
-    "expected_context_substr": "Hybrid search in Autonomous RAG combines dense semantic vectors with BM25"
+    "query": "How does hybrid search in Retrieva combine dense semantic vectors with BM25?",
+    "ground_truth_answer": "Hybrid search in Retrieva combines dense semantic vectors with BM25 lexical retrieval using a tunable alpha parameter to maximize recall.",
+    "expected_keywords": ["hybrid search", "retrieva", "dense semantic", "bm25", "alpha"],
+    "expected_context_substr": "Hybrid search in Retrieva combines dense semantic vectors with BM25"
   },
   {
     "id": "q16_prometheus_hist",

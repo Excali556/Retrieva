@@ -1,4 +1,4 @@
-# Hybrid Search RAG System with Observability and Evaluation
+# Retrieva: Hybrid Search RAG System with Observability and Evaluation
 
 A Retrieval-Augmented Generation (RAG) system built with FastAPI, Streamlit, and hybrid search (combining dense embeddings with BM25 sparse keyword search via Reciprocal Rank Fusion). It includes Redis query caching with in-memory fallback, Prometheus metrics, a pre-configured Grafana dashboard, and automated retrieval evaluation.
 
@@ -174,7 +174,7 @@ Returns system health, retriever status, and cache connection state:
 ```json
 {
   "status": "healthy",
-  "app_name": "Autonomous RAG System",
+  "app_name": "Retrieva",
   "version": "2.0.0",
   "vectorstore_connected": true,
   "bm25_corpus_size": 50,
@@ -223,7 +223,7 @@ The design choices in this codebase address real-world operational trade-offs:
 
 ## Evaluation Benchmark: Retrieval Results
 
-Retrieval performance was evaluated using a 20-query benchmark dataset (`mlops/eval/golden_dataset.json`) containing technical identifiers, paraphrased questions, and mixed queries across a 50-chunk technical document set (`data/sample_autonomous_rag.txt`).
+Retrieval performance was evaluated using a 20-query benchmark dataset (`mlops/eval/golden_dataset.json`) containing technical identifiers, paraphrased questions, and mixed queries across a 50-chunk technical document set (`data/sample_retrieva.txt`).
 
 ### 1. Baseline Comparison (K=4)
 
@@ -274,7 +274,7 @@ Evaluated across candidate weights from alpha = 0.0 (Pure BM25) to alpha = 1.0 (
 ## Repository Structure
 
 ```
-autonomous-rag/
+retrieva/
 |-- .github/
 |   `-- workflows/
 |       `-- mlops-pipeline.yml          # Automated CI/CD, evaluation gate and container build
@@ -292,7 +292,7 @@ autonomous-rag/
 |-- data/
 |   |-- bm25_corpus.json                # Chunks and BM25 inverted index
 |   |-- ingestion_manifest.json         # Data versioning manifest
-|   `-- sample_autonomous_rag.txt       # Technical knowledge corpus
+|   `-- sample_retrieva.txt             # Technical knowledge corpus
 |-- frontend/
 |   `-- app.py                          # Streamlit UI with hybrid slider, telemetry and feedback
 |-- mlops/
