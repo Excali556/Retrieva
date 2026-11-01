@@ -39,10 +39,22 @@ try:
         top_k: int = 4
         rrf_k: int = 60                 # Smoothing constant for Reciprocal Rank Fusion
 
+        # Reranker Settings (Phase 2)
+        rerank_enabled: bool = False
+        rerank_candidates: int = 20     # Number of candidate chunks retrieved before cross-encoder scoring
+        reranker_model: str = "BAAI/bge-reranker-base"
+
+        # Query Rewriting & Multi-Query Settings (Phase 3)
+        query_mode: str = "none"        # Options: "none", "rewrite", "multi"
+        query_rewrite_model: str = "llama-3.3-70b-versatile"
+        query_rewrite_timeout: float = 2.5
+        multi_query_variants: int = 3
+
         # Paths
         data_dir: str = "./data"
         bm25_corpus_path: str = "./data/bm25_corpus.json"
         bm25_index_path: str = "./data/bm25_index.pkl"
+        dense_embeddings_path: str = "./data/dense_embeddings.npy"
 
         # Cache Settings
         enable_cache: bool = True
@@ -92,9 +104,19 @@ except ImportError:
             self.top_k = int(os.getenv("TOP_K", "4"))
             self.rrf_k = int(os.getenv("RRF_K", "60"))
 
+            self.rerank_enabled = os.getenv("RERANK_ENABLED", "false").lower() in ("true", "1")
+            self.rerank_candidates = int(os.getenv("RERANK_CANDIDATES", "20"))
+            self.reranker_model = os.getenv("RERANKER_MODEL", "BAAI/bge-reranker-base")
+
+            self.query_mode = os.getenv("QUERY_MODE", "none").lower()
+            self.query_rewrite_model = os.getenv("QUERY_REWRITE_MODEL", "llama-3.3-70b-versatile")
+            self.query_rewrite_timeout = float(os.getenv("QUERY_REWRITE_TIMEOUT", "2.5"))
+            self.multi_query_variants = int(os.getenv("MULTI_QUERY_VARIANTS", "3"))
+
             self.data_dir = os.getenv("DATA_DIR", "./data")
             self.bm25_corpus_path = os.getenv("BM25_CORPUS_PATH", "./data/bm25_corpus.json")
             self.bm25_index_path = os.getenv("BM25_INDEX_PATH", "./data/bm25_index.pkl")
+            self.dense_embeddings_path = os.getenv("DENSE_EMBEDDINGS_PATH", "./data/dense_embeddings.npy")
 
             self.enable_cache = os.getenv("ENABLE_CACHE", "true").lower() in ("true", "1")
             self.cache_backend = os.getenv("CACHE_BACKEND", "memory").lower()

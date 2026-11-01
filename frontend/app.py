@@ -81,6 +81,69 @@ with st.sidebar:
 
     top_k = st.slider("Top Documents (K)", min_value=1, max_value=8, value=4)
 
+    # Phase 2: Cross-Encoder Reranking Toggle
+    rerank_enabled = st.checkbox(
+        "Enable Cross-Encoder Reranking",
+        value=False,
+        help="Retrieves top 20 candidate chunks and scores each with BAAI/bge-reranker-base to fix hybrid recall dips."
+    )
+
+    # Phase 3: Query Rewriting & Multi-Query Expansion
+    query_mode = st.selectbox(
+        "Query Expansion Mode (Phase 3)",
+        options=["none", "rewrite", "multi"],
+        index=0,
+        help="'none': original query | 'rewrite': LLM rewrites into cleaner, specific query | 'multi': expands into 3 diverse phrasings merged with RRF"
+    )
+
+    st.divider()
+
+    # --- DOCUMENT INGESTION ---
+    st.subheader("Document Ingestion")
+    st.caption("Upload PDFs or any documents (DOCX, TXT, MD, CSV, JSON, code, etc.) to index them into Retrieva.")
+
+    uploaded_files = st.file_uploader(
+        "Upload Documents",
+        type=None,
+        accept_multiple_files=True,
+        help="Upload PDF, DOCX, TXT, MD, CSV, JSON, or any document format.",
+        key="sidebar_doc_uploader"
+    )
+
+    if uploaded_files:
+        st.write(f"Selected: **{len(uploaded_files)} file(s)**")
+        if st.button("Upload & Index", type="primary", use_container_width=True, key="btn_sidebar_upload"):
+            with st.spinner(f"Ingesting and indexing {len(uploaded_files)} document(s)..."):
+                try:
+                    files_payload = [
+                        ("files", (f.name, f.getvalue(), f.type or "application/octet-stream"))
+                        for f in uploaded_files
+                    ]
+                    upload_resp = requests.post(f"{API_BASE_URL}/upload", files=files_payload, timeout=120)
+                    if upload_resp.status_code == 200:
+                        res = upload_resp.json()
+                        st.success(f"Indexed **{res.get('new_chunks_count', 0)} new chunks** across {res.get('files_processed', 0)} files!")
+                        st.toast(f"Documents indexed into Retrieva! Total chunks: {res.get('total_corpus_chunks', 0)}", icon="📄")
+                        time.sleep(1)
+                        st.rerun()
+                    else:
+                        st.error(f"Upload failed ({upload_resp.status_code}): {upload_resp.text}")
+                except Exception as e:
+                    st.error(f"Error connecting to backend upload: {e}")
+
+    # Indexed Library inventory
+    try:
+        docs_resp = requests.get(f"{API_BASE_URL}/documents", timeout=2)
+        if docs_resp.status_code == 200:
+            docs_info = docs_resp.json()
+            total_docs = docs_info.get("total_documents", 0)
+            total_chunks = docs_info.get("total_chunks", 0)
+            with st.expander(f"Indexed Library ({total_docs} files, {total_chunks} chunks)"):
+                for d in docs_info.get("documents", []):
+                    st.markdown(f"- **{d['filename']}** (`{d['chunks']} chunks`)")
+    except Exception:
+        pass
+
     st.divider()
 
     st.subheader("Observability")
@@ -91,6 +154,8 @@ with st.sidebar:
             st.success(f"Backend: Online (v{health.get('version', '2.0')})")
             cache_info = f"Cache: {health.get('cache_backend', 'memory')} ({'Connected' if health.get('cache_connected') else 'Offline'})"
             st.caption(f"Corpus Chunks: {health.get('bm25_corpus_size', 0)} | {cache_info}")
+            if health.get("reranker_model"):
+                st.caption(f"Reranker: {health.get('reranker_model').split('/')[-1]}")
         else:
             st.warning("Backend reporting warning")
     except Exception:
@@ -109,6 +174,36 @@ with st.sidebar:
 # --- MAIN CHAT AREA ---
 st.title("Retrieva: Document Search and QA")
 st.markdown("Query ingested documents with hybrid retrieval (BM25 keyword matching and dense embeddings) and telemetry tracking.")
+
+with st.expander("Upload Documents to Retrieva (PDF, DOCX, TXT, MD, CSV, etc.)", expanded=False):
+    st.markdown("Add documents to the hybrid index. They will be segmented and immediately indexed for dense vector and BM25 retrieval.")
+    main_uploaded_files = st.file_uploader(
+        "Select documents to upload",
+        type=None,
+        accept_multiple_files=True,
+        help="Supports PDF, DOCX, TXT, Markdown, CSV, JSON, code, or any document format.",
+        key="main_doc_uploader"
+    )
+    if main_uploaded_files:
+        st.write(f"Selected: **{len(main_uploaded_files)} file(s)**")
+        if st.button("Index Documents Now", type="primary", key="btn_main_upload"):
+            with st.spinner(f"Ingesting and indexing {len(main_uploaded_files)} document(s)..."):
+                try:
+                    files_payload = [
+                        ("files", (f.name, f.getvalue(), f.type or "application/octet-stream"))
+                        for f in main_uploaded_files
+                    ]
+                    upload_resp = requests.post(f"{API_BASE_URL}/upload", files=files_payload, timeout=120)
+                    if upload_resp.status_code == 200:
+                        res = upload_resp.json()
+                        st.success(f"Successfully indexed **{res.get('new_chunks_count', 0)} chunks** across {res.get('files_processed', 0)} files! Total corpus chunks: {res.get('total_corpus_chunks', 0)}")
+                        st.toast("Documents indexed into Retrieva!", icon="📚")
+                        time.sleep(1)
+                        st.rerun()
+                    else:
+                        st.error(f"Upload failed: {upload_resp.text}")
+                except Exception as e:
+                    st.error(f"Error connecting to backend: {e}")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -138,14 +233,17 @@ if prompt := st.chat_input("Ask a question about the documents..."):
         with placeholder.container():
             if lottie_ai:
                 st_lottie(lottie_ai, height=90, key="loading_ai")
-            st.caption(f"Executing {retrieval_mode.upper()} search and generating response...")
+            status_desc = f"Executing {retrieval_mode.upper()} search" + (" + Cross-Encoder Reranking" if rerank_enabled else "")
+            st.caption(f"{status_desc} and generating response...")
 
         try:
             payload = {
                 "question": prompt,
                 "retriever_type": retrieval_mode,
                 "alpha": alpha,
-                "top_k": top_k
+                "top_k": top_k,
+                "rerank": rerank_enabled,
+                "query_mode": query_mode
             }
 
             resp = requests.post(f"{API_BASE_URL}/chat", json=payload, timeout=30)
@@ -157,27 +255,41 @@ if prompt := st.chat_input("Ask a question about the documents..."):
                 sources = data.get("sources", [])
                 latency = data.get("latency_seconds", 0.0)
                 cached = data.get("cached", False)
+                reranked_flag = data.get("reranked", False)
+                query_mode_used = data.get("query_mode", "none")
+                rewritten_queries = data.get("rewritten_queries")
 
                 # Render Answer
                 st.markdown(answer)
 
                 # Metadata & Latency Badges
                 cache_text = "Cached" if cached else "Live Query"
+                rerank_badge = "<span class='metric-badge' style='background-color:#E8F5E9; color:#2E7D32;'>Rerank: <b>ON</b></span>" if reranked_flag else ""
+                qmode_badge = f"<span class='metric-badge' style='background-color:#EDE7F6; color:#4A148C;'>Query Mode: <b>{query_mode_used.upper()}</b></span>" if query_mode_used != "none" else ""
                 st.markdown(
-                    f"<span class='metric-badge'>Mode: <b>{retrieval_mode}</b></span>"
+                    f"<span class='metric-badge'>Search: <b>{retrieval_mode}</b></span>"
                     f"<span class='metric-badge'>Latency: <b>{latency:.3f}s</b></span>"
-                    f"<span class='metric-badge'>{cache_text}</span>",
+                    f"<span class='metric-badge'>{cache_text}</span>"
+                    f"{rerank_badge}"
+                    f"{qmode_badge}",
                     unsafe_allow_html=True
                 )
+
+                # Show rewritten / expanded queries if present
+                if rewritten_queries:
+                    with st.expander(f"Query Variants Generated ({len(rewritten_queries)})"):
+                        for q_idx, q_var in enumerate(rewritten_queries, 1):
+                            st.markdown(f"**Variant {q_idx}:** `{q_var}`")
 
                 # Source Citations
                 if sources:
                     with st.expander(f"Retrieved Context ({len(sources)} chunks)"):
                         for s_idx, src in enumerate(sources):
-                            st.markdown(f"**Chunk {s_idx+1}** - Score: `{src.get('score', 0):.4f}`")
+                            score_label = "Rerank Score" if reranked_flag else "Score"
+                            st.markdown(f"**Chunk {s_idx+1}** - {score_label}: `{src.get('score', 0):.4f}`")
                             st.markdown(f"> {src.get('content')}")
                             if src.get("metadata"):
-                                st.caption(f"File: {src['metadata'].get('source', 'N/A')} | ID: {src['metadata'].get('chunk_id', 'N/A')}")
+                                st.caption(f"File: {src['metadata'].get('source', 'N/A')} | Page: {src['metadata'].get('page', 1)} | ID: {src['metadata'].get('chunk_id', 'N/A')}")
 
                 # Feedback Buttons
                 col_f1, col_f2, _ = st.columns([1.2, 1.2, 7.6])

@@ -23,8 +23,8 @@ switch ($Command) {
         python scripts/ingest.py
     }
     "eval" {
-        Write-Host "Running retrieval evaluation benchmark..." -ForegroundColor Cyan
-        python mlops/eval/evaluate.py
+        Write-Host "Running retrieval evaluation benchmark (held-out test split)..." -ForegroundColor Cyan
+        python mlops/eval/evaluate.py --split test
     }
     "benchmark" {
         Write-Host "Running search performance benchmark..." -ForegroundColor Cyan
@@ -32,7 +32,7 @@ switch ($Command) {
     }
     "test" {
         Write-Host "Running test suite..." -ForegroundColor Cyan
-        python -m unittest discover tests/ -v
+        python -m pytest tests/ -v
     }
     "validate" {
         Write-Host "Validating data integrity..." -ForegroundColor Cyan
@@ -50,17 +50,14 @@ switch ($Command) {
         docker compose logs -f
     }
     default {
-        Write-Host "Retrieva Task Runner" -ForegroundColor Yellow
-        Write-Host "Usage: .\tasks.ps1 [command]"
-        Write-Host "Commands:"
-        Write-Host "  install   - Install dependencies"
-        Write-Host "  ingest    - Ingest documents from data/ and create BM25 and vector indexes"
-        Write-Host "  eval      - Run retrieval evaluation against test dataset"
-        Write-Host "  benchmark - Run retrieval latency and throughput benchmark"
-        Write-Host "  test      - Run automated unit and integration tests"
-        Write-Host "  validate  - Run data validation and sanity checks"
-        Write-Host "  up        - Start FastAPI, Streamlit, Redis, Prometheus, and Grafana in Docker"
-        Write-Host "  down      - Stop all Docker containers"
-        Write-Host "  logs      - Tail Docker container logs"
+        Write-Host "Retrieva Developer Commands (PowerShell):" -ForegroundColor Green
+        Write-Host "  .\tasks.ps1 install    - Install Python dependencies"
+        Write-Host "  .\tasks.ps1 ingest     - Ingest PDFs and generate BM25 + dense index"
+        Write-Host "  .\tasks.ps1 eval       - Run benchmark evaluation on held-out test split"
+        Write-Host "  .\tasks.ps1 benchmark  - Run search latency benchmark"
+        Write-Host "  .\tasks.ps1 test       - Run pytest test suite"
+        Write-Host "  .\tasks.ps1 validate   - Validate document chunk integrity"
+        Write-Host "  .\tasks.ps1 up         - Start Docker stack"
+        Write-Host "  .\tasks.ps1 down       - Stop Docker stack"
     }
 }

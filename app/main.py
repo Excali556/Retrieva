@@ -1,7 +1,7 @@
 import os
 import time
 from typing import List, Dict, Any, Optional
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, UploadFile, File
 from pydantic import BaseModel, Field
 from prometheus_fastapi_instrumentator import Instrumentator
 
@@ -14,12 +14,13 @@ from app.metrics import (
     RAG_FEEDBACK_TOTAL
 )
 from app.retrieval import HybridRetriever, DocumentChunk
+from app.document_processor import ingest_uploaded_files
 
 # 1. Initialize FastAPI Application
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
-    description="Hybrid search RAG API with Pinecone, BM25, Redis caching, and Prometheus metrics."
+    description="Hybrid search RAG API with Pinecone, BM25, Cross-Encoder Reranking, Redis caching, and Prometheus metrics."
 )
 
 # 2. Expose Prometheus Metrics via Instrumentator
@@ -89,6 +90,8 @@ class ChatRequest(BaseModel):
     retriever_type: Optional[str] = Field(None, description="Retrieval mode: 'hybrid', 'semantic', or 'bm25'")
     alpha: Optional[float] = Field(None, ge=0.0, le=1.0, description="Hybrid weight: 0.0=BM25 only, 1.0=Semantic only")
     top_k: Optional[int] = Field(None, ge=1, le=20, description="Number of context chunks to retrieve")
+    rerank: Optional[bool] = Field(None, description="Enable Cross-Encoder reranking (Phase 2)")
+    query_mode: Optional[str] = Field(None, description="Query expansion mode: 'none', 'rewrite', or 'multi' (Phase 3)")
 
 class SourceCitation(BaseModel):
     content: str
@@ -102,6 +105,9 @@ class ChatResponse(BaseModel):
     sources: List[SourceCitation]
     latency_seconds: float
     cached: bool = False
+    reranked: bool = False
+    query_mode: str = "none"
+    rewritten_queries: Optional[List[str]] = None
 
 class FeedbackRequest(BaseModel):
     query: str
@@ -119,6 +125,8 @@ class HealthResponse(BaseModel):
     retriever_type: str
     cache_backend: str = "memory"
     cache_connected: bool = True
+    reranker_model: str = "BAAI/bge-reranker-base"
+    query_mode: str = "none"
 
 # 5. Core RAG Generation Helper
 def generate_rag_response(query: str, contexts: List[DocumentChunk]) -> str:
@@ -166,6 +174,7 @@ def root():
         "app": settings.app_name,
         "version": settings.app_version,
         "retrieval": settings.retriever_type,
+        "rerank_default": settings.rerank_enabled,
         "docs_url": "/docs",
         "metrics_url": "/metrics"
     }
@@ -181,7 +190,9 @@ def health_check():
         llm_connected=llm is not None,
         retriever_type=settings.retriever_type,
         cache_backend=getattr(rag_cache, "backend", "memory"),
-        cache_connected=rag_cache.is_healthy() if hasattr(rag_cache, "is_healthy") else True
+        cache_connected=rag_cache.is_healthy() if hasattr(rag_cache, "is_healthy") else True,
+        reranker_model=settings.reranker_model,
+        query_mode=getattr(settings, "query_mode", "none")
     )
 
 @app.post("/chat", response_model=ChatResponse, tags=["RAG"])
@@ -191,10 +202,13 @@ async def chat_endpoint(request: ChatRequest):
     retriever_mode = request.retriever_type or settings.retriever_type
     alpha = request.alpha if request.alpha is not None else settings.hybrid_alpha
     top_k = request.top_k or settings.top_k
+    rerank_flag = request.rerank if request.rerank is not None else settings.rerank_enabled
+    q_mode = (request.query_mode or getattr(settings, "query_mode", "none")).lower()
 
     try:
-        # Check Cache
-        cached_result = rag_cache.get(request.question, retriever_type=retriever_mode, alpha=alpha)
+        # Check Cache (cache key incorporates rerank flag and query_mode)
+        cache_key = f"{request.question}__rerank={rerank_flag}__mode={q_mode}"
+        cached_result = rag_cache.get(cache_key, retriever_type=retriever_mode, alpha=alpha)
         if cached_result:
             RAG_REQUESTS_TOTAL.labels(endpoint=endpoint, status="success_cached").inc()
             latency = time.time() - req_start
@@ -202,15 +216,31 @@ async def chat_endpoint(request: ChatRequest):
             result = dict(cached_result)
             result["latency_seconds"] = round(latency, 4)
             result["cached"] = True
+            result["reranked"] = rerank_flag
+            result["query_mode"] = q_mode
             return ChatResponse(**result)
 
-        # 1. Retrieve Contexts using Hybrid / Dense / BM25
+        # 1. Retrieve Contexts using Hybrid / Dense / BM25 (+ Query Mode & Reranking)
         retrieved_chunks = retriever.retrieve(
             query=request.question,
             retriever_type=retriever_mode,
             alpha=alpha,
-            top_k=top_k
+            top_k=top_k,
+            rerank=rerank_flag,
+            query_mode=q_mode
         )
+
+        # Capture rewritten queries for telemetry/UI display
+        rewritten_list = None
+        if q_mode == "rewrite":
+            from app.retrieval.query_rewrite import get_query_rewriter
+            rewritten_list = [get_query_rewriter().rewrite(request.question)]
+        elif q_mode == "multi":
+            from app.retrieval.query_rewrite import get_query_rewriter
+            rewritten_list = get_query_rewriter().expand(
+                request.question,
+                n=getattr(settings, "multi_query_variants", 3)
+            )
 
         # 2. Generate Grounded LLM Response
         answer = generate_rag_response(request.question, retrieved_chunks)
@@ -234,12 +264,15 @@ async def chat_endpoint(request: ChatRequest):
             "alpha": alpha,
             "sources": citations,
             "latency_seconds": round(total_latency, 4),
-            "cached": False
+            "cached": False,
+            "reranked": rerank_flag,
+            "query_mode": q_mode,
+            "rewritten_queries": rewritten_list
         }
 
         # Store in Cache
         rag_cache.set(
-            request.question,
+            cache_key,
             {**response_data, "sources": [s.model_dump() for s in citations]},
             retriever_type=retriever_mode,
             alpha=alpha
@@ -274,4 +307,41 @@ def reload_corpus():
     return {
         "status": "reloaded",
         "documents_loaded": len(retriever.documents)
+    }
+
+@app.post("/upload", tags=["Document Ingestion"])
+async def upload_documents(files: List[UploadFile] = File(...)):
+    """
+    Upload and ingest any type of documents (PDF, DOCX, TXT, MD, CSV, JSON, code, etc.).
+    Extracts text, segments into chunks, immediately updates BM25 & dense indices,
+    and clears stale RAG cache.
+    """
+    if not files:
+        raise HTTPException(status_code=400, detail="No files provided.")
+
+    file_tuples = []
+    for f in files:
+        content = await f.read()
+        file_tuples.append((f.filename, content))
+
+    uploads_dir = os.path.join(settings.data_dir, "uploads")
+    result = ingest_uploaded_files(
+        files=file_tuples,
+        retriever=retriever,
+        save_dir=uploads_dir,
+        corpus_path=settings.bm25_corpus_path
+    )
+    return result
+
+@app.get("/documents", tags=["Document Ingestion"])
+def list_documents():
+    """List all ingested documents and their chunk counts."""
+    doc_counts: Dict[str, int] = {}
+    for d in retriever.documents:
+        fn = d.metadata.get("filename") or d.metadata.get("source", "unknown")
+        doc_counts[fn] = doc_counts.get(fn, 0) + 1
+    return {
+        "total_documents": len(doc_counts),
+        "total_chunks": len(retriever.documents),
+        "documents": [{"filename": k, "chunks": v} for k, v in sorted(doc_counts.items())]
     }

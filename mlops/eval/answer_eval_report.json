@@ -1,0 +1,830 @@
+{
+  "timestamp": "2026-10-31T14:38:32Z",
+  "split": "test",
+  "queries_evaluated": 40,
+  "query_mode": "none",
+  "rerank": true,
+  "elapsed_seconds": 431.35,
+  "summary": {
+    "faithfulness": 1.0,
+    "relevance": 0.585,
+    "correctness": 0.459,
+    "avg_latency_seconds": 10.784
+  },
+  "category_metrics": {
+    "exact_identifier": {
+      "count": 25,
+      "faithfulness": 1.0,
+      "relevance": 0.6224,
+      "correctness": 0.5508
+    },
+    "mixed_multihop": {
+      "count": 15,
+      "faithfulness": 1.0,
+      "relevance": 0.5227,
+      "correctness": 0.306
+    }
+  },
+  "records": [
+    {
+      "id": "exact_037_rfc_7636_pkce_id",
+      "category": "exact_identifier",
+      "query": "Which IETF RFC specification defines Proof Key for Code Exchange PKCE for OAuth 2.0 public clients?",
+      "generated_answer": "OAuth 2.0 RFC 7636 Proof Key for Code Exchange (PKCE) prevents authorization code interception attacks on public clients using code_verifier and code_challenge. CVE-2024-3094 is a critical supply-chain backdoor discovered in upstream tarballs of xz-utils (specifically liblzma versions 5.6.0 and 5.6.1) that intercepts sshd authentication.",
+      "ground_truth_answer": "OAuth 2.0 PKCE is standardized in IETF RFC 7636.",
+      "faithfulness": 1.0,
+      "relevance": 0.83,
+      "correctness": 0.8,
+      "faithfulness_reason": "Grounding ratio: 32/32 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (10/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 4/6 keywords matched.",
+      "latency_seconds": 11.835,
+      "retrieved_chunk_ids": [
+        "chunk_4097_23ebbace",
+        "chunk_4102_289d393e",
+        "chunk_4103_e52fd35a",
+        "chunk_1165_300f65e4"
+      ]
+    },
+    {
+      "id": "exact_033_scaling_law_power",
+      "category": "exact_identifier",
+      "query": "According to Kaplan et al., how does cross-entropy test loss scale with model parameter count N and dataset size D?",
+      "generated_answer": "parameter\ncountN, dataset size D, and optimized training computation Cmin, as encapsulated in Equations (1.5) and\n(1.6). 8After this work was completed, [RRBS19a] also appeared, which makes similar predictions for the dependence of\nloss on both model and dataset size.",
+      "ground_truth_answer": "Cross-entropy loss scales as a power-law with model size N, dataset size D, and compute budget C.",
+      "faithfulness": 1.0,
+      "relevance": 0.5,
+      "correctness": 0.46,
+      "faithfulness_reason": "Grounding ratio: 25/25 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (6/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 5/13 keywords matched.",
+      "latency_seconds": 7.762,
+      "retrieved_chunk_ids": [
+        "chunk_3626_6b15f52b",
+        "chunk_3551_a3bcd5a3",
+        "chunk_3545_6405ca43",
+        "chunk_3589_ed3d9fdc"
+      ]
+    },
+    {
+      "id": "exact_014_mistral_window_size",
+      "category": "exact_identifier",
+      "query": "What is the sliding window size W used by Mistral 7B in its Sliding Window Attention SWA layer?",
+      "generated_answer": "At each attention layer, information can move\nforward by W tokens. SW A exploits the stacked layers of a trans-\nformer to attend information beyond the window size W .",
+      "ground_truth_answer": "Mistral 7B uses a sliding window size W = 4096 in its Sliding Window Attention (SWA).",
+      "faithfulness": 1.0,
+      "relevance": 0.55,
+      "correctness": 0.4,
+      "faithfulness_reason": "Grounding ratio: 16/16 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (6/11 matched).",
+      "correctness_reason": "Ground truth token coverage: 3/9 keywords matched.",
+      "latency_seconds": 7.005,
+      "retrieved_chunk_ids": [
+        "chunk_2909_f332ae5c",
+        "chunk_2903_d4ed11da",
+        "chunk_2906_ac868246",
+        "chunk_2905_563541fb"
+      ]
+    },
+    {
+      "id": "exact_024_roformer_theta",
+      "category": "exact_identifier",
+      "query": "What base constant theta is commonly used in the rotary embedding frequency calculation in RoFormer?",
+      "generated_answer": "ransformer with rotary position\nembedding, also called RoFormer, on various long text classification benchmark datasets. RoFormer is already integrated into Huggingface:\nhttps://huggingface.co/docs/transformers/model_doc/roformer.",
+      "ground_truth_answer": "RoFormer uses a base frequency theta = 10000 to construct sinusoidal rotary position matrices.",
+      "faithfulness": 1.0,
+      "relevance": 0.4,
+      "correctness": 0.33,
+      "faithfulness_reason": "Grounding ratio: 22/22 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (3/10 matched).",
+      "correctness_reason": "Ground truth token coverage: 3/11 keywords matched.",
+      "latency_seconds": 7.677,
+      "retrieved_chunk_ids": [
+        "chunk_3479_644b9113",
+        "chunk_3484_5de357a2",
+        "chunk_3478_3122274f",
+        "chunk_3500_d2ba9748"
+      ]
+    },
+    {
+      "id": "exact_021_adam_beta1_beta2",
+      "category": "exact_identifier",
+      "query": "What are the default recommended values for hyper-parameters beta_1, beta_2, and epsilon in the Adam optimizer?",
+      "generated_answer": "We use the MMLU 5-shot dev set for validation\nand hyperparameter tuning. We also use Adam beta2 of 0.999, max grad norm of 0.3 and LoRA dropout of 0.1\nfor models up to 13B and 0.05 for 33B and 65B models.",
+      "ground_truth_answer": "In Adam, the default hyperparameter values are beta_1 = 0.9, beta_2 = 0.999, and epsilon = 10^-8.",
+      "faithfulness": 1.0,
+      "relevance": 0.4,
+      "correctness": 0.55,
+      "faithfulness_reason": "Grounding ratio: 13/13 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (4/10 matched).",
+      "correctness_reason": "Ground truth token coverage: 5/11 keywords matched.",
+      "latency_seconds": 5.888,
+      "retrieved_chunk_ids": [
+        "chunk_3063_01ecb941",
+        "chunk_40_49ebbff9",
+        "chunk_94_2d406e27",
+        "chunk_0_b81a645f"
+      ]
+    },
+    {
+      "id": "exact_029_graphrag_leiden",
+      "category": "exact_identifier",
+      "query": "Which community detection algorithm is used in GraphRAG to partition the knowledge graph into hierarchical communities?",
+      "generated_answer": "3.1.4 Knowledge Graph \u2192 Graph Communities\nGiven the graph index created in the previous step, a variety of community detection algorithms\nmay be used to partition the graph into communities of strongly connected nodes (e.g., see the\nsurveys by Fortunato (2010) and Jin et al. In our pipeline, we use Leiden community\ndetection (Traag et al., 2019) in a hierarchical manner, recursively detecting sub-communities within\neach detected community until reaching leaf communities that can no longer be partitioned.",
+      "ground_truth_answer": "GraphRAG utilizes the Leiden community detection algorithm to partition entity-relationship graphs hierarchically.",
+      "faithfulness": 1.0,
+      "relevance": 1.0,
+      "correctness": 0.5,
+      "faithfulness_reason": "Grounding ratio: 38/38 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (11/11 matched).",
+      "correctness_reason": "Ground truth token coverage: 5/12 keywords matched.",
+      "latency_seconds": 5.244,
+      "retrieved_chunk_ids": [
+        "chunk_1959_fb746f0f",
+        "chunk_1938_f8f3960b",
+        "chunk_2022_c1537fd5",
+        "chunk_1950_2b8c7b9f"
+      ]
+    },
+    {
+      "id": "exact_039_rrf_k_val",
+      "category": "exact_identifier",
+      "query": "What default constant is assigned to rrf_k in the Reciprocal Rank Fusion calculation?",
+      "generated_answer": "Reciprocal Rank Fusion RRF scores documents by summing 1/(rrf_k + rank) where default rrf_k constant is 60 to merge diverse retriever rankings. CVE-2024-3094 is a critical supply-chain backdoor discovered in upstream tarballs of xz-utils (specifically liblzma versions 5.6.0 and 5.6.1) that intercepts sshd authentication.",
+      "ground_truth_answer": "In Reciprocal Rank Fusion, the smoothing parameter rrf_k default constant is 60.",
+      "faithfulness": 1.0,
+      "relevance": 0.75,
+      "correctness": 0.8,
+      "faithfulness_reason": "Grounding ratio: 31/31 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (6/8 matched).",
+      "correctness_reason": "Ground truth token coverage: 6/9 keywords matched.",
+      "latency_seconds": 4.715,
+      "retrieved_chunk_ids": [
+        "chunk_4097_23ebbace",
+        "chunk_4098_10261fa3",
+        "chunk_2800_88974a3e",
+        "chunk_2955_0a8fbacc"
+      ]
+    },
+    {
+      "id": "exact_031_speculative_gamma",
+      "category": "exact_identifier",
+      "query": "In speculative decoding, what Greek letter variable gamma represents the number of lookahead candidate tokens generated by the draft model?",
+      "generated_answer": "At the heart of our approach lie\nthe observations that (1) hard language-modeling\ntasks often include easier subtasks that can be ap-\nproximated well by more ef\ufb01cient models, and\n(2) using speculative execution and a novel sam-\npling method, we can make exact decoding from\nthe large models faster, by running them in par-\nallel on the outputs of the approximation mod-\nels, potentially generating several tokens concur-\nrently, and without changing the distribution. Fast Inference from Transformers via Speculative Decoding\nYaniv Leviathan* 1 Matan Kalman * 1 Yossi Matias1\nAbstract\nInference from large autoregressive models like\nTransformers is slow - decodingK tokens takes\nK serial runs of the model.",
+      "ground_truth_answer": "The parameter gamma denotes the number of speculative tokens generated by the small draft model per iteration.",
+      "faithfulness": 1.0,
+      "relevance": 0.4,
+      "correctness": 0.37,
+      "faithfulness_reason": "Grounding ratio: 61/61 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (5/14 matched).",
+      "correctness_reason": "Ground truth token coverage: 4/13 keywords matched.",
+      "latency_seconds": 6.874,
+      "retrieved_chunk_ids": [
+        "chunk_3835_3eac218f",
+        "chunk_3842_8976c464",
+        "chunk_3878_b07a95c9",
+        "chunk_3868_6ee5aa44"
+      ]
+    },
+    {
+      "id": "exact_020_raft_rpc_names",
+      "category": "exact_identifier",
+      "query": "What are the two basic Remote Procedure Calls RPCs used between servers in the Raft consensus algorithm?",
+      "generated_answer": "Raft servers communicate using remote procedure calls\n(RPCs), and the basic consensus algorithm requires only\ntwo types of RPCs. Current terms are exchanged\nwhenever servers communicate; if one server\u2019s current\nterm is smaller than the other\u2019s, then it updates its current\nterm to the larger value.",
+      "ground_truth_answer": "The two primary RPCs in Raft are RequestVote (initiated by candidates during elections) and AppendEntries (initiated by leaders for log replication and heartbeats).",
+      "faithfulness": 1.0,
+      "relevance": 0.83,
+      "correctness": 0.4,
+      "faithfulness_reason": "Grounding ratio: 27/27 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (10/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 6/18 keywords matched.",
+      "latency_seconds": 4.887,
+      "retrieved_chunk_ids": [
+        "chunk_3105_0c70cbbe",
+        "chunk_3094_376941e1",
+        "chunk_3077_343dc4f8",
+        "chunk_3079_79f979ca"
+      ]
+    },
+    {
+      "id": "exact_017_bge_m3_context_len",
+      "category": "exact_identifier",
+      "query": "What maximum input sequence length does BGE-M3 support for multi-granular text embeddings?",
+      "generated_answer": "solid\nfoundation for the versatile text embeddings. It achieves superior re-\ntrieval quality for a variety of languages, leading\nto state-of-the-art performances on popular multi-\nlingual and cross-lingual benchmarks like MIR-\nACL (Zhang et al., 2023c) and MKQA (Longpre\net al., 2021).",
+      "ground_truth_answer": "BGE-M3 supports an extended context window length of up to 8192 tokens.",
+      "faithfulness": 1.0,
+      "relevance": 0.4,
+      "correctness": 0.0,
+      "faithfulness_reason": "Grounding ratio: 25/25 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (3/10 matched).",
+      "correctness_reason": "Ground truth token coverage: 0/8 keywords matched.",
+      "latency_seconds": 6.289,
+      "retrieved_chunk_ids": [
+        "chunk_227_bf3695e5",
+        "chunk_3528_9bb6b8df",
+        "chunk_218_6797ca41",
+        "chunk_250_808cc663"
+      ]
+    },
+    {
+      "id": "exact_042_k8s_version_number",
+      "category": "exact_identifier",
+      "query": "Which Kubernetes version promoted the CSI storage plugin migration to GA?",
+      "generated_answer": "Kubernetes v1.27 promoted in-tree storage plugin migration to CSI (Container Storage Interface) to General Availability (GA). HTTP 504 Gateway Timeout indicates an intermediary server or proxy did not receive a timely response from the upstream backend server.",
+      "ground_truth_answer": "Kubernetes v1.27 promoted in-tree storage plugin migration to CSI to GA.",
+      "faithfulness": 1.0,
+      "relevance": 0.86,
+      "correctness": 1.0,
+      "faithfulness_reason": "Grounding ratio: 23/23 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (6/7 matched).",
+      "correctness_reason": "Ground truth token coverage: 7/7 keywords matched.",
+      "latency_seconds": 5.867,
+      "retrieved_chunk_ids": [
+        "chunk_4097_23ebbace",
+        "chunk_4102_289d393e",
+        "chunk_4105_dc2cf5bc",
+        "chunk_3796_c17c16b6"
+      ]
+    },
+    {
+      "id": "exact_035_crag_evaluator_levels",
+      "category": "exact_identifier",
+      "query": "What are the three confidence judgments output by the retrieval evaluator in Corrective RAG CRAG?",
+      "generated_answer": "Algorithm 1: CRAG Inference\nRequire :E (Retrieval Evaluator), W (Query Rewriter), G (Generator)\nInput : x (Input question), D = {d1, d2, ..., dk} (Retrieved documents)\nOutput : y (Generated response)\n1 scorei = E evaluates the relevance of each pair (x, di), di \u2208 D\n2 Confidence = Calculate and give a final judgment based on {score1, score2, ...scorek}\n// Confidence has 3 optional values: [CORRECT], [INCORRECT] or [AMBIGUOUS]\n3 if Confidence == [CORRECT] then\n4 Internal_Knowledge = Knowledge_Refine(x, D)\n5 k = Internal_Knowledge\n6 else if Confidence == [INCORRECT] then\n7 External_Knowledge = Web_Search(W Rewrites x for searching)\n8 k = External_Knowledge\n9 else if Confidence == [AMBIGUOUS] then\n10 Internal_Knowledge = Knowledge_Refine(x, D)\n11 External_Knowledge = Web_Search(W Rewrites x for searching)\n12 k = Internal_Knowledge + External_Knowledge\n13 end\n14 G predicts y given x and k\n4.3 Action Trigger\nTo correct the irrelevant documents and refine the\ntarget documents as needed, actions should be exe-\ncuted discriminately.",
+      "ground_truth_answer": "The CRAG retrieval evaluator outputs one of three confidence levels: Correct, Incorrect, or Ambiguous.",
+      "faithfulness": 1.0,
+      "relevance": 0.89,
+      "correctness": 0.8,
+      "faithfulness_reason": "Grounding ratio: 55/55 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (8/9 matched).",
+      "correctness_reason": "Ground truth token coverage: 8/12 keywords matched.",
+      "latency_seconds": 6.357,
+      "retrieved_chunk_ids": [
+        "chunk_818_0598ab77",
+        "chunk_800_efb67d8f",
+        "chunk_810_0123718a",
+        "chunk_850_eb5daa94"
+      ]
+    },
+    {
+      "id": "exact_032_gemma_geglu",
+      "category": "exact_identifier",
+      "query": "Which activation function replacing standard ReLU or GELU is used in the feed-forward layers of Gemma models?",
+      "generated_answer": "We inherit from the large Gemini vocabulary\n(256k entries), that is designed to work on large\nquantities of languages, hence, the larger embed-\nding parameter counts compared to models that\nare limited to one or a few languages. Training Infrastructure\nWe train the Gemma models using TPUv5e;\nTPUv5e are deployed in pods of 256 chips, con-\nfigured into a 2D torus of 16 x 16 chips.",
+      "ground_truth_answer": "Gemma models use the GeGLU gated activation function in their feedforward blocks.",
+      "faithfulness": 1.0,
+      "relevance": 0.4,
+      "correctness": 0.33,
+      "faithfulness_reason": "Grounding ratio: 33/33 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (2/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 3/11 keywords matched.",
+      "latency_seconds": 5.301,
+      "retrieved_chunk_ids": [
+        "chunk_1518_0ca29e90",
+        "chunk_82_858bb5da",
+        "chunk_31_f28f6bf9",
+        "chunk_83_09db0ef9"
+      ]
+    },
+    {
+      "id": "exact_001_transformer_dmodel",
+      "category": "exact_identifier",
+      "query": "In the Transformer architecture, what is the embedding and layer output dimension dmodel when using 8 heads?",
+      "generated_answer": "Herenparams is the total number of trainable parameters,\nnlayers is the total number of layers, dmodel is the number of units in each bottleneck layer (we always have the\nfeedforward layer four times the size of the bottleneck layer, d\ufb00 = 4\u2217dmodel), anddhead is the dimension of each\nattention head. Table 2.1 shows the sizes and architectures of our 8 models.",
+      "ground_truth_answer": "In the Transformer architecture, all sub-layers and embedding layers produce outputs of dimension dmodel = 512.",
+      "faithfulness": 1.0,
+      "relevance": 0.56,
+      "correctness": 0.46,
+      "faithfulness_reason": "Grounding ratio: 27/27 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (5/9 matched).",
+      "correctness_reason": "Ground truth token coverage: 5/13 keywords matched.",
+      "latency_seconds": 4.95,
+      "retrieved_chunk_ids": [
+        "chunk_1625_96b85bb8",
+        "chunk_74_2de340b0",
+        "chunk_83_09db0ef9",
+        "chunk_3568_8dc4c2c0"
+      ]
+    },
+    {
+      "id": "exact_003_bert_mask_rate",
+      "category": "exact_identifier",
+      "query": "What percentage of input tokens are uniformly selected for masking during the Masked Language Model MLM pre-training in BERT?",
+      "generated_answer": "The numbers in the left part of the table repre-\nsent the probabilities of the speci\ufb01c strategies used\nduring MLM pre-training (BERT uses 80%, 10%,\n10%). For the feature-based approach,\nwe concatenate the last 4 layers of BERT as the\nfeatures, which was shown to be the best approach\nin Section 5.3.",
+      "ground_truth_answer": "BERT masks 15% of all input tokens at random during the Masked Language Model (MLM) pre-training step.",
+      "faithfulness": 1.0,
+      "relevance": 0.4,
+      "correctness": 0.48,
+      "faithfulness_reason": "Grounding ratio: 25/25 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (5/14 matched).",
+      "correctness_reason": "Ground truth token coverage: 6/15 keywords matched.",
+      "latency_seconds": 5.755,
+      "retrieved_chunk_ids": [
+        "chunk_216_723e83a2",
+        "chunk_145_40d8999b",
+        "chunk_197_ef43eec9",
+        "chunk_196_c254c763"
+      ]
+    },
+    {
+      "id": "exact_028_self_rag_tokens",
+      "category": "exact_identifier",
+      "query": "What is the exact name of the special reflection token used in Self-RAG to determine whether retrieval should occur?",
+      "generated_answer": "We train an arbitrary LM in an end-to-end manner to learn to reflect on\nits own generation process given a task input by generating both task output and intermittent special\ntokens (i.e., reflection tokens). Reflection tokens are categorized into retrieval and critique tokens to\nindicate the need for retrieval and its generation quality respectively (Figure 1 right).",
+      "ground_truth_answer": "Self-RAG uses the special reflection token Retrieve to dynamically decide whether retrieval is necessary.",
+      "faithfulness": 1.0,
+      "relevance": 0.4,
+      "correctness": 0.37,
+      "faithfulness_reason": "Grounding ratio: 27/27 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (4/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 4/13 keywords matched.",
+      "latency_seconds": 6.822,
+      "retrieved_chunk_ids": [
+        "chunk_3681_4d8db92d",
+        "chunk_3678_a35d66d5",
+        "chunk_3695_de067e35",
+        "chunk_3770_3fad4e29"
+      ]
+    },
+    {
+      "id": "exact_006_lora_gpt3_rank",
+      "category": "exact_identifier",
+      "query": "What low intrinsic rank hypothesis explains why low-rank adaptation suffices even on large 175B models?",
+      "generated_answer": "ts during model adaptation also has a low \u201cintrinsic rank\u201d, leading to our proposed\nLow-Rank Adaptation (LoRA) approach. Using GPT-3\n175B as an example, we show that a very low rank (i.e.,r in Figure 1 can be one or two) suf\ufb01ces even\nwhen the full rank (i.e., d) is as high as 12,288, making LoRA both storage- and compute-ef\ufb01cient.",
+      "ground_truth_answer": "The weight updates during task adaptation have a low intrinsic rank, allowing small rank r to capture the essential adaptation subspace.",
+      "faithfulness": 1.0,
+      "relevance": 0.69,
+      "correctness": 0.48,
+      "faithfulness_reason": "Grounding ratio: 27/27 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (9/13 matched).",
+      "correctness_reason": "Ground truth token coverage: 6/15 keywords matched.",
+      "latency_seconds": 14.947,
+      "retrieved_chunk_ids": [
+        "chunk_2787_af8794e2",
+        "chunk_2782_8fa17025",
+        "chunk_2786_ef25e73a",
+        "chunk_2831_e8266400"
+      ]
+    },
+    {
+      "id": "exact_007_flash_sram",
+      "category": "exact_identifier",
+      "query": "Which GPU on-chip fast memory does FlashAttention tile into to avoid materializing the full attention matrix in HBM?",
+      "generated_answer": "FlashAttention\nMemory Hierarchy with\nBandwidth & Memory Size\nAttention on GPT-2\nFlashAttentionPyTorch\nTime (ms)\nMatmul\nMask\nSoftmax\nDropout\nMatmul\nFused\nKernel\nQ: N x d V: N X d\nKT: d x N\nQKT: N x N\nsm(QKT)V: N x d\nOuter Loop\nCopy Block to SRAM\nCopy\nOuter Loop\nCopy\nInner Loop\nCompute Block\non SRAM\nOutput to HBM\nInner Loop\nInner Loop\nOuter Loop\nGPU\nSRAM\nGPU\nHBM\nMain Memory\n(CPU DRAM)\nSRAM: 19 TB/s (20 MB)\nHBM: 1.5 TB/s (40 GB)\nDRAM: 12.8 GB/s\n                (>1 TB)\n0\n5\n10\n15\nFigure 1: Left: FlashAttention uses tiling to prevent materialization of the large\ud835\udc41\ud835\udc41 attention matrix\n(dotted box) on (relatively) slow GPU HBM. In the outer loop (red arrows),FlashAttentionloops through\nblocks of theK and V matrices and loads them to fast on-chip SRAM.",
+      "ground_truth_answer": "FlashAttention tiles inputs into fast on-chip SRAM (Static Random-Access Memory) to avoid reads/writes to high bandwidth memory (HBM).",
+      "faithfulness": 1.0,
+      "relevance": 0.69,
+      "correctness": 0.49,
+      "faithfulness_reason": "Grounding ratio: 46/46 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (9/13 matched).",
+      "correctness_reason": "Ground truth token coverage: 7/17 keywords matched.",
+      "latency_seconds": 16.53,
+      "retrieved_chunk_ids": [
+        "chunk_1293_c7f18294",
+        "chunk_1289_02263598",
+        "chunk_1294_36a3936e",
+        "chunk_1386_200ad38b"
+      ]
+    },
+    {
+      "id": "exact_009_react_thought_action",
+      "category": "exact_identifier",
+      "query": "What are the two alternating textual tokens used in ReAct trajectories before receiving an Observation from the environment?",
+      "generated_answer": "Concretely, on question\nanswering (HotpotQA) and fact veri\ufb01cation (Fever), ReAct overcomes prevalent\nissues of hallucination and error propagation in chain-of-thought reasoning by\ninteracting with a simple Wikipedia API, and generating human-like task-solving\ntrajectories that are more interpretable than baselines without reasoning traces. Furthermore, on two interactive decision making benchmarks (ALFWorld and\nWebShop), ReAct outperforms imitation and reinforcement learning methods by\nan absolute success rate of 34% and 10% respectively, while being prompted with\nonly one or two in-context examples.",
+      "ground_truth_answer": "ReAct alternates between 'Thought' (reasoning trace) and 'Action' (environment command) before receiving an 'Observation'.",
+      "faithfulness": 1.0,
+      "relevance": 0.4,
+      "correctness": 0.37,
+      "faithfulness_reason": "Grounding ratio: 56/56 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (3/11 matched).",
+      "correctness_reason": "Ground truth token coverage: 4/13 keywords matched.",
+      "latency_seconds": 13.439,
+      "retrieved_chunk_ids": [
+        "chunk_3313_992bcb0b",
+        "chunk_3402_aae07722",
+        "chunk_3330_f35a9675",
+        "chunk_3348_2f7d4076"
+      ]
+    },
+    {
+      "id": "exact_015_mistral_gqa_heads",
+      "category": "exact_identifier",
+      "query": "How many query heads and key/value heads are configured in Mistral 7B's Grouped Query Attention GQA?",
+      "generated_answer": "Multi-query attention (MQA) [15] and grouped-\nquery attention (GQA) [1] are variants of attention where multiple heads of query attend to the same head of\nkey and value, in order to reduce the size of KV cache during inference. Multi-query attention and grouped-query attention.",
+      "ground_truth_answer": "Mistral 7B uses 32 query attention heads and 8 key/value heads (4:1 ratio) with Grouped-Query Attention (GQA).",
+      "faithfulness": 1.0,
+      "relevance": 0.75,
+      "correctness": 0.8,
+      "faithfulness_reason": "Grounding ratio: 18/18 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (9/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 8/12 keywords matched.",
+      "latency_seconds": 11.627,
+      "retrieved_chunk_ids": [
+        "chunk_1481_86568817",
+        "chunk_2903_d4ed11da",
+        "chunk_2638_dbd59619",
+        "chunk_2906_ac868246"
+      ]
+    },
+    {
+      "id": "exact_016_colbert_maxsim",
+      "category": "exact_identifier",
+      "query": "What mathematical operator does ColBERT use to compute the sum of maximum cosine similarities between query tokens and document tokens?",
+      "generated_answer": "In-\ntuitively, this interaction mechanism so/f_tly searches for each query\nterm tq\u2014in a manner that re/f_lects its context in the query\u2014against\nthe document\u2019s embeddings, quantifying the strength of the \u201cmatch\u201d\nvia the largest similarity score between tq and a document term td . Using Eq and Ed , ColBERT computes the relevance score be-\ntween q and d via late interaction, which we de/f_ine as a summation\nof maximum similarity (MaxSim) operators.",
+      "ground_truth_answer": "ColBERT utilizes the MaxSim operator, calculating the sum of maximum inner products between each query token vector and document token vectors.",
+      "faithfulness": 1.0,
+      "relevance": 0.64,
+      "correctness": 0.6,
+      "faithfulness_reason": "Grounding ratio: 35/35 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (9/14 matched).",
+      "correctness_reason": "Ground truth token coverage: 9/18 keywords matched.",
+      "latency_seconds": 9.974,
+      "retrieved_chunk_ids": [
+        "chunk_549_81a45790",
+        "chunk_537_81baa90a",
+        "chunk_551_59e2698c",
+        "chunk_596_b7472cda"
+      ]
+    },
+    {
+      "id": "exact_018_dpr_inbatch_negatives",
+      "category": "exact_identifier",
+      "query": "Which training technique does DPR use to efficiently treat passages paired with other queries in the same mini-batch as negative examples?",
+      "generated_answer": "We consider\nthree different types of negatives: (1) Random: any\nrandom passage from the corpus; (2) BM25: top\npassages returned by BM25 which don\u2019t contain\nthe answer but match most question tokens; (3)\nGold: positive passages paired with other questions\nwhich appear in the training set. Our best model\nuses gold passages from the same mini-batch and\none BM25 negative passage.",
+      "ground_truth_answer": "DPR uses the 'in-batch negatives' technique to compute contrastive loss using other passages in the same batch as negative samples.",
+      "faithfulness": 1.0,
+      "relevance": 0.6,
+      "correctness": 0.64,
+      "faithfulness_reason": "Grounding ratio: 34/34 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (9/15 matched).",
+      "correctness_reason": "Ground truth token coverage: 8/15 keywords matched.",
+      "latency_seconds": 15.33,
+      "retrieved_chunk_ids": [
+        "chunk_1223_71b9d551",
+        "chunk_1233_621f645f",
+        "chunk_1240_81fcf8af",
+        "chunk_1236_ad426059"
+      ]
+    },
+    {
+      "id": "exact_002_transformer_bleu",
+      "category": "exact_identifier",
+      "query": "What BLEU score did the big Transformer model achieve on the WMT 2014 English-to-German translation task?",
+      "generated_answer": "Our model achieves 28.4 BLEU on the WMT 2014 English-\nto-German translation task, improving over the existing best results, including\nensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,\nour model establishes a new single-model state-of-the-art BLEU score of 41.8 after\ntraining for 3.5 days on eight GPUs, a small fraction of the training costs of the\nbest models from the literature.",
+      "ground_truth_answer": "The big Transformer model achieved a BLEU score of 28.4 on the WMT 2014 English-to-German translation task.",
+      "faithfulness": 1.0,
+      "relevance": 0.92,
+      "correctness": 0.92,
+      "faithfulness_reason": "Grounding ratio: 31/31 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (11/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 10/13 keywords matched.",
+      "latency_seconds": 12.744,
+      "retrieved_chunk_ids": [
+        "chunk_63_46e188bd",
+        "chunk_96_ecc063a1",
+        "chunk_97_8b5c74e2",
+        "chunk_3513_837b8e9b"
+      ]
+    },
+    {
+      "id": "exact_008_flash2_speedup",
+      "category": "exact_identifier",
+      "query": "How does FlashAttention-2 improve over FlashAttention-1 in terms of work partitioning across thread blocks and warps?",
+      "generated_answer": "In particular, we (1) tweak\nthe algorithm to reduce the number of non-matmul FLOPs (2) parallelize the attention computation, even\nfor a single head, across different thread blocks to increase occupancy, and (3) within each thread block,\ndistribute the work between warps to reduce communication through shared memory. We\nobserve that the inefficiency is due to suboptimal work partitioning between different thread blocks and\nwarps on the GPU, causing either low-occupancy or unnecessary shared memory reads/writes.",
+      "ground_truth_answer": "FlashAttention-2 parallelizes over the sequence length dimension in addition to batch size and heads, reducing non-matmul FLOPs and increasing GPU occupancy.",
+      "faithfulness": 1.0,
+      "relevance": 0.73,
+      "correctness": 0.44,
+      "faithfulness_reason": "Grounding ratio: 40/40 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (8/11 matched).",
+      "correctness_reason": "Ground truth token coverage: 7/19 keywords matched.",
+      "latency_seconds": 14.165,
+      "retrieved_chunk_ids": [
+        "chunk_1454_9d3ddcd8",
+        "chunk_1472_5114cbc3",
+        "chunk_1459_a28661dc",
+        "chunk_1460_0bedb943"
+      ]
+    },
+    {
+      "id": "exact_041_llama_checkpoint_name",
+      "category": "exact_identifier",
+      "query": "What exact model identifier is configured as the default LLM_MODEL checkpoint?",
+      "generated_answer": "The primary LLM model checkpoint is llama-3.3-70b-versatile served via Groq inference engine with temperature 0.0 for deterministic answers. NDS is configured to 3600 seconds (1 hour) to evict stale query embeddings from local memory and manage RAM capacity.",
+      "ground_truth_answer": "The default LLM model identifier is llama-3.3-70b-versatile served via Groq.",
+      "faithfulness": 1.0,
+      "relevance": 0.57,
+      "correctness": 0.98,
+      "faithfulness_reason": "Grounding ratio: 26/26 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (4/7 matched).",
+      "correctness_reason": "Ground truth token coverage: 9/11 keywords matched.",
+      "latency_seconds": 13.821,
+      "retrieved_chunk_ids": [
+        "chunk_4098_10261fa3",
+        "chunk_411_ac80714c",
+        "chunk_2169_42fa4e0c",
+        "chunk_3944_41a9e373"
+      ]
+    },
+    {
+      "id": "mixed_014_bge_m3_sparse_dense",
+      "category": "mixed_multihop",
+      "query": "How does BGE-M3 compute lexical token importance weights alongside dense semantic embeddings in a single forward pass?",
+      "generated_answer": "The output embeddings\nare also used to estimate the importance of each\nterm to facilitate lexical retrieval. For each term\nt within the query (a term is corresponding to a\ntoken in our work), the term weight is computed as\nwqt \u2190Relu(W TlexHq[i])), where Wlex \u2208 Rd\u00d71\nis the matrix mapping the hidden state to a float\nnumber.",
+      "ground_truth_answer": "BGE-M3 outputs a sparse weight vector over the vocabulary where each term weight reflects its lexical importance, complementing dense semantic representations.",
+      "faithfulness": 1.0,
+      "relevance": 0.46,
+      "correctness": 0.44,
+      "faithfulness_reason": "Grounding ratio: 28/28 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (6/13 matched).",
+      "correctness_reason": "Ground truth token coverage: 7/19 keywords matched.",
+      "latency_seconds": 9.423,
+      "retrieved_chunk_ids": [
+        "chunk_241_510c7371",
+        "chunk_2807_3daa3be3",
+        "chunk_218_6797ca41",
+        "chunk_240_601cf753"
+      ]
+    },
+    {
+      "id": "mixed_024_tot_evaluation_states",
+      "category": "mixed_multihop",
+      "query": "How does Tree of Thoughts decide whether a given branch of reasoning should be pursued or pruned?",
+      "generated_answer": "As Figure 1 illustrates, while\nexisting methods (detailed below) sample continuous language sequences for problem solving, ToT\nactively maintains a tree of thoughts, where each thought is a coherent language sequence that serves\nas an intermediate step toward problem solving (Table 1). We thus propose the Tree of Thoughts\n(ToT) framework for general problem solving with language models.",
+      "ground_truth_answer": "An LLM acts as an evaluator to score or classify each intermediate thought state (e.g. sure, likely, impossible), pruning paths evaluated as dead ends.",
+      "faithfulness": 1.0,
+      "relevance": 0.4,
+      "correctness": 0.21,
+      "faithfulness_reason": "Grounding ratio: 34/34 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (2/9 matched).",
+      "correctness_reason": "Ground truth token coverage: 3/17 keywords matched.",
+      "latency_seconds": 8.399,
+      "retrieved_chunk_ids": [
+        "chunk_4021_938d72c5",
+        "chunk_4037_9c6cf5e8",
+        "chunk_4017_80d2ac2a",
+        "chunk_4029_6ca9d425"
+      ]
+    },
+    {
+      "id": "mixed_026_gemma_mqa_2b",
+      "category": "mixed_multihop",
+      "query": "Why did the Gemma architecture use Multi-Query Attention MQA for the 2B model while using Multi-Head Attention for the 7B model?",
+      "generated_answer": "No-\ntably, the 7B model uses multi-head attention\nwhile the 2B checkpoints use multi-query atten-\ntion (with\ud835\udc5b\ud835\udc62\ud835\udc5a_\ud835\udc58\ud835\udc63_\u210e\ud835\udc52\ud835\udc4e\ud835\udc51\ud835\udc60 = 1), based on ablations\nthatshowedthatmulti-queryattentionworkswell\nat small scales (Shazeer, 2019). We also utilize several\nimprovements proposed after the original trans-\nParameters 2B 7B\nd_model 2048 3072\nLayers 18 28\nFeedforward hidden dims 32768 49152\nNum heads 8 16\nNum KV heads 1 16\nHead size 256 256\nVocab size 256128 256128\nTable 1| Key model parameters.",
+      "ground_truth_answer": "MQA uses a single key-value head, drastically reducing memory footprint for on-device and edge deployment targets where 2B models typically run.",
+      "faithfulness": 1.0,
+      "relevance": 0.71,
+      "correctness": 0.18,
+      "faithfulness_reason": "Grounding ratio: 43/43 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (10/14 matched).",
+      "correctness_reason": "Ground truth token coverage: 3/20 keywords matched.",
+      "latency_seconds": 10.461,
+      "retrieved_chunk_ids": [
+        "chunk_1516_b32938e2",
+        "chunk_78_b19730e2",
+        "chunk_80_a7851691",
+        "chunk_1481_86568817"
+      ]
+    },
+    {
+      "id": "mixed_008_mistral_gqa_throughput",
+      "category": "mixed_multihop",
+      "query": "How does Grouped Query Attention GQA in Mistral 7B boost decoding throughput compared to full Multi-Head Attention MHA?",
+      "generated_answer": "Mistral 7B leverages grouped-query attention (GQA) [1], and sliding window attention (SW A) [6, 3]. These attention mechanisms\ncollectively contribute to the enhanced performance and efficiency of Mistral 7B.",
+      "ground_truth_answer": "By sharing key and value heads across multiple query heads, GQA substantially reduces KV cache memory footprint and bandwidth during autoregressive decoding.",
+      "faithfulness": 1.0,
+      "relevance": 0.43,
+      "correctness": 0.2,
+      "faithfulness_reason": "Grounding ratio: 14/14 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (6/14 matched).",
+      "correctness_reason": "Ground truth token coverage: 3/18 keywords matched.",
+      "latency_seconds": 14.154,
+      "retrieved_chunk_ids": [
+        "chunk_2906_ac868246",
+        "chunk_2903_d4ed11da",
+        "chunk_1481_86568817",
+        "chunk_1464_17661576"
+      ]
+    },
+    {
+      "id": "mixed_002_rag_dpr_dual",
+      "category": "mixed_multihop",
+      "query": "What dual-encoder retriever component is used in RAG to index passages for the BART sequence-to-sequence generator?",
+      "generated_answer": "We use\na pre-trained bi-encoder from DPR to initialize our retriever and to build the document index. 2.2 Retriever: DPR\nThe retrieval componentp\u03b7(z|x) is based on DPR [26].",
+      "ground_truth_answer": "RAG uses the Dense Passage Retriever (DPR), which utilizes bi-encoder architectures to score question-passage similarity via dot product.",
+      "faithfulness": 1.0,
+      "relevance": 0.42,
+      "correctness": 0.28,
+      "faithfulness_reason": "Grounding ratio: 11/11 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (5/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 4/17 keywords matched.",
+      "latency_seconds": 9.745,
+      "retrieved_chunk_ids": [
+        "chunk_3221_4d4354cc",
+        "chunk_3213_fd7e42ca",
+        "chunk_3208_b7530069",
+        "chunk_3259_d974635f"
+      ]
+    },
+    {
+      "id": "mixed_028_toolformer_calculator",
+      "category": "mixed_multihop",
+      "query": "How does Toolformer teach models to invoke an external Calculator tool when encountering arithmetic expressions?",
+      "generated_answer": "Toolformer: Language Models Can Teach Themselves to Use Tools\nTimo Schick Jane Dwivedi-Yu Roberto Dess\u00ec \u2020 Roberta Raileanu\nMaria Lomeli Luke Zettlemoyer Nicola Cancedda Thomas Scialom\nMeta AI Research \u2020Universitat Pompeu Fabra\nAbstract\nLanguage models (LMs) exhibit remarkable\nabilities to solve new tasks from just a few\nexamples or textual instructions, especially at\nscale. We introduce Toolformer, a model\ntrained to decide which APIs to call, when to\ncall them, what arguments to pass, and how to\nbest incorporate the results into future token\nprediction.",
+      "ground_truth_answer": "It inserts [Calculator(expr)] API annotations into math passages, evaluates expressions via Python, and keeps examples where calculator output lowers prediction loss.",
+      "faithfulness": 1.0,
+      "relevance": 0.4,
+      "correctness": 0.24,
+      "faithfulness_reason": "Grounding ratio: 59/59 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (4/10 matched).",
+      "correctness_reason": "Ground truth token coverage: 4/20 keywords matched.",
+      "latency_seconds": 9.2,
+      "retrieved_chunk_ids": [
+        "chunk_3907_15f0dc8d",
+        "chunk_3974_4095f7e5",
+        "chunk_2616_b92d4607",
+        "chunk_3911_659ae0e4"
+      ]
+    },
+    {
+      "id": "mixed_007_qlora_memory_footprint",
+      "category": "mixed_multihop",
+      "query": "What hardware GPU configuration is made capable of fine-tuning a 65B parameter model thanks to QLoRA?",
+      "generated_answer": "QL ORA: Efficient Finetuning of Quantized LLMs\nTim Dettmers\u2217 Artidoro Pagnoni\u2217 Ari Holtzman\nLuke Zettlemoyer\nUniversity of Washington\n{dettmers,artidoro,ahai,lsz}@cs.washington.edu\nAbstract\nWe present QL ORA, an efficient finetuning approach that reduces memory us-\nage enough to finetune a 65B parameter model on a single 48GB GPU while\npreserving full 16-bit finetuning task performance. Our best model family, which we name Guanaco, outperforms\nall previous openly released models on the Vicuna benchmark, reaching 99.3%\nof the performance level of ChatGPT while only requiring 24 hours of finetuning\non a single GPU.",
+      "ground_truth_answer": "QLoRA enables fine-tuning a 65B parameter language model on a single 48GB GPU (like an NVIDIA A100) within 24 hours.",
+      "faithfulness": 1.0,
+      "relevance": 0.58,
+      "correctness": 0.53,
+      "faithfulness_reason": "Grounding ratio: 48/48 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (7/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 7/16 keywords matched.",
+      "latency_seconds": 9.605,
+      "retrieved_chunk_ids": [
+        "chunk_2941_b24595a9",
+        "chunk_2946_63e93eed",
+        "chunk_3030_348f06b3",
+        "chunk_2942_c4325d19"
+      ]
+    },
+    {
+      "id": "mixed_019_roformer_inner_product",
+      "category": "mixed_multihop",
+      "query": "Why does RoPE rotary position embedding avoid adding positional vectors directly to token word embeddings?",
+      "generated_answer": "However, instead of directly adding the position\nto the context representation, RoPE proposes to incorporate the relative position information by multiplying with the\nsinusoidal functions. In the next section, we show that our proposed RoPE\nis related to this intuition from the sinusoidal function perspective.",
+      "ground_truth_answer": "Direct addition can disturb semantic magnitude, whereas RoPE rotates token representations in 2D planes, preserving vector lengths while injecting position via rotational phase shifts.",
+      "faithfulness": 1.0,
+      "relevance": 0.42,
+      "correctness": 0.11,
+      "faithfulness_reason": "Grounding ratio: 27/27 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (5/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 2/22 keywords matched.",
+      "latency_seconds": 12.034,
+      "retrieved_chunk_ids": [
+        "chunk_3489_da785938",
+        "chunk_3484_5de357a2",
+        "chunk_3478_3122274f",
+        "chunk_3494_fcc284d2"
+      ]
+    },
+    {
+      "id": "mixed_012_crag_decompose_refine",
+      "category": "mixed_multihop",
+      "query": "How does Corrective RAG filter out irrelevant sentences from retrieved documents before passing them to the generator?",
+      "generated_answer": "esigned for retrieved\ndocuments to selectively focus on key infor-\nmation and filter out irrelevant information in\nthem. Experiments on four datasets\ncovering short- and long-form generation tasks\nshow that CRAG can significantly improve the\nperformance of RAG-based approaches.",
+      "ground_truth_answer": "CRAG uses a decompose-and-refine algorithm that breaks retrieved documents into smaller knowledge strips and filters out uninformative segments.",
+      "faithfulness": 1.0,
+      "relevance": 0.67,
+      "correctness": 0.4,
+      "faithfulness_reason": "Grounding ratio: 28/28 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (8/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 6/18 keywords matched.",
+      "latency_seconds": 16.855,
+      "retrieved_chunk_ids": [
+        "chunk_795_5b465772",
+        "chunk_794_a81a50ab",
+        "chunk_3220_7d1f943f",
+        "chunk_3692_47ba57fa"
+      ]
+    },
+    {
+      "id": "mixed_020_gpt3_few_shot_scaling",
+      "category": "mixed_multihop",
+      "query": "How does few-shot prompt performance scale as model capacity increases from 125 million to 175 billion parameters in GPT-3?",
+      "generated_answer": "orders of magnitude from 125\nmillion parameters to 175 billion parameters, with the last being the model we call GPT-3. Previous work [KMH+20]\nsuggests that with enough training data, scaling of validation loss should be approximately a smooth power law as a\nfunction of size; training models of many different sizes allows us to test this hypothesis both for validation loss and for\ndownstream language tasks.",
+      "ground_truth_answer": "Few-shot performance improves steeply with model parameter scale, with larger models demonstrating dramatic gains on reasoning, translation, and synthetic tasks.",
+      "faithfulness": 1.0,
+      "relevance": 0.57,
+      "correctness": 0.32,
+      "faithfulness_reason": "Grounding ratio: 39/39 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (8/14 matched).",
+      "correctness_reason": "Ground truth token coverage: 5/19 keywords matched.",
+      "latency_seconds": 10.581,
+      "retrieved_chunk_ids": [
+        "chunk_1625_96b85bb8",
+        "chunk_1801_f194cca1",
+        "chunk_1605_b84b8068",
+        "chunk_1624_2dc75d91"
+      ]
+    },
+    {
+      "id": "mixed_021_llama2_gqa_benefit",
+      "category": "mixed_multihop",
+      "query": "Why did Llama 2 adopt Grouped-Query Attention GQA specifically for its largest 70B parameter variant?",
+      "generated_answer": "We also\nincreased the size of the pretraining corpus by 40%, doubled the context length of the model, and\nadopted grouped-query attention (Ainslie et al., 2023). Llama 2-Chat, a fine-tuned version ofLlama 2 that is optimized for dialogue use cases.",
+      "ground_truth_answer": "GQA drastically reduces the memory bandwidth requirement of the KV cache during multi-token generation, enabling longer context handling and larger batch sizes.",
+      "faithfulness": 1.0,
+      "relevance": 0.42,
+      "correctness": 0.18,
+      "faithfulness_reason": "Grounding ratio: 25/25 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (5/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 3/20 keywords matched.",
+      "latency_seconds": 26.945,
+      "retrieved_chunk_ids": [
+        "chunk_2404_0db3f419",
+        "chunk_2776_b65d1cdd",
+        "chunk_2411_cc3eb686",
+        "chunk_2481_0ff00468"
+      ]
+    },
+    {
+      "id": "mixed_010_hyde_dense_encoder",
+      "category": "mixed_multihop",
+      "query": "Which unsupervised dense retriever model does HyDE pair with generative LLM prompts to perform zero-shot search?",
+      "generated_answer": "No model is trained\nin HyDE: both the generative model and the con-\ntrastive encoder remain intact. In our experiments, we showHyDE using Instruct-\nGPT (Ouyang et al., 2022) and Contriever (Izacard\net al., 2021) as backbone models signi\ufb01cantly out-\nperforms the previous state-of-the-art Contriever-\nonly zero-shot no-relevance system on 11 queries\nsets, covering tasks like Web Search, Question\nAnswering, Fact Veri\ufb01cation and languages like\nSwahili, Korean, Japanese.",
+      "ground_truth_answer": "HyDE utilizes Contriever (an unsupervised contrastive dense encoder) to embed generated hypothetical documents without requiring relevance fine-tuning.",
+      "faithfulness": 1.0,
+      "relevance": 0.54,
+      "correctness": 0.3,
+      "faithfulness_reason": "Grounding ratio: 43/43 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (7/13 matched).",
+      "correctness_reason": "Ground truth token coverage: 4/16 keywords matched.",
+      "latency_seconds": 14.862,
+      "retrieved_chunk_ids": [
+        "chunk_2067_b0d1801e",
+        "chunk_2059_17d16922",
+        "chunk_2066_99cde608",
+        "chunk_2074_588c2fc8"
+      ]
+    },
+    {
+      "id": "mixed_031_pkce_and_redis_cache",
+      "category": "mixed_multihop",
+      "query": "How does the Retrieva architecture handle repeated requests for technical protocols like OAuth 2.0 PKCE?",
+      "generated_answer": "OAuth 2.0 RFC 7636 Proof Key for Code Exchange (PKCE) prevents authorization code interception attacks on public clients using code_verifier and code_challenge. CVE-2024-3094 is a critical supply-chain backdoor discovered in upstream tarballs of xz-utils (specifically liblzma versions 5.6.0 and 5.6.1) that intercepts sshd authentication.",
+      "ground_truth_answer": "Repeated queries are normalized and looked up in the Redis TTL response cache, bypassing the LLM and returning cached citations in under 3ms.",
+      "faithfulness": 1.0,
+      "relevance": 0.4,
+      "correctness": 0.07,
+      "faithfulness_reason": "Grounding ratio: 32/32 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (2/10 matched).",
+      "correctness_reason": "Ground truth token coverage: 1/18 keywords matched.",
+      "latency_seconds": 19.5,
+      "retrieved_chunk_ids": [
+        "chunk_4097_23ebbace",
+        "chunk_4102_289d393e",
+        "chunk_3011_47c7e797",
+        "chunk_2716_d2c4aba1"
+      ]
+    },
+    {
+      "id": "mixed_033_bm25_dense_fusion_alpha",
+      "category": "mixed_multihop",
+      "query": "How does varying the hybrid search parameter alpha between 0.0 and 1.0 balance lexical recall versus semantic generalization?",
+      "generated_answer": "The hybrid alpha parameter weights the fusion between sparse BM25 (alpha 0.0) and dense vector search (alpha 1.0) with 0.5 as balanced default. ieva combines dense semantic vectors with BM25 lexical retrieval using a tunable alpha parameter to maximize recall.",
+      "ground_truth_answer": "Alpha=0.0 corresponds to pure BM25 lexical search, alpha=1.0 gives pure semantic dense search, and alpha=0.3 provides empirical optimal balance on technical workloads.",
+      "faithfulness": 1.0,
+      "relevance": 0.75,
+      "correctness": 0.53,
+      "faithfulness_reason": "Grounding ratio: 24/24 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (9/12 matched).",
+      "correctness_reason": "Ground truth token coverage: 7/16 keywords matched.",
+      "latency_seconds": 21.273,
+      "retrieved_chunk_ids": [
+        "chunk_4100_495af33a",
+        "chunk_2896_80d7ad06",
+        "chunk_1112_4cede112",
+        "chunk_4099_3c532947"
+      ]
+    },
+    {
+      "id": "mixed_013_graphrag_entities_relations",
+      "category": "mixed_multihop",
+      "query": "What two core graph elements does GraphRAG extract from text chunks using LLM prompts before building community summaries?",
+      "generated_answer": "Source Documents\nText Chunks\ntext extraction\nand chunking\nEntities & Relationships\ndomain-tailored\nsummarization\nKnowledge Graph\ndomain-tailored\nsummarization\nGraph Communities\ncommunity\ndetection\nCommunity Summaries\ndomain-tailored\nsummarization\nCommunity Answers\nquery-focused\nsummarization\nGlobal Answer\nquery-focused\nsummarization\nIndexing Time Query TimePipeline Stage\nFigure 1: Graph RAG pipeline using an LLM-derived graph index of source document text. Community detection (e.g., Leiden, Traag et al., 2019) is used to partition the graph index\ninto groups of elements (nodes, edges, covariates) that the LLM can summarize in parallel at both\nindexing time and query time.",
+      "ground_truth_answer": "GraphRAG extracts entities (nodes) and relationships/claims (edges) along with descriptions from text chunks.",
+      "faithfulness": 1.0,
+      "relevance": 0.67,
+      "correctness": 0.6,
+      "faithfulness_reason": "Grounding ratio: 47/47 substantive terms present in context.",
+      "relevance_reason": "Relevance score based on question topic alignment (10/15 matched).",
+      "correctness_reason": "Ground truth token coverage: 7/14 keywords matched.",
+      "latency_seconds": 12.511,
+      "retrieved_chunk_ids": [
+        "chunk_1950_2b8c7b9f",
+        "chunk_1934_10683882",
+        "chunk_1938_f8f3960b",
+        "chunk_1952_edc9003a"
+      ]
+    }
+  ]
+}

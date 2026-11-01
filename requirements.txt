@@ -6,8 +6,10 @@ langchain-community>=0.2.0
 langchain-huggingface>=0.0.1
 streamlit-lottie>=0.0.5
 
-# Hybrid Search & Retrieval
+# Hybrid Search & Reranking (Phases 1 & 2)
 rank-bm25>=0.2.2
+sentence-transformers>=2.6.0
+torch>=2.2.0
 
 # Document Processing
 pypdf>=4.0.0
@@ -22,6 +24,7 @@ redis>=5.0.0
 # Web Server
 fastapi>=0.110.0
 uvicorn>=0.30.0
+python-multipart>=0.0.9
 
 # Monitoring & MLOps Observability
 prometheus-client>=0.20.0

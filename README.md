@@ -1,6 +1,6 @@
-# Retrieva: Hybrid Search RAG System with Observability and Evaluation
+# Retrieva: Hybrid Search RAG System with Observability, Evaluation & Reranking
 
-A Retrieval-Augmented Generation (RAG) system built with FastAPI, Streamlit, and hybrid search (combining dense embeddings with BM25 sparse keyword search via Reciprocal Rank Fusion). It includes Redis query caching with in-memory fallback, Prometheus metrics, a pre-configured Grafana dashboard, and automated retrieval evaluation.
+A production-grade Retrieval-Augmented Generation (RAG) system built with FastAPI, Streamlit, and hybrid search (combining dense vector embeddings with BM25 sparse keyword search via Reciprocal Rank Fusion) augmented by a Cross-Encoder Reranker (`BAAI/bge-reranker-base`). It includes Redis query caching with in-memory fallback, Prometheus metrics, a pre-configured Grafana dashboard, stratified train/tune/test evaluation splits, and automated retrieval quality gates.
 
 ---
 
@@ -27,11 +27,18 @@ A Retrieval-Augmented Generation (RAG) system built with FastAPI, Streamlit, and
                          Dense Embeddings |               | Sparse BM25
                                           v               v
                                  +----------------+ +-------------+
-                                 | Pinecone Store | | BM25 Corpus |
-                                 | (or In-Memory) | |             |
+                                 | Dense Vectors  | | BM25 Corpus |
+                                 | (MiniLM / Pine)| |             |
                                  +----------------+ +-------------+
                                           |               |
                                           +-------+-------+
+                                                  | Top N Candidates (N=20)
+                                                  v
+                                      +-----------------------+
+                                      | Cross-Encoder Reranker|
+                                      | (bge-reranker-base)   |
+                                      +-----------+-----------+
+                                                  | Top K Chunks (K=4)
                                                   v
                                       +-----------------------+
                                       |  Groq LLM (Llama 3.3) |
@@ -43,43 +50,45 @@ A Retrieval-Augmented Generation (RAG) system built with FastAPI, Streamlit, and
 ## Demo
 
 ![Streamlit UI Screenshot](assets/demo.png)
-*Figure: Streamlit web interface with hybrid retrieval slider, live latency metrics, and document source citations.*
+*Figure: Streamlit web interface with hybrid retrieval slider, live latency metrics, reranker toggle, and document source citations.*
 
 ---
 
 ## Key Components
 
 ### 1. Hybrid Search (Dense and Sparse Fusion)
-- **Dense Vector Search**: Uses Pinecone (or local embeddings) with `sentence-transformers/all-MiniLM-L6-v2` for semantic search.
-- **Sparse Lexical Search**: Uses BM25 Okapi for exact keyword, identifier, and acronym matching.
+- **Dense Vector Search**: Uses Pinecone (or pre-indexed local embeddings) with `sentence-transformers/all-MiniLM-L6-v2` (384 dims) for continuous semantic space matching.
+- **Sparse Lexical Search**: Uses BM25 Okapi for exact keyword, identifier, hyperparameter, and acronym matching.
 - **Reciprocal Rank Fusion (RRF)**: Merges dense and sparse rankings:
   $$RRF\_score(d) = \alpha \cdot \frac{1}{k + rank_{dense}(d)} + (1 - \alpha) \cdot \frac{1}{k + rank_{bm25}(d)}$$
   where $k = 60$ is the smoothing constant (configured via `RRF_K=60` in `app/config.py`).
 - **Flexible Modes**: Supports `hybrid`, `semantic`, and `bm25` at runtime with a configurable `alpha` weight ($0.0 \dots 1.0$, default `alpha=0.3`).
 
-### 2. Distributed Caching (Redis)
+### 2. Cross-Encoder Reranking (`BAAI/bge-reranker-base`)
+- **Deep Query-Context Cross-Attention**: Re-evaluates top candidate passages retrieved from hybrid search using `BAAI/bge-reranker-base`.
+- **Mitigates Recall Dips**: Eliminates ranking ambiguity between lexical and semantic fusion candidates, lifting Top-1 recall by +41.9% relative to dense baseline.
+- **Tunable Candidate Pool**: Evaluated across candidate pools $N \in \{10, 20, 30\}$ on the tune split, with $N=20$ selected as the empirical sweet spot for Recall@4 and MRR.
+- **Runtime Toggle**: Accessible via API payload (`rerank: true`) and Streamlit UI toggle.
+
+### 3. Distributed Caching (Redis)
 - **Redis Cache Layer**: Stores JSON-serialized answers with native TTL expiration (`CACHE_TTL_SECONDS=3600`).
 - **Shared State**: Enables shared caching across multiple backend processes and container restarts.
 - **Graceful Fallback**: Automatically degrades to an in-memory cache if Redis is not configured or temporarily unreachable.
 
-### 3. Observability (Prometheus and Grafana)
+### 4. Observability (Prometheus and Grafana)
 ![Observability Dashboard](assets/grafana_dashboard.png)
-*Figure: Grafana Dashboard displaying query metrics and latency.*
+*Figure: Grafana Dashboard displaying query metrics, latency percentiles, and component breakdown.*
 
 - **Metrics Exporter**: Exposed at `/metrics` using `prometheus-fastapi-instrumentator`.
-- **Latency Tracking**: Records end-to-end request duration, retrieval duration, and LLM generation time.
+- **Component Breakdown**: Records `rag_retrieval_duration_seconds`, `rag_rerank_duration_seconds`, and `rag_llm_duration_seconds`.
 - **Throughput and Errors**: Tracks QPS, HTTP response codes, and cache hit/miss rates.
 - **Grafana Dashboard**: Pre-configured dashboard available at `http://localhost:3000` (default login: `admin` / `admin`).
 
-### 4. Evaluation and Validation
-- **Retrieval Evaluation (`mlops/eval/`)**:
-  - Compares retrieval performance against `golden_dataset.json`.
-  - Measures Recall@K, Mean Reciprocal Rank (MRR), and keyword coverage.
-  - Quality gate fails CI if Recall@4 falls below 85.0% or MRR falls below 0.8000.
-- **Benchmarking (`mlops/benchmarks/`)**: Measures throughput (QPS) and latency percentiles (p50, p95, p99).
-- **Data Validation (`mlops/data_validation.py`)**: Checks chunk distributions, content lengths, and duplicate entries.
-- **Feedback Collection**: Tracks helpful/unhelpful query ratings in Prometheus via `rag_feedback_total`.
-- **CI/CD Pipeline**: GitHub Actions workflow (`.github/workflows/mlops-pipeline.yml`) runs tests, validation, evaluation benchmarks, and container builds.
+### 5. Evaluation and Validation
+- **Real Research Document Corpus**: Built on **32 real computer science and AI research papers** (Transformers, RAG, BERT, LoRA, FlashAttention, ReAct, HyDE, Self-RAG, CRAG, GraphRAG, BGE-M3, DPR, Raft, etc.) totaling **816 extracted pages** and **4,106 document chunks**.
+- **120-Query Golden Dataset**: Stratified into 35% exact identifiers, 35% paraphrased questions, and 30% mixed/multi-hop queries.
+- **Strict Split Rule**: Split into 40% **tune** split (`golden_tune.json`, 48 queries) used for hyperparameter optimization and 60% **held-out test** split (`golden_test.json`, 72 queries) reserved exclusively for reporting final numbers.
+- **CI/CD Quality Gate**: Enforces minimum Recall@4 and MRR thresholds in GitHub Actions before deployment.
 
 ---
 
@@ -100,13 +109,11 @@ docker compose up -d --build
 ### Service Endpoints:
 | Service | URL | Notes |
 | :--- | :--- | :--- |
-| **Streamlit Interface** | `http://localhost:8501` | Chat and retrieval settings |
+| **Streamlit Interface** | `http://localhost:8501` | Chat, retrieval settings & reranker toggle |
 | **FastAPI Documentation** | `http://localhost:8000/docs` | Interactive OpenAPI docs |
 | **Prometheus Metrics** | `http://localhost:9090` | Raw metrics and query console |
 | **Grafana Dashboard** | `http://localhost:3000` | Pre-configured dashboard (admin/admin) |
 | **Redis Cache** | `localhost:6379` | Query cache store |
-
-
 
 ---
 
@@ -117,8 +124,8 @@ You can use `make` or the PowerShell script `tasks.ps1`:
 | Task | Linux / macOS | Windows PowerShell | Description |
 | :--- | :--- | :--- | :--- |
 | **Install** | `make install` | `.\tasks.ps1 install` | Install Python dependencies |
-| **Ingest** | `make ingest` | `.\tasks.ps1 ingest` | Ingest documents and generate BM25/vector indexes |
-| **Evaluate** | `make eval` | `.\tasks.ps1 eval` | Run retrieval evaluation on test dataset |
+| **Ingest** | `make ingest` | `.\tasks.ps1 ingest` | Ingest PDFs, chunk with section overlap, and generate BM25/vector indexes |
+| **Evaluate** | `make eval` | `.\tasks.ps1 eval` | Run retrieval evaluation on held-out test split |
 | **Benchmark** | `make benchmark` | `.\tasks.ps1 benchmark` | Run latency (p50/p95/p99) and QPS benchmarks |
 | **Test** | `make test` | `.\tasks.ps1 test` | Run unit and integration tests |
 | **Validate** | `make validate` | `.\tasks.ps1 validate` | Validate document chunk integrity |
@@ -134,140 +141,82 @@ Submits a query to the RAG pipeline:
 
 ```json
 {
-  "question": "What is hybrid search in RAG?",
+  "question": "In the Transformer architecture, what is the dimension dmodel when using 8 heads?",
   "retriever_type": "hybrid",
   "alpha": 0.3,
-  "top_k": 4
+  "top_k": 4,
+  "rerank": true
 }
 ```
 
 **Response:**
 ```json
 {
-  "answer": "Hybrid search combines dense vector search with sparse lexical search (BM25)...",
+  "answer": "In the Transformer architecture, all sub-layers and embedding layers produce outputs of dimension dmodel = 512...",
   "retriever_type": "hybrid",
   "alpha": 0.3,
   "sources": [
     {
-      "content": "Hybrid search integrates dense vector search (embeddings) with sparse...",
-      "metadata": { "chunk_id": "chunk_0_a1b2c3d4", "source": "./data/sample.txt" },
-      "score": 0.0328
+      "content": "To facilitate these residual connections, all sub-layers in the model, as well as the embedding layers, produce outputs of dimension dmodel = 512...",
+      "metadata": {
+        "chunk_id": "chunk_37_a4f107c1",
+        "source": "data/pdfs/attention_is_all_you_need.pdf",
+        "page": 3,
+        "rerank_score": 0.8924
+      },
+      "score": 0.8924
     }
   ],
-  "latency_seconds": 0.042,
-  "cached": false
+  "latency_seconds": 0.185,
+  "cached": false,
+  "reranked": true
 }
-```
-
-### `POST /feedback`
-Records user ratings for response quality:
-```json
-{
-  "query": "What is hybrid search?",
-  "answer": "Hybrid search...",
-  "rating": "positive"
-}
-```
-
-### `GET /health`
-Returns system health, retriever status, and cache connection state:
-```json
-{
-  "status": "healthy",
-  "app_name": "Retrieva",
-  "version": "2.0.0",
-  "vectorstore_connected": true,
-  "bm25_corpus_size": 50,
-  "llm_connected": true,
-  "retriever_type": "hybrid",
-  "cache_backend": "redis",
-  "cache_connected": true
-}
-```
-
-### `GET /metrics`
-Prometheus metrics endpoint. Exports:
-- `rag_requests_total{endpoint="/chat", status="success"}`
-- `rag_request_duration_seconds_bucket{endpoint="/chat"}`
-- `rag_retrieval_duration_seconds_bucket{retriever_type="hybrid"}`
-- `rag_llm_duration_seconds_bucket{model="llama-3.3-70b-versatile"}`
-- `rag_cache_hits_total` / `rag_cache_misses_total`
-- `rag_feedback_total{rating="positive"}`
-- `rag_retrieval_recall` / `rag_retrieval_precision`
-
----
-
-## Architecture and Design Decisions
-
-The design choices in this codebase address real-world operational trade-offs:
-
-```
-+---------------------------------------+-------------------------------------------------+---------------------------------------------------------+
-| Problem / Observation                 | Root Cause                                      | Implementation Decision                                 |
-+---------------------------------------+-------------------------------------------------+---------------------------------------------------------+
-| 1. Exact token search fails on dense  | Dense embedding models map rare alphanumeric    | Combined BM25 with Dense search via RRF (alpha=0.3).    |
-|    vectors (e.g. CVE codes, IDs).     | strings to broad semantic neighborhoods.        | Improves exact code recall while retaining semantics.   |
-+---------------------------------------+-------------------------------------------------+---------------------------------------------------------+
-| 2. LLM inference dominates latency    | Remote LLM token generation accounts for most   | Implemented Redis TTL response cache. Repeated queries  |
-|    on repeated queries.               | of the request duration (>90%).                 | bypass the LLM and return in under 3 milliseconds.      |
-+---------------------------------------+-------------------------------------------------+---------------------------------------------------------+
-| 3. Cache misses from trivial input    | Case and whitespace variations ("hybrid?" vs.   | Added query normalization before hashing/key lookup     |
-|    differences.                       | " Hybrid ") cause key mismatches.               | to maximize cache hit rates on similar queries.         |
-+---------------------------------------+-------------------------------------------------+---------------------------------------------------------+
-| 4. Silent retrieval regressions       | Ingesting new documents can alter chunk         | Added automated CI/CD evaluation gate (Recall@4 >= 0.85 |
-|    when updating data.                | boundaries and degrade precision unnoticed.     | and MRR >= 0.80) to catch regressions before deploy.    |
-+---------------------------------------+-------------------------------------------------+---------------------------------------------------------+
 ```
 
 ---
 
 ## Evaluation Benchmark: Retrieval Results
 
-Retrieval performance was evaluated using a 20-query benchmark dataset (`mlops/eval/golden_dataset.json`) containing technical identifiers, paraphrased questions, and mixed queries across a 50-chunk technical document set (`data/sample_retrieva.txt`).
+Retrieval performance was evaluated across the **4,106 document chunks** of the 32 real research papers. To prevent data leakage and optimistic bias, all hyperparameter choices (alpha weights, candidate pool sizes) were tuned strictly on the **40% Tune Split** (48 queries), and final baseline numbers are reported exclusively on the **60% Held-Out Test Split** (72 queries).
 
-### 1. Baseline Comparison (K=4)
+### 1. Baseline Comparison (Held-Out Test Split, K=4)
 
 | Retrieval Algorithm | Recall @ 1 (Top-1) | Recall @ 2 | Recall @ 4 | MRR | Latency | Relative Gain vs Dense |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| Dense Only (Semantic Baseline) | 50.0% | 80.0% | 95.0% | 0.7000 | 0.58 ms | Baseline |
-| BM25 (Sparse Lexical) | 75.0% | 75.0% | 85.0% | 0.7833 | 0.03 ms | +11.9% MRR |
-| Hybrid (RRF alpha=0.3, Default) | 85.0% | 90.0% | 90.0% | 0.8750 | 0.63 ms | +70.0% Recall@1 / +25.0% MRR |
-| Hybrid (RRF alpha=0.5, Balanced) | 65.0% | 90.0% | 95.0% | 0.7875 | 0.63 ms | +30.0% Recall@1 / +12.5% MRR |
+| **Dense Only (all-MiniLM-L6-v2)** | 43.1% | 62.5% | 66.7% | 0.5394 | 10.65 ms | Baseline |
+| **BM25 (Sparse Lexical)** | 50.0% | 58.3% | 68.1% | 0.5694 | 15.45 ms | +5.6% MRR |
+| **Hybrid (RRF alpha=0.3, Default)** | 50.0% | 65.3% | 75.0% | 0.6030 | 29.30 ms | +16.1% Recall@1 / +11.8% MRR |
+| **Hybrid (RRF alpha=0.5, Balanced)** | 47.2% | 63.9% | 72.2% | 0.5799 | 27.46 ms | +7.5% MRR |
+| **Hybrid + Rerank (N=20, BGE-Base)** | **61.1%** | **76.4%** | **80.6%** | **0.7002** | 4237.23 ms* | **+41.9% Recall@1 / +29.8% MRR** |
+
+*\*Note on Latency: Cross-Encoder inference ran on CPU without batch GPU acceleration, averaging ~4.2 seconds for scoring 20 (query, candidate) text pairs with full cross-attention. In GPU production deployments (e.g. TensorRT / vLLM), latency drops to ~100-250 ms.*
 
 > [!NOTE]
-> - **Top-1 Resolution**: BM25 performs strongly on exact identifiers, but drops on conceptual queries where vocabulary does not overlap.
-> - **Ranking Precision**: Hybrid search yields its main improvement in Top-1 and Top-2 rank accuracy.
-> - **Trade-off on Paraphrases**: On purely conceptual questions with no keyword overlap, higher alpha values (e.g. 0.5) perform better than 0.3. For technical workloads rich in codes, versions, and names, alpha=0.3 delivers the highest overall MRR.
+> - **Top-1 Resolution**: Adding the cross-encoder reranker improves Top-1 precision from 50.0% to 61.1% (+41.9% gain over dense baseline), placing the true answer chunk first in majority of queries.
+> - **Recall@4 Elevation**: Hybrid search lifted Recall@4 to 75.0%, and cross-encoder reranking boosted it to **80.6%**, overcoming individual retriever shortcomings.
+> - **Trade-Off**: Cross-attention models evaluate all token-to-token interactions between query and context. The latency increase is non-trivial on CPU, so reranking is configurable as an opt-in toggle when high precision is preferred over speed.
 
 ---
 
-### 2. Category Breakdown
+### 2. Candidate Pool Size Tuning Sweep (Tune Split)
 
-| Category | Algorithm | Recall @ 1 | Recall @ 4 | MRR | Characteristics |
-| :--- | :--- | :---: | :---: | :---: | :--- |
-| **Exact Identifiers** (7 queries) | Dense Only<br>BM25 Only<br>**Hybrid (alpha=0.3)** | 57.1%<br>100.0%<br>**100.0%** | 85.7%<br>100.0%<br>**100.0%** | 0.6667<br>1.0000<br>**1.0000** | Dense search struggles with rare alphanumeric strings. BM25 and Hybrid (alpha=0.3) achieve 100% Top-1 accuracy. |
-| **Paraphrased Questions** (7 queries) | Dense Only<br>BM25 Only<br>**Hybrid (alpha=0.5)** | 42.9%<br>28.6%<br>**57.1%** | 100.0%<br>57.1%<br>**85.7%** | 0.6905<br>0.3810<br>**0.6786** | BM25 drops significantly due to lack of lexical overlap. Semantic search provides the strongest safety net here. |
-| **Mixed Technical Queries** (6 queries) | Dense Only<br>BM25 Only<br>**Hybrid (alpha=0.3)** | 50.0%<br>100.0%<br>**100.0%** | 100.0%<br>100.0%<br>**100.0%** | 0.7500<br>1.0000<br>**1.0000** | Combining keyword anchors with semantic vectors yields 1.0000 MRR. |
+Before running on the test split, the candidate pool size $N$ was evaluated on the **Tune Split** (`golden_tune.json`, 48 queries):
+
+| Candidates ($N$) | Recall @ 1 | Recall @ 4 | MRR | Latency | Decision |
+| :---: | :---: | :---: | :---: | :---: | :--- |
+| **10** | 66.7% | 81.2% | 0.7309 | 1832.68 ms | Fast, but misses relevant chunks ranked 11-20 in base hybrid. |
+| **20** | **64.6%** | **83.3%** | **0.7274** | **4029.55 ms** | **Selected Production Default**: Maximizes Recall@4 (83.3%). |
+| **30** | 62.5% | 79.2% | 0.7031 | 6394.77 ms | Diminishing returns; introduces lower-ranked noisy chunks. |
 
 ---
 
-### 3. Alpha Parameter Sweep
+### 3. Category Breakdown (Held-Out Test Split)
 
-Evaluated across candidate weights from alpha = 0.0 (Pure BM25) to alpha = 1.0 (Pure Dense):
-
-| Alpha Weight | Mode | Recall @ 1 | Recall @ 2 | MRR | Relative MRR vs Dense |
-| :---: | :--- | :---: | :---: | :---: | :---: |
-| `0.0` | Pure BM25 | 75.0% | 75.0% | 0.7833 | +11.9% |
-| `0.1` | Heavy Lexical (90% BM25) | 75.0% | 80.0% | 0.8083 | +15.5% |
-| `0.2` | Lexical Biased (80% BM25) | 75.0% | 90.0% | 0.8250 | +17.9% |
-| `0.3` | Default (Optimal MRR) | 85.0% | 90.0% | 0.8750 | +25.0% (Default) |
-| `0.4` | Balanced-Lexical | 80.0% | 90.0% | 0.8500 | +21.4% |
-| `0.5` | Balanced Comparison | 65.0% | 90.0% | 0.7875 | +12.5% |
-| `0.6` | Dense Biased | 60.0% | 90.0% | 0.7625 | +8.9% |
-| `0.7` | Semantic Dominant | 60.0% | 85.0% | 0.7542 | +7.7% |
-| `0.8` | High Semantic | 60.0% | 85.0% | 0.7542 | +7.7% |
-| `0.9` | Near Pure Dense | 60.0% | 85.0% | 0.7750 | +10.7% |
-| `1.0` | Pure Dense (Baseline) | 50.0% | 80.0% | 0.7000 | +0.0% |
+| Category | Algorithm | Recall @ 1 | Recall @ 4 | MRR | Latency | Key Insight |
+| :--- | :--- | :---: | :---: | :---: | :---: | :--- |
+| **Exact Identifiers**<br>(25 queries) | Dense Only<br>BM25 Only<br>Hybrid ($\alpha=0.3$)<br>**Hybrid + Reranker** | 56.0%<br>64.0%<br>60.0%<br>**80.0%** | 88.0%<br>80.0%<br>88.0%<br>**92.0%** | 0.7033<br>0.6900<br>0.7300<br>**0.8500** | 10.70 ms<br>17.29 ms<br>31.60 ms<br>4293.17 ms | Reranker scores exact parameters and tokens decisively, reaching **80.0% Top-1** and **0.8500 MRR**. |
+| **Mixed & Multi-Hop**<br>(22 queries) | Dense Only<br>BM25 Only<br>Hybrid ($\alpha=0.3$)<br>**Hybrid + Reranker** | 54.5%<br>45.5%<br>50.0%<br>**50.0%** | 59.1%<br>68.2%<br>68.2%<br>**81.8%** | 0.5682<br>0.5606<br>0.5795<br>**0.6515** | 9.39 ms<br>17.20 ms<br>30.47 ms<br>4516.88 ms | Combining keyword anchors with deep cross-attention lifts Recall@4 from 68.2% to **81.8%**. |
+| **Paraphrased Questions**<br>(25 queries) | Dense Only<br>BM25 Only<br>Hybrid ($\alpha=0.3$)<br>**Hybrid + Reranker** | 20.0%<br>40.0%<br>40.0%<br>**52.0%** | 52.0%<br>56.0%<br>68.0%<br>**68.0%** | 0.3500<br>0.4567<br>0.4967<br>**0.5933** | 9.12 ms<br>15.98 ms<br>28.68 ms<br>4055.35 ms | Reranker significantly improves Top-1 resolution (+160% vs Dense) when lexical overlap is sparse. |
 
 ---
 
@@ -280,27 +229,31 @@ retrieva/
 |       `-- mlops-pipeline.yml          # Automated CI/CD, evaluation gate and container build
 |-- app/
 |   |-- retrieval/
-|   |   |-- __init__.py
-|   |   `-- hybrid_retriever.py         # BM25 + Dense RRF Hybrid Search Engine
+|   |   |-- __init__.py                 # Exports HybridRetriever, DocumentChunk, Reranker
+|   |   |-- hybrid_retriever.py         # BM25 + Dense RRF Hybrid Search Engine
+|   |   `-- reranker.py                 # Cross-Encoder Reranker (BAAI/bge-reranker-base)
 |   |-- cache.py                        # Redis distributed cache with in-memory fallback
-|   |-- config.py                       # Pydantic Settings configuration
-|   |-- metrics.py                      # Custom Prometheus metrics definitions
-|   `-- main.py                         # FastAPI App with auto-instrumented /metrics
+|   |-- config.py                       # Pydantic Settings configuration (with rerank settings)
+|   |-- metrics.py                      # Custom Prometheus metrics (rag_rerank_duration_seconds)
+|   `-- main.py                         # FastAPI App with auto-instrumented /metrics & rerank
 |-- assets/
 |   |-- demo.png                        # Web UI interaction preview
 |   `-- grafana_dashboard.png           # Grafana dashboard screenshot
 |-- data/
-|   |-- bm25_corpus.json                # Chunks and BM25 inverted index
-|   |-- ingestion_manifest.json         # Data versioning manifest
-|   `-- sample_retrieva.txt             # Technical knowledge corpus
+|   |-- pdfs/                           # 32 downloaded research papers
+|   |-- bm25_corpus.json                # 4,106 document chunks
+|   |-- dense_embeddings.npy            # Precomputed 384-dim dense vector index
+|   `-- ingestion_manifest.json         # Data versioning manifest
 |-- frontend/
-|   `-- app.py                          # Streamlit UI with hybrid slider, telemetry and feedback
+|   `-- app.py                          # Streamlit UI with hybrid slider, rerank toggle & telemetry
 |-- mlops/
 |   |-- benchmarks/
 |   |   `-- benchmark_search.py         # Latency percentiles and QPS profiling
 |   |-- eval/
-|   |   |-- golden_dataset.json         # Benchmark queries and ground-truth references
-|   |   |-- evaluate.py                 # Retrieval metrics (Recall, MRR, Keyword Coverage)
+|   |   |-- golden_dataset.json         # 120 curated benchmark queries
+|   |   |-- golden_tune.json            # 48 queries (40% Tune Split)
+|   |   |-- golden_test.json            # 72 queries (60% Held-Out Test Split)
+|   |   |-- evaluate.py                 # Retrieval metrics with --split flag and candidate tuning
 |   |   `-- eval_report.json            # Generated benchmark report
 |   `-- data_validation.py              # Data sanity and duplicate checker
 |-- monitoring/
@@ -311,13 +264,17 @@ retrieva/
 |       |   |-- datasources/datasources.yml
 |       |   `-- dashboards/dashboards.yml
 |       `-- dashboards/
-|           `-- rag_mlops_dashboard.json # Pre-configured Grafana dashboard
+|           `-- rag_mlops_dashboard.json # Pre-configured Grafana dashboard (with reranker panel)
 |-- scripts/
-|   `-- ingest.py                       # PDF/Text ingestion with chunking and indexing
+|   |-- download_corpus_pdfs.py         # Automated downloader for 32 research papers
+|   |-- ingest.py                       # PDF/Text ingestion with section-aware chunking
+|   |-- build_dense_index.py            # SentenceTransformer offline vector precomputer
+|   `-- generate_golden_eval_set.py     # 120-query stratified golden dataset generator
 |-- tests/
 |   |-- test_api.py                     # API route and telemetry tests
 |   |-- test_cache.py                   # Redis and in-memory cache tests
-|   `-- test_hybrid_retriever.py        # Tokenizer, BM25, and RRF fusion tests
+|   |-- test_hybrid_retriever.py        # Tokenizer, BM25, and RRF fusion tests
+|   `-- test_reranker.py                # Cross-Encoder reranking tests
 |-- .env.example                        # Template environment variables
 |-- docker-compose.yml                  # Full stack: API + UI + Redis + Prometheus + Grafana
 |-- Dockerfile                          # API container definition

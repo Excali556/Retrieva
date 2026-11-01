@@ -174,13 +174,18 @@
       "id": 6,
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
       "type": "timeseries",
-      "title": "Component Latency: Retrieval vs LLM Generation",
+      "title": "Component Latency: Retrieval vs LLM vs Reranker",
       "datasource": "Prometheus",
       "targets": [
         {
           "expr": "rate(rag_retrieval_duration_seconds_sum[1m]) / rate(rag_retrieval_duration_seconds_count[1m])",
           "refId": "Retrieval",
           "legendFormat": "Hybrid Retrieval Latency"
+        },
+        {
+          "expr": "rate(rag_rerank_duration_seconds_sum[1m]) / rate(rag_rerank_duration_seconds_count[1m])",
+          "refId": "Reranker",
+          "legendFormat": "Cross-Encoder Reranking Latency"
         },
         {
           "expr": "rate(rag_llm_duration_seconds_sum[1m]) / rate(rag_llm_duration_seconds_count[1m])",
@@ -250,11 +255,39 @@
           }
         }
       }
+    },
+    {
+      "id": 9,
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 22 },
+      "type": "timeseries",
+      "title": "Cross-Encoder Reranker Latency Percentiles (Phase 2)",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(rag_rerank_duration_seconds_bucket[1m])) by (le))",
+          "refId": "P50",
+          "legendFormat": "p50 (Median)"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(rag_rerank_duration_seconds_bucket[1m])) by (le))",
+          "refId": "P95",
+          "legendFormat": "p95"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth"
+          }
+        }
+      }
     }
   ],
   "refresh": "5s",
   "schemaVersion": 39,
-  "tags": ["rag", "mlops", "hybrid-search", "fastapi"],
+  "tags": ["rag", "mlops", "hybrid-search", "fastapi", "reranker"],
   "time": {
     "from": "now-30m",
     "to": "now"
@@ -265,5 +298,5 @@
   "timezone": "browser",
   "title": "Retrieva & MLOps Observability Dashboard",
   "uid": "rag-mlops-dashboard",
-  "version": 1
+  "version": 2
 }

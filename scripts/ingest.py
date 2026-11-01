@@ -2,6 +2,7 @@ import os
 import glob
 import json
 import hashlib
+import re
 import time
 from datetime import datetime
 
@@ -10,6 +11,12 @@ try:
     load_dotenv()
 except ImportError:
     pass
+
+try:
+    import pypdf
+    PYPDF_AVAILABLE = True
+except ImportError:
+    PYPDF_AVAILABLE = False
 
 try:
     from langchain_community.document_loaders import DirectoryLoader, PyPDFLoader, TextLoader
@@ -22,56 +29,151 @@ DATA_DIR = os.getenv("DATA_DIR", "./data")
 CORPUS_PATH = os.path.join(DATA_DIR, "bm25_corpus.json")
 MANIFEST_PATH = os.path.join(DATA_DIR, "ingestion_manifest.json")
 
-def fallback_chunk_text(text: str, chunk_size: int = 1000, chunk_overlap: int = 150):
-    """Splits by distinct non-empty knowledge items or sliding window if LangChain is not installed."""
-    lines = [line.strip() for line in text.split("\n") if line.strip() and not line.strip().startswith("#")]
-    if len(lines) >= 3 and all(len(l) > 25 for l in lines):
-        return lines
+SECTION_HEADING_PATTERN = re.compile(
+    r"^(?:(?:[0-9]{1,2}(?:\.[0-9]{1,2})*\s+[A-Z][A-Za-z0-9\s\-]{2,50})|"
+    r"(?:Abstract|Introduction|Background|Methodology|Methods|Model\s+Architecture|"
+    r"Attention|Experiments|Results|Discussion|Related\s+Work|Conclusion|References))\s*$",
+    re.MULTILINE
+)
+
+def clean_text(text: str) -> str:
+    """Normalize whitespace and strip unprintable characters."""
+    text = re.sub(r"\r\n|\r", "\n", text)
+    text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", "", text)
+    # Collapse multiple consecutive empty lines
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+def split_text_with_overlap(text: str, chunk_size: int = 900, chunk_overlap: int = 120):
+    """
+    Splits text by paragraphs, merging them up to chunk_size with 10-15% overlap.
+    Falls back to sentence or sliding window boundary if a single paragraph is too large.
+    """
+    paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+    if not paragraphs:
+        paragraphs = [text.strip()] if text.strip() else []
+
     chunks = []
-    start = 0
-    while start < len(text):
-        end = min(start + chunk_size, len(text))
-        chunk = text[start:end].strip()
-        if chunk:
-            chunks.append(chunk)
-        if end == len(text):
-            break
-        start += (chunk_size - chunk_overlap)
+    current_chunk = []
+    current_length = 0
+
+    for para in paragraphs:
+        para_len = len(para)
+        if para_len > chunk_size:
+            # Sub-split long paragraph by sentences or window
+            sentences = re.split(r"(?<=[.!?])\s+", para)
+            for s in sentences:
+                s = s.strip()
+                if not s:
+                    continue
+                if current_length + len(s) + 1 > chunk_size and current_chunk:
+                    joined = " ".join(current_chunk)
+                    chunks.append(joined)
+                    # Overlap with end of current chunk
+                    overlap_chars = joined[-chunk_overlap:] if len(joined) > chunk_overlap else joined
+                    current_chunk = [overlap_chars, s]
+                    current_length = len(overlap_chars) + len(s) + 1
+                else:
+                    current_chunk.append(s)
+                    current_length += len(s) + 1
+        elif current_length + para_len + 2 > chunk_size and current_chunk:
+            joined = "\n\n".join(current_chunk)
+            chunks.append(joined)
+            overlap_chars = joined[-chunk_overlap:] if len(joined) > chunk_overlap else joined
+            current_chunk = [overlap_chars, para]
+            current_length = len(overlap_chars) + len(para) + 2
+        else:
+            current_chunk.append(para)
+            current_length += para_len + 2
+
+    if current_chunk:
+        joined = "\n\n".join(current_chunk)
+        if joined.strip():
+            chunks.append(joined.strip())
+
     return chunks
 
+def extract_section_title(text: str, default: str = "General") -> str:
+    match = SECTION_HEADING_PATTERN.search(text)
+    if match:
+        return match.group(0).strip()
+    return default
+
 def run_ingestion(data_dir: str = DATA_DIR):
-    print("=" * 60)
+    print("=" * 70)
     print(f"Starting Retrieva Ingestion Pipeline (Data Directory: {data_dir})")
-    print("=" * 60)
+    print("=" * 70)
 
     raw_docs = []
 
-    if LANGCHAIN_AVAILABLE:
-        # Load PDFs
-        try:
-            pdf_loader = DirectoryLoader(data_dir, glob="**/*.pdf", loader_cls=PyPDFLoader)
-            pdf_docs = pdf_loader.load()
-            raw_docs.extend([{"content": d.page_content, "meta": d.metadata} for d in pdf_docs])
-            print(f"Loaded {len(pdf_docs)} PDF document pages.")
-        except Exception as e:
-            print(f"Warning loading PDFs: {e}")
+    # 1. Native pypdf / PyPDFLoader PDF loading
+    pdf_files = glob.glob(os.path.join(data_dir, "**", "*.pdf"), recursive=True)
+    if pdf_files:
+        print(f"Found {len(pdf_files)} PDF file(s). Extracting pages...")
+        for filepath in sorted(pdf_files):
+            rel_path = os.path.relpath(filepath, start=os.path.dirname(data_dir)).replace("\\", "/")
+            fname = os.path.basename(filepath)
+            if PYPDF_AVAILABLE:
+                try:
+                    reader = pypdf.PdfReader(filepath)
+                    total_pages = len(reader.pages)
+                    doc_pages = 0
+                    for page_idx, page in enumerate(reader.pages, start=1):
+                        extracted = page.extract_text() or ""
+                        cleaned = clean_text(extracted)
+                        if len(cleaned) >= 50:
+                            raw_docs.append({
+                                "content": cleaned,
+                                "meta": {
+                                    "source": rel_path,
+                                    "filename": fname,
+                                    "page": page_idx,
+                                    "total_pages": total_pages
+                                }
+                            })
+                            doc_pages += 1
+                    print(f"  [PDF] {fname}: {doc_pages}/{total_pages} pages extracted")
+                except Exception as e:
+                    print(f"  [PDF] Warning: Failed to parse {fname}: {e}")
+            elif LANGCHAIN_AVAILABLE:
+                try:
+                    loader = PyPDFLoader(filepath)
+                    pages = loader.load()
+                    for p in pages:
+                        cleaned = clean_text(p.page_content)
+                        if len(cleaned) >= 50:
+                            raw_docs.append({
+                                "content": cleaned,
+                                "meta": {
+                                    **p.metadata,
+                                    "source": rel_path,
+                                    "filename": fname
+                                }
+                            })
+                except Exception as e:
+                    print(f"  [PDF] Warning loading {fname}: {e}")
 
-        # Load TXT files
+    # 2. Load TXT documents (e.g. sample_retrieva.txt or notes)
+    txt_files = glob.glob(os.path.join(data_dir, "**", "*.txt"), recursive=True)
+    for filepath in txt_files:
+        if os.path.basename(filepath) == "README.txt":
+            continue
+        rel_path = os.path.relpath(filepath, start=os.path.dirname(data_dir)).replace("\\", "/")
         try:
-            txt_loader = DirectoryLoader(data_dir, glob="**/*.txt", loader_cls=TextLoader)
-            txt_docs = [d for d in txt_loader.load() if not d.metadata.get("source", "").endswith("README.txt")]
-            raw_docs.extend([{"content": d.page_content, "meta": d.metadata} for d in txt_docs])
-            if txt_docs:
-                print(f"Loaded {len(txt_docs)} text documents.")
-        except Exception as e:
-            print(f"Warning loading text files: {e}")
-    else:
-        # Fallback raw loader
-        for filepath in glob.glob(os.path.join(data_dir, "**", "*.txt"), recursive=True):
-            if os.path.basename(filepath) == "README.txt":
-                continue
             with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
-                raw_docs.append({"content": f.read(), "meta": {"source": filepath}})
+                content = clean_text(f.read())
+            if content:
+                raw_docs.append({
+                    "content": content,
+                    "meta": {
+                        "source": rel_path,
+                        "filename": os.path.basename(filepath),
+                        "page": 1,
+                        "total_pages": 1
+                    }
+                })
+        except Exception as e:
+            print(f"  [TXT] Warning reading {filepath}: {e}")
 
     # If no documents, create sample document
     if not raw_docs:
@@ -88,47 +190,61 @@ def run_ingestion(data_dir: str = DATA_DIR):
         with open(sample_file, "w", encoding="utf-8") as f:
             f.write(sample_text)
         print(f"Created sample knowledge file: {sample_file}")
-        raw_docs.append({"content": sample_text, "meta": {"source": sample_file}})
+        raw_docs.append({
+            "content": sample_text,
+            "meta": {"source": "data/sample_retrieva.txt", "filename": "sample_retrieva.txt", "page": 1, "total_pages": 1}
+        })
 
-    # Chunk documents
+    print(f"\nProcessing {len(raw_docs)} document pages/sources for chunking...")
+
+    # 3. Heading & Section aware chunking with 10-15% overlap
     chunks = []
     chunk_lengths = []
+    global_idx = 0
+    current_section = "General"
 
-    if LANGCHAIN_AVAILABLE:
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
-        from langchain_core.documents import Document
-        lc_docs = [Document(page_content=d["content"], metadata=d["meta"]) for d in raw_docs]
-        split_docs = text_splitter.split_documents(lc_docs)
-        for idx, doc in enumerate(split_docs):
-            content = doc.page_content.strip()
-            if not content:
+    for doc in raw_docs:
+        text = doc["content"]
+        meta = doc["meta"]
+        
+        detected_section = extract_section_title(text, default=current_section)
+        current_section = detected_section
+
+        page_chunks = split_text_with_overlap(text, chunk_size=900, chunk_overlap=120)
+
+        for chunk_text in page_chunks:
+            chunk_text = chunk_text.strip()
+            if len(chunk_text) < 40:
                 continue
-            chunk_id = f"chunk_{idx}_{hashlib.md5(content.encode('utf-8')).hexdigest()[:8]}"
-            meta = {**doc.metadata, "chunk_id": chunk_id, "chunk_index": idx, "char_length": len(content)}
-            chunks.append({"page_content": content, "metadata": meta, "score": 0.0})
-            chunk_lengths.append(len(content))
-    else:
-        idx = 0
-        for doc in raw_docs:
-            for text_chunk in fallback_chunk_text(doc["content"]):
-                chunk_id = f"chunk_{idx}_{hashlib.md5(text_chunk.encode('utf-8')).hexdigest()[:8]}"
-                meta = {**doc["meta"], "chunk_id": chunk_id, "chunk_index": idx, "char_length": len(text_chunk)}
-                chunks.append({"page_content": text_chunk, "metadata": meta, "score": 0.0})
-                chunk_lengths.append(len(text_chunk))
-                idx += 1
 
-    print(f"Generated {len(chunks)} text chunks.")
+            chunk_id = f"chunk_{global_idx}_{hashlib.md5(chunk_text.encode('utf-8')).hexdigest()[:8]}"
+            chunk_meta = {
+                **meta,
+                "chunk_id": chunk_id,
+                "chunk_index": global_idx,
+                "section": current_section,
+                "char_length": len(chunk_text)
+            }
+            chunks.append({
+                "page_content": chunk_text,
+                "metadata": chunk_meta,
+                "score": 0.0
+            })
+            chunk_lengths.append(len(chunk_text))
+            global_idx += 1
+
+    print(f"\nGenerated {len(chunks)} text chunks from {len(pdf_files)} PDFs and {len(txt_files)} text files.")
     if chunk_lengths:
         avg_len = sum(chunk_lengths) / len(chunk_lengths)
         print(f"Chunk statistics: min={min(chunk_lengths)}, max={max(chunk_lengths)}, avg={avg_len:.1f} chars")
 
-    # Persist BM25 Corpus for Hybrid Search
+    # 4. Persist BM25 Corpus for Hybrid Search
     os.makedirs(data_dir, exist_ok=True)
     with open(CORPUS_PATH, "w", encoding="utf-8") as f:
         json.dump(chunks, f, indent=2)
     print(f"Saved {len(chunks)} chunks to BM25 corpus ({CORPUS_PATH})")
 
-    # Pinecone Vector Store Ingestion (if credentials provided)
+    # 5. Pinecone Vector Store Ingestion (if credentials provided)
     pinecone_api_key = os.getenv("PINECONE_API_KEY")
     index_name = os.getenv("PINECONE_INDEX_NAME", "retrieva")
     hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
@@ -168,20 +284,27 @@ def run_ingestion(data_dir: str = DATA_DIR):
     else:
         print("Note: PINECONE_API_KEY / HUGGINGFACEHUB_API_TOKEN not set or local mode. Saved to BM25 corpus.")
 
-    # Save Ingestion Manifest
+    # 6. Save Ingestion Manifest
     manifest = {
-        "version": "1.0",
+        "version": "2.0",
         "ingested_at": datetime.now(datetime.UTC).isoformat() if hasattr(datetime, "UTC") else datetime.utcnow().isoformat(),
+        "total_pdf_documents": len(pdf_files),
         "total_documents": len(raw_docs),
         "total_chunks": len(chunks),
         "corpus_file": CORPUS_PATH,
-        "pinecone_index": index_name
+        "pinecone_index": index_name,
+        "chunk_statistics": {
+            "min_chars": min(chunk_lengths) if chunk_lengths else 0,
+            "max_chars": max(chunk_lengths) if chunk_lengths else 0,
+            "avg_chars": round(sum(chunk_lengths) / len(chunk_lengths), 1) if chunk_lengths else 0
+        }
     }
     with open(MANIFEST_PATH, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
 
     print(f"Ingestion manifest written to {MANIFEST_PATH}")
     print("Ingestion complete.")
+    return len(chunks)
 
 if __name__ == "__main__":
     run_ingestion()

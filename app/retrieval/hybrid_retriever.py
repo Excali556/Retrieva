@@ -6,6 +6,18 @@ import time
 from typing import List, Dict, Any, Optional, Tuple
 
 try:
+    import numpy as np
+    NUMPY_AVAILABLE = True
+except ImportError:
+    NUMPY_AVAILABLE = False
+
+try:
+    from sentence_transformers import SentenceTransformer
+    SENTENCE_TRANSFORMERS_AVAILABLE = True
+except ImportError:
+    SENTENCE_TRANSFORMERS_AVAILABLE = False
+
+try:
     from rank_bm25 import BM25Okapi
 except ImportError:
     # Pure Python implementation of BM25Okapi fallback
@@ -31,7 +43,6 @@ except ImportError:
                     nd[word] = nd.get(word, 0) + 1
 
             for word, freq in nd.items():
-                # Standard Lucene/BM25 IDF formula
                 self.idf[word] = math.log((self.corpus_size - freq + 0.5) / (freq + 0.5) + 1)
 
         def get_scores(self, query: List[str]) -> List[float]:
@@ -59,36 +70,19 @@ def simple_tokenize(text: str) -> List[str]:
     return re.findall(r"\w+", text.lower())
 
 SEMANTIC_TOPIC_CLUSTERS = [
-    # Caching / memory
-    {"remember", "stored", "previous", "computed", "recalculating", "memory", "memoization", "caches", "cache", "ttl", "ram", "evict"},
-    # Ranking / fusion
-    {"unify", "combine", "blend", "order", "different", "rankings", "list", "candidate", "rrf", "fusion", "merges", "composite", "scores"},
-    # Visual / monitoring
-    {"visual", "graphs", "charts", "view", "operations", "telemetry", "percentiles", "rates", "grafana", "dashboard", "prometheus", "operator"},
-    # Faithfulness / evaluation
-    {"truthful", "fabricate", "hallucination", "hallucinations", "quality", "checks", "verify", "making", "up", "information", "faithfulness", "groundedness", "evaluation"},
-    # Lexical search
-    {"technique", "rarity", "lexical", "bm25", "okapi", "term", "frequency", "idf", "inverted", "occurrence", "saturation"},
-    # Continuous vector space
-    {"continuous", "mathematical", "coordinate", "vectors", "vector", "topics", "semantic", "embeddings", "dense", "384", "dimensional", "space"},
-    # Ingestion drift
-    {"decay", "decays", "degrades", "accuracy", "materials", "pipeline", "adding", "drift", "ingestion", "manifests", "checksums"},
-    # Vulnerabilities
-    {"vulnerability", "exploit", "cve", "backdoor", "security", "supply", "chain", "liblzma", "sshd", "tarballs", "heap", "buffer", "overflow", "remote", "execution"},
-    # HTTP error codes
-    {"http", "error", "gateway", "timeout", "server", "proxy", "bad", "service", "unavailable", "internal", "upstream"},
-    # Kubernetes releases
-    {"kubernetes", "k8s", "release", "version", "storage", "migration", "csi", "volume", "pod", "node", "autoscalers", "cluster"},
-    # Authentication / RFC
-    {"oauth", "rfc", "authentication", "authorization", "pkce", "token", "jwt", "clients", "code_verifier", "code_challenge"},
-    # Metrics & telemetry
-    {"histogram", "buckets", "distribution", "scrape", "duration", "latency", "prometheus", "predefined", "seconds"},
-    # User feedback
-    {"thumbs", "rating", "satisfaction", "feedback", "user", "positive", "negative", "counters"},
-    # Microservices & containers
-    {"containers", "orchestrates", "services", "docker", "compose", "fastapi", "streamlit"},
-    # Data integrity
-    {"md5", "hashes", "duplicates", "integrity", "boundaries", "validation", "chunk"}
+    {"attention", "transformer", "dmodel", "query", "key", "value", "softmax", "multi-head", "heads", "encoder", "decoder"},
+    {"retrieval", "augmented", "generation", "rag", "dpr", "passages", "generator", "seq2seq", "bart"},
+    {"bert", "pretraining", "bidirectional", "masked", "mlm", "nsp", "classification"},
+    {"lora", "low-rank", "adaptation", "rank", "matrix", "decomposition", "delta", "weights", "finetuning"},
+    {"flashattention", "sram", "hbm", "tiling", "io-aware", "bandwidth", "memory", "exact"},
+    {"react", "reasoning", "acting", "thought", "action", "observation", "trajectory", "agent"},
+    {"consensus", "raft", "leader", "election", "log", "replication", "term", "heartbeat", "rpc"},
+    {"caching", "cache", "redis", "ttl", "memory", "memoization", "evict", "ram"},
+    {"reranker", "cross-encoder", "ranking", "candidates", "bge", "pairs", "scoring"},
+    {"metrics", "telemetry", "prometheus", "grafana", "histogram", "latency", "duration", "dashboard"},
+    {"quantization", "qlora", "nf4", "4-bit", "double", "paged", "optimizers"},
+    {"dpo", "preference", "optimization", "reward", "policy", "loss", "reference", "beta"},
+    {"vulnerability", "cve", "backdoor", "exploit", "security", "supply", "chain", "xz-utils"}
 ]
 
 def compute_dense_vector(text: str) -> List[float]:
@@ -126,27 +120,36 @@ class DocumentChunk:
 
 class HybridRetriever:
     """
-    Production-grade Hybrid Retriever combining Dense (Vector/Pinecone)
-    and Sparse (BM25) search using Reciprocal Rank Fusion (RRF).
+    Production-grade Hybrid Retriever combining Dense (Vector/Pinecone/SentenceTransformer)
+    and Sparse (BM25) search using Reciprocal Rank Fusion (RRF), with optional
+    Cross-Encoder Reranking (Phase 2).
     """
     def __init__(
         self,
         vectorstore: Any = None,
         corpus_path: Optional[str] = None,
-        alpha: float = 0.5,
+        alpha: float = 0.3,
         top_k: int = 4,
-        rrf_k: int = 60
+        rrf_k: int = 60,
+        dense_embeddings_path: Optional[str] = None
     ):
         self.vectorstore = vectorstore
         self.alpha = alpha
         self.top_k = top_k
         self.rrf_k = rrf_k
         self.corpus_path = corpus_path or settings.bm25_corpus_path
+        self.dense_embeddings_path = dense_embeddings_path or getattr(settings, "dense_embeddings_path", "./data/dense_embeddings.npy")
         
         # In-memory document storage for BM25 and fallback
         self.documents: List[DocumentChunk] = []
         self.bm25_index: Optional[BM25Okapi] = None
+
+        # Local dense embeddings
+        self.dense_embeddings = None
+        self.dense_encoder = None
+
         self._load_corpus()
+        self._load_dense_embeddings()
 
     def _load_corpus(self) -> None:
         """Load stored chunks from disk to build BM25 index."""
@@ -159,6 +162,20 @@ class HybridRetriever:
             except Exception as e:
                 print(f"[HybridRetriever] Warning: Failed to load corpus from {self.corpus_path}: {e}")
 
+    def _load_dense_embeddings(self) -> None:
+        """Load precomputed dense embeddings and SentenceTransformer if available."""
+        if NUMPY_AVAILABLE and os.path.exists(self.dense_embeddings_path):
+            try:
+                self.dense_embeddings = np.load(self.dense_embeddings_path)
+            except Exception as e:
+                print(f"[HybridRetriever] Warning loading dense embeddings from {self.dense_embeddings_path}: {e}")
+
+        if SENTENCE_TRANSFORMERS_AVAILABLE and self.dense_embeddings is not None:
+            try:
+                self.dense_encoder = SentenceTransformer(settings.embedding_model)
+            except Exception as e:
+                print(f"[HybridRetriever] Warning loading SentenceTransformer({settings.embedding_model}): {e}")
+
     def _build_bm25_index(self) -> None:
         """Builds BM25 index from currently loaded documents."""
         if not self.documents:
@@ -167,11 +184,41 @@ class HybridRetriever:
         tokenized_corpus = [simple_tokenize(doc.page_content) for doc in self.documents]
         self.bm25_index = BM25Okapi(tokenized_corpus)
 
-    def set_documents(self, documents: List[DocumentChunk], persist: bool = True) -> None:
-        """Update documents in memory and rebuild BM25 index."""
+    def add_documents(self, new_chunks: List[DocumentChunk], persist: bool = False) -> None:
+        """Incrementally append documents to memory index, updating BM25 and dense embeddings."""
+        if not new_chunks:
+            return
+        self.documents.extend(new_chunks)
+        self._build_bm25_index()
+
+        # Incremental dense embedding update (fast: only encodes newly added chunks)
+        if self.dense_encoder is not None and self.dense_embeddings is not None and NUMPY_AVAILABLE:
+            try:
+                new_embs = self.dense_encoder.encode([d.page_content for d in new_chunks], normalize_embeddings=True)
+                self.dense_embeddings = np.vstack([self.dense_embeddings, new_embs])
+            except Exception as e:
+                print(f"[HybridRetriever] Warning updating dense embeddings incrementally: {e}")
+
+        if persist and self.corpus_path:
+            try:
+                os.makedirs(os.path.dirname(self.corpus_path), exist_ok=True)
+                with open(self.corpus_path, "w", encoding="utf-8") as f:
+                    json.dump([d.to_dict() for d in self.documents], f, indent=2)
+            except Exception as e:
+                print(f"[HybridRetriever] Warning: Could not persist corpus: {e}")
+
+    def set_documents(self, documents: List[DocumentChunk], persist: bool = False) -> None:
+        """Update documents in memory and rebuild BM25 index & dense embeddings."""
         self.documents = documents
         self._build_bm25_index()
-        # Save to disk for fast subsequent restarts
+        if self.dense_encoder is not None and self.documents:
+            try:
+                self.dense_embeddings = self.dense_encoder.encode([d.page_content for d in self.documents], normalize_embeddings=True)
+            except Exception:
+                self.dense_embeddings = None
+        elif self.dense_embeddings is not None and len(self.dense_embeddings) != len(self.documents):
+            self.dense_embeddings = None
+
         if persist and self.corpus_path:
             try:
                 os.makedirs(os.path.dirname(self.corpus_path), exist_ok=True)
@@ -181,9 +228,10 @@ class HybridRetriever:
                 print(f"[HybridRetriever] Warning: Could not persist corpus: {e}")
 
     def search_dense(self, query: str, k: int = 10) -> List[Tuple[DocumentChunk, float]]:
-        """Dense semantic search using vector store or embedding similarity."""
+        """Dense semantic search using vector store, SentenceTransformer, or topic fallback."""
         results: List[Tuple[DocumentChunk, float]] = []
         
+        # 1. Pinecone Vector Store
         if self.vectorstore is not None:
             try:
                 if hasattr(self.vectorstore, "similarity_search_with_score"):
@@ -195,11 +243,31 @@ class HybridRetriever:
                     for idx, doc in enumerate(docs):
                         score = 1.0 / (idx + 1)
                         results.append((DocumentChunk(doc.page_content, doc.metadata, score), score))
+                if results:
+                    return results
             except Exception as e:
-                print(f"[HybridRetriever] Dense search failed or index empty: {e}")
+                print(f"[HybridRetriever] Vectorstore search failed: {e}")
 
-        # Fallback to local dense semantic similarity if vectorstore returned nothing
-        if not results and self.documents:
+        # 2. Local SentenceTransformer Dense Index
+        if (
+            self.dense_embeddings is not None
+            and self.dense_encoder is not None
+            and self.documents
+            and len(self.dense_embeddings) == len(self.documents)
+        ):
+            try:
+                q_vec = self.dense_encoder.encode(query, normalize_embeddings=True)
+                scores = np.dot(self.dense_embeddings, q_vec)
+                top_indices = np.argsort(scores)[::-1][:k]
+                for idx in top_indices:
+                    if idx < len(self.documents):
+                        results.append((self.documents[idx], float(scores[idx])))
+                return results
+            except Exception as e:
+                print(f"[HybridRetriever] Dense encoder search failed: {e}")
+
+        # 3. Fallback heuristic topic embeddings
+        if self.documents:
             query_vec = compute_dense_vector(query)
             for doc in self.documents:
                 doc_vec = compute_dense_vector(doc.page_content)
@@ -248,7 +316,10 @@ class HybridRetriever:
             doc_map[key] = doc
             dense_rrf = alpha * (1.0 / (k_fusion + rank))
             rrf_scores[key] = rrf_scores.get(key, 0.0) + dense_rrf
-            RAG_SIMILARITY_SCORE.labels(search_type="dense").observe(min(1.0, max(0.0, raw_score)))
+            try:
+                RAG_SIMILARITY_SCORE.labels(search_type="dense").observe(min(1.0, max(0.0, raw_score)))
+            except Exception:
+                pass
 
         # 2. Process Sparse (BM25) Results
         for rank, (doc, raw_score) in enumerate(sparse_results, start=1):
@@ -257,7 +328,10 @@ class HybridRetriever:
                 doc_map[key] = doc
             sparse_rrf = (1.0 - alpha) * (1.0 / (k_fusion + rank))
             rrf_scores[key] = rrf_scores.get(key, 0.0) + sparse_rrf
-            RAG_SIMILARITY_SCORE.labels(search_type="bm25").observe(min(1.0, max(0.0, raw_score / 10.0)))
+            try:
+                RAG_SIMILARITY_SCORE.labels(search_type="bm25").observe(min(1.0, max(0.0, raw_score / 10.0)))
+            except Exception:
+                pass
 
         # Sort combined results by highest RRF score
         sorted_keys = sorted(rrf_scores.keys(), key=lambda k: rrf_scores[k], reverse=True)
@@ -275,12 +349,99 @@ class HybridRetriever:
 
         return final_results
 
+    def _merge_multi_query_results(
+        self,
+        ranked_lists: List[List[DocumentChunk]],
+        weights: Optional[List[float]] = None,
+        k_fusion: int = 60
+    ) -> List[DocumentChunk]:
+        """
+        Merge multiple lists of retrieved DocumentChunks from multi-query expansion
+        using Reciprocal Rank Fusion (RRF):
+        RRF_score(d) = sum_{list_i} weight_i * (1.0 / (k_fusion + rank_i(d)))
+        """
+        if not ranked_lists:
+            return []
+        if len(ranked_lists) == 1:
+            return ranked_lists[0]
+
+        if weights is None or len(weights) != len(ranked_lists):
+            weights = [1.0] * len(ranked_lists)
+
+        doc_map: Dict[str, DocumentChunk] = {}
+        rrf_scores: Dict[str, float] = {}
+
+        for list_idx, doc_list in enumerate(ranked_lists):
+            w = weights[list_idx]
+            for rank, doc in enumerate(doc_list, start=1):
+                key = doc.page_content.strip()
+                if key not in doc_map:
+                    doc_map[key] = doc
+                rrf_scores[key] = rrf_scores.get(key, 0.0) + (w / (k_fusion + rank))
+
+        sorted_keys = sorted(rrf_scores.keys(), key=lambda k: rrf_scores[k], reverse=True)
+        merged = []
+        for key in sorted_keys:
+            doc = doc_map[key]
+            final_score = rrf_scores[key] * (k_fusion + 1)
+            merged.append(
+                DocumentChunk(
+                    page_content=doc.page_content,
+                    metadata={**doc.metadata, "rrf_score": round(final_score, 4)},
+                    score=final_score
+                )
+            )
+        return merged
+
+    def _retrieve_single_query(
+        self,
+        query: str,
+        retriever_type: str,
+        alpha: float,
+        pool_size: int
+    ) -> List[DocumentChunk]:
+        """Retrieve candidate chunks for a single query using chosen retrieval type."""
+        if retriever_type == "bm25":
+            bm25_results = self.search_bm25(query, k=pool_size)
+            return [doc for doc, _ in bm25_results]
+        elif retriever_type == "semantic":
+            dense_results = self.search_dense(query, k=pool_size)
+            return [doc for doc, _ in dense_results]
+        else:  # "hybrid"
+            dense_results = self.search_dense(query, k=pool_size)
+            bm25_results = self.search_bm25(query, k=pool_size)
+
+            if not dense_results and bm25_results:
+                return [
+                    DocumentChunk(
+                        doc.page_content,
+                        metadata={**doc.metadata, "rrf_score": round(doc.score or 0.01, 4)},
+                        score=doc.score
+                    )
+                    for doc, _ in bm25_results[:pool_size]
+                ]
+            elif not bm25_results and dense_results:
+                return [
+                    DocumentChunk(
+                        doc.page_content,
+                        metadata={**doc.metadata, "rrf_score": round(doc.score or 0.01, 4)},
+                        score=doc.score
+                    )
+                    for doc, _ in dense_results[:pool_size]
+                ]
+            else:
+                fused = self._reciprocal_rank_fusion(dense_results, bm25_results, alpha, self.rrf_k)
+                return fused[:pool_size]
+
     def retrieve(
         self,
         query: str,
         retriever_type: Optional[str] = None,
         alpha: Optional[float] = None,
-        top_k: Optional[int] = None
+        top_k: Optional[int] = None,
+        rerank: Optional[bool] = None,
+        rerank_candidates: Optional[int] = None,
+        query_mode: Optional[str] = None
     ) -> List[DocumentChunk]:
         """
         Retrieve relevant documents according to the chosen retrieval strategy.
@@ -288,34 +449,81 @@ class HybridRetriever:
           - 'hybrid': Combines BM25 + Dense vector search via RRF
           - 'semantic': Dense vector search only
           - 'bm25': BM25 keyword search only
+        Optionally performs:
+          - query_mode: 'none' (baseline), 'rewrite' (clean query), 'multi' (expand n phrasings)
+          - rerank: cross-encoder reranking (Phase 2)
         """
         retriever_type = retriever_type or settings.retriever_type
         alpha = self.alpha if alpha is None else alpha
         top_k = self.top_k if top_k is None else top_k
+        rerank = getattr(settings, "rerank_enabled", False) if rerank is None else rerank
+        q_mode = query_mode or getattr(settings, "query_mode", "none").lower()
 
         start_time = time.time()
-        pool_size = max(top_k * 3, 15)
+        
+        if rerank:
+            cand_count = rerank_candidates if rerank_candidates is not None else getattr(settings, "rerank_candidates", 20)
+            pool_size = max(cand_count, top_k * 3, 20)
+        else:
+            cand_count = top_k
+            pool_size = max(top_k * 3, 15)
 
-        if retriever_type == "bm25":
-            bm25_results = self.search_bm25(query, k=top_k)
-            results = [doc for doc, _ in bm25_results]
-        elif retriever_type == "semantic":
-            dense_results = self.search_dense(query, k=top_k)
-            results = [doc for doc, _ in dense_results]
-        else: # "hybrid"
-            dense_results = self.search_dense(query, k=pool_size)
-            bm25_results = self.search_bm25(query, k=pool_size)
-            
-            if not dense_results and bm25_results:
-                results = [doc for doc, _ in bm25_results[:top_k]]
-            elif not bm25_results and dense_results:
-                results = [doc for doc, _ in dense_results[:top_k]]
+        # 1. Candidate Retrieval (Single-query vs Query Rewriting vs Multi-Query RRF)
+        if q_mode == "rewrite":
+            from app.retrieval.query_rewrite import get_query_rewriter
+            rewriter = get_query_rewriter()
+            rewritten_q = rewriter.rewrite(query)
+
+            if rewritten_q.strip().lower() != query.strip().lower():
+                orig_cands = self._retrieve_single_query(query, retriever_type, alpha, pool_size)
+                rewritten_cands = self._retrieve_single_query(rewritten_q, retriever_type, alpha, pool_size)
+                candidates = self._merge_multi_query_results(
+                    [orig_cands, rewritten_cands],
+                    weights=[1.0, 1.0],
+                    k_fusion=self.rrf_k
+                )
             else:
-                fused = self._reciprocal_rank_fusion(dense_results, bm25_results, alpha, self.rrf_k)
-                results = fused[:top_k]
+                candidates = self._retrieve_single_query(query, retriever_type, alpha, pool_size)
+
+        elif q_mode == "multi":
+            from app.retrieval.query_rewrite import get_query_rewriter
+            rewriter = get_query_rewriter()
+            n_variants = getattr(settings, "multi_query_variants", 3)
+            variants = rewriter.expand(query, n=n_variants)
+
+            query_list = [query]
+            for v in variants:
+                if v.strip().lower() != query.strip().lower() and v.strip() not in query_list:
+                    query_list.append(v.strip())
+
+            candidate_lists = [
+                self._retrieve_single_query(q, retriever_type, alpha, pool_size)
+                for q in query_list
+            ]
+            weights = [1.2] + [1.0] * (len(query_list) - 1)
+            candidates = self._merge_multi_query_results(
+                candidate_lists,
+                weights=weights,
+                k_fusion=self.rrf_k
+            )
+
+        else:
+            # Baseline: single query retrieval
+            candidates = self._retrieve_single_query(query, retriever_type, alpha, pool_size)
+
+        # Phase 2: Cross-Encoder Reranking
+        if rerank and candidates:
+            from app.retrieval.reranker import get_reranker
+            reranker = get_reranker()
+            results = reranker.rerank(query=query, candidates=candidates[:cand_count], top_k=top_k)
+        else:
+            results = candidates[:top_k]
 
         duration = time.time() - start_time
-        RAG_RETRIEVAL_DURATION_SECONDS.labels(retriever_type=retriever_type).observe(duration)
-        RAG_RETRIEVED_DOCS_COUNT.labels(retriever_type=retriever_type).observe(len(results))
+        try:
+            RAG_RETRIEVAL_DURATION_SECONDS.labels(retriever_type=retriever_type).observe(duration)
+            RAG_RETRIEVED_DOCS_COUNT.labels(retriever_type=retriever_type).observe(len(results))
+        except Exception:
+            pass
 
         return results

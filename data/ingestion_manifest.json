@@ -1,8 +1,14 @@
 {
-  "version": "1.0",
-  "ingested_at": "2026-10-29T17:03:40.318285",
-  "total_documents": 1,
-  "total_chunks": 50,
+  "version": "2.0",
+  "ingested_at": "2026-10-31T10:13:52.317253",
+  "total_pdf_documents": 32,
+  "total_documents": 816,
+  "total_chunks": 4106,
   "corpus_file": "./data\\bm25_corpus.json",
-  "pinecone_index": "retrieva"
+  "pinecone_index": "retrieva",
+  "chunk_statistics": {
+    "min_chars": 50,
+    "max_chars": 9425,
+    "avg_chars": 767.2
+  }
 }

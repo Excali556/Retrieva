@@ -19,13 +19,13 @@ ingest:
 	python scripts/ingest.py
 
 eval:
-	python mlops/eval/evaluate.py
+	python mlops/eval/evaluate.py --split test
 
 benchmark:
 	python mlops/benchmarks/benchmark_search.py
 
 test:
-	python -m unittest discover tests/ -v
+	python -m pytest tests/ -v
 
 validate:
 	python mlops/data_validation.py

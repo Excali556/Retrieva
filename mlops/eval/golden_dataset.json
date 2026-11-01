@@ -1,142 +1,2135 @@
 [
   {
-    "id": "q1_cve_xz",
-    "query": "What vulnerability is identified by CVE-2024-3094 in xz-utils liblzma?",
-    "ground_truth_answer": "CVE-2024-3094 is a critical supply-chain backdoor discovered in upstream tarballs of xz-utils (specifically liblzma versions 5.6.0 and 5.6.1) that intercepts sshd authentication.",
-    "expected_keywords": ["cve-2024-3094", "xz-utils", "liblzma", "backdoor", "sshd"],
-    "expected_context_substr": "CVE-2024-3094 is a critical supply-chain backdoor discovered in upstream tarballs of xz-utils"
+    "id": "exact_001_transformer_dmodel",
+    "category": "exact_identifier",
+    "query": "In the Transformer architecture, what is the embedding and layer output dimension dmodel when using 8 heads?",
+    "ground_truth_answer": "In the Transformer architecture, all sub-layers and embedding layers produce outputs of dimension dmodel = 512.",
+    "expected_keywords": [
+      "dmodel = 512",
+      "512",
+      "transformer",
+      "dimension"
+    ],
+    "expected_context_substr": "dmodel = 512",
+    "target_chunk_id": "chunk_74_2de340b0",
+    "target_source": "data/pdfs/attention_is_all_you_need.pdf",
+    "target_page": 3,
+    "target_filename": "attention_is_all_you_need.pdf",
+    "split": "test"
   },
   {
-    "id": "q2_http_504",
-    "query": "What causes HTTP 504 Gateway Timeout error code from a proxy?",
-    "ground_truth_answer": "HTTP 504 Gateway Timeout indicates an intermediary server or proxy did not receive a timely response from the upstream backend server.",
-    "expected_keywords": ["http 504", "gateway timeout", "intermediary", "proxy", "upstream"],
-    "expected_context_substr": "HTTP 504 Gateway Timeout indicates an intermediary server or proxy"
+    "id": "exact_002_transformer_bleu",
+    "category": "exact_identifier",
+    "query": "What BLEU score did the big Transformer model achieve on the WMT 2014 English-to-German translation task?",
+    "ground_truth_answer": "The big Transformer model achieved a BLEU score of 28.4 on the WMT 2014 English-to-German translation task.",
+    "expected_keywords": [
+      "bleu",
+      "28.4",
+      "english-to-german",
+      "wmt 2014"
+    ],
+    "expected_context_substr": "28.4",
+    "target_chunk_id": "chunk_63_46e188bd",
+    "target_source": "data/pdfs/attention_is_all_you_need.pdf",
+    "target_page": 1,
+    "target_filename": "attention_is_all_you_need.pdf",
+    "split": "test"
   },
   {
-    "id": "q3_k8s_version",
-    "query": "Which Kubernetes release promoted in-tree storage plugin migration to CSI to GA in k8s v1.27?",
-    "ground_truth_answer": "Kubernetes v1.27 promoted in-tree storage plugin migration to CSI to General Availability (GA).",
-    "expected_keywords": ["k8s v1.27", "kubernetes", "in-tree storage plugin", "csi", "ga"],
-    "expected_context_substr": "Kubernetes v1.27 promoted in-tree storage plugin migration to CSI"
+    "id": "exact_003_bert_mask_rate",
+    "category": "exact_identifier",
+    "query": "What percentage of input tokens are uniformly selected for masking during the Masked Language Model MLM pre-training in BERT?",
+    "ground_truth_answer": "BERT masks 15% of all input tokens at random during the Masked Language Model (MLM) pre-training step.",
+    "expected_keywords": [
+      "15%",
+      "masked language model",
+      "tokens"
+    ],
+    "expected_context_substr": "15%",
+    "target_chunk_id": "chunk_144_02223875",
+    "target_source": "data/pdfs/bert_bidirectional_transformers.pdf",
+    "target_page": 4,
+    "target_filename": "bert_bidirectional_transformers.pdf",
+    "split": "test"
   },
   {
-    "id": "q4_oauth_pkce",
-    "query": "How does OAuth 2.0 RFC 7636 Proof Key for Code Exchange PKCE protect public clients?",
-    "ground_truth_answer": "OAuth 2.0 RFC 7636 Proof Key for Code Exchange (PKCE) prevents authorization code interception attacks on public clients using code_verifier and code_challenge.",
-    "expected_keywords": ["oauth 2.0", "rfc 7636", "pkce", "code_verifier", "code_challenge"],
-    "expected_context_substr": "OAuth 2.0 RFC 7636 Proof Key for Code Exchange (PKCE) prevents authorization code interception"
+    "id": "exact_004_bert_large_params",
+    "category": "exact_identifier",
+    "query": "How many total parameters and layers does the BERT-Large model configuration contain?",
+    "ground_truth_answer": "BERT-Large contains 340M total parameters, 24 layers (L=24), hidden size H=1024, and 16 attention heads (A=16).",
+    "expected_keywords": [
+      "340m",
+      "24",
+      "bert-large",
+      "parameters"
+    ],
+    "expected_context_substr": "340M",
+    "target_chunk_id": "chunk_139_2d4a9956",
+    "target_source": "data/pdfs/bert_bidirectional_transformers.pdf",
+    "target_page": 3,
+    "target_filename": "bert_bidirectional_transformers.pdf",
+    "split": "tune"
   },
   {
-    "id": "q5_rrf_k",
-    "query": "What default constant is used for rrf_k in Reciprocal Rank Fusion?",
-    "ground_truth_answer": "Reciprocal Rank Fusion RRF scores documents by summing 1/(rrf_k + rank) where default rrf_k constant is 60.",
-    "expected_keywords": ["rrf_k", "reciprocal rank fusion", "constant is 60"],
-    "expected_context_substr": "Reciprocal Rank Fusion RRF scores documents by summing 1/(rrf_k + rank) where default rrf_k constant is 60"
+    "id": "exact_005_lora_decomposition",
+    "category": "exact_identifier",
+    "query": "What low-rank matrix decomposition W0 + BA represents weight updates in the LoRA parameterization?",
+    "ground_truth_answer": "LoRA decomposes the weight update delta W into BA, where B is d x r and A is r x k with rank r much smaller than d and k.",
+    "expected_keywords": [
+      "ba",
+      "w0",
+      "lora",
+      "rank"
+    ],
+    "expected_context_substr": "BA",
+    "target_chunk_id": "chunk_2785_0c3d52ed",
+    "target_source": "data/pdfs/lora_low_rank_adaptation.pdf",
+    "target_page": 1,
+    "target_filename": "lora_low_rank_adaptation.pdf",
+    "split": "tune"
   },
   {
-    "id": "q6_cache_ttl",
-    "query": "What value in seconds is assigned to CACHE_TTL_SECONDS?",
-    "ground_truth_answer": "CACHE_TTL_SECONDS is configured to 3600 seconds (1 hour) to evict stale query embeddings from local memory.",
-    "expected_keywords": ["cache_ttl_seconds", "3600", "1 hour", "evict"],
-    "expected_context_substr": "CACHE_TTL_SECONDS is configured to 3600 seconds (1 hour) to evict stale query embeddings"
+    "id": "exact_006_lora_gpt3_rank",
+    "category": "exact_identifier",
+    "query": "What low intrinsic rank hypothesis explains why low-rank adaptation suffices even on large 175B models?",
+    "ground_truth_answer": "The weight updates during task adaptation have a low intrinsic rank, allowing small rank r to capture the essential adaptation subspace.",
+    "expected_keywords": [
+      "intrinsic rank",
+      "lora",
+      "adaptation"
+    ],
+    "expected_context_substr": "intrinsic rank",
+    "target_chunk_id": "chunk_2786_ef25e73a",
+    "target_source": "data/pdfs/lora_low_rank_adaptation.pdf",
+    "target_page": 2,
+    "target_filename": "lora_low_rank_adaptation.pdf",
+    "split": "test"
   },
   {
-    "id": "q7_llama_model",
-    "query": "Which Groq LLM model identifier is set as the default LLM_MODEL checkpoint?",
-    "ground_truth_answer": "The primary LLM model checkpoint is llama-3.3-70b-versatile served via Groq inference engine with temperature 0.0.",
-    "expected_keywords": ["llama-3.3-70b-versatile", "groq", "temperature 0.0"],
-    "expected_context_substr": "The primary LLM model checkpoint is llama-3.3-70b-versatile served via Groq"
+    "id": "exact_007_flash_sram",
+    "category": "exact_identifier",
+    "query": "Which GPU on-chip fast memory does FlashAttention tile into to avoid materializing the full attention matrix in HBM?",
+    "ground_truth_answer": "FlashAttention tiles inputs into fast on-chip SRAM (Static Random-Access Memory) to avoid reads/writes to high bandwidth memory (HBM).",
+    "expected_keywords": [
+      "sram",
+      "hbm",
+      "flashattention",
+      "memory"
+    ],
+    "expected_context_substr": "SRAM",
+    "target_chunk_id": "chunk_1289_02263598",
+    "target_source": "data/pdfs/flash_attention.pdf",
+    "target_page": 1,
+    "target_filename": "flash_attention.pdf",
+    "split": "test"
   },
   {
-    "id": "q8_synonym_caching",
-    "query": "How does the assistant remember previously computed responses without recalculating?",
-    "ground_truth_answer": "Response memoization caches frequent user queries in an in-memory TTL dictionary, eliminating redundant LLM API calls and dropping repeat latency to 3ms.",
-    "expected_keywords": ["caches", "memoization", "ttl", "latency"],
-    "expected_context_substr": "Response memoization caches frequent user queries in an in-memory TTL dictionary"
+    "id": "exact_008_flash2_speedup",
+    "category": "exact_identifier",
+    "query": "How does FlashAttention-2 improve over FlashAttention-1 in terms of work partitioning across thread blocks and warps?",
+    "ground_truth_answer": "FlashAttention-2 parallelizes over the sequence length dimension in addition to batch size and heads, reducing non-matmul FLOPs and increasing GPU occupancy.",
+    "expected_keywords": [
+      "flashattention-2",
+      "sequence length",
+      "warps",
+      "thread blocks"
+    ],
+    "expected_context_substr": "FlashAttention-2",
+    "target_chunk_id": "chunk_1453_60ae745c",
+    "target_source": "data/pdfs/flash_attention_2.pdf",
+    "target_page": 1,
+    "target_filename": "flash_attention_2.pdf",
+    "split": "test"
   },
   {
-    "id": "q9_synonym_rrf",
-    "query": "How are different search ranking outputs blended together into one ordered candidate list?",
-    "ground_truth_answer": "Score unification merges ranked candidate lists from sparse lexical and dense semantic retrievers into a single composite ranking using Reciprocal Rank Fusion.",
-    "expected_keywords": ["merges", "ranked", "sparse lexical", "dense semantic", "composite ranking"],
-    "expected_context_substr": "Score unification merges ranked candidate lists from sparse lexical and dense semantic"
+    "id": "exact_009_react_thought_action",
+    "category": "exact_identifier",
+    "query": "What are the two alternating textual tokens used in ReAct trajectories before receiving an Observation from the environment?",
+    "ground_truth_answer": "ReAct alternates between 'Thought' (reasoning trace) and 'Action' (environment command) before receiving an 'Observation'.",
+    "expected_keywords": [
+      "thought",
+      "action",
+      "observation",
+      "react"
+    ],
+    "expected_context_substr": "Thought",
+    "target_chunk_id": "chunk_3311_59ac3d19",
+    "target_source": "data/pdfs/react_reasoning_and_acting.pdf",
+    "target_page": 1,
+    "target_filename": "react_reasoning_and_acting.pdf",
+    "split": "test"
   },
   {
-    "id": "q10_synonym_monitoring",
-    "query": "Where can operations engineers view visual graphs of response latency percentiles and query rates?",
-    "ground_truth_answer": "The Grafana observability dashboard provides real-time visualization of p50, p90, and p99 request latency percentiles, error rates, and query throughput.",
-    "expected_keywords": ["grafana", "dashboard", "latency percentiles", "throughput"],
-    "expected_context_substr": "The Grafana observability dashboard provides real-time visualization of p50, p90, and p99"
+    "id": "exact_010_toolformer_api_tags",
+    "category": "exact_identifier",
+    "query": "What specific bracketed API call syntax does Toolformer insert to query external question-answering systems?",
+    "ground_truth_answer": "Toolformer inserts calls formatted as [QA(query)] to invoke external QA tools.",
+    "expected_keywords": [
+      "[qa",
+      "toolformer",
+      "api"
+    ],
+    "expected_context_substr": "[QA",
+    "target_chunk_id": "chunk_3909_1c759c5f",
+    "target_source": "data/pdfs/toolformer.pdf",
+    "target_page": 1,
+    "target_filename": "toolformer.pdf",
+    "split": "tune"
   },
   {
-    "id": "q11_synonym_hallucination",
-    "query": "What quality checks verify that generated answers remain truthful without making up information?",
-    "ground_truth_answer": "Continuous evaluation monitors RAG faithfulness, groundedness, and context relevance against a golden test set to prevent hallucinations and retrieval degradation.",
-    "expected_keywords": ["faithfulness", "groundedness", "hallucinations"],
-    "expected_context_substr": "Continuous evaluation monitors RAG faithfulness, groundedness, and context relevance"
+    "id": "exact_011_dpo_beta",
+    "category": "exact_identifier",
+    "query": "What hyperparameter beta governs the deviation penalty from the reference model pi_ref in the DPO objective?",
+    "ground_truth_answer": "The temperature hyperparameter beta controls the strength of the KL divergence penalty from the reference policy pi_ref in Direct Preference Optimization (DPO).",
+    "expected_keywords": [
+      "beta",
+      "pi_ref",
+      "dpo",
+      "kl divergence"
+    ],
+    "expected_context_substr": "beta",
+    "target_chunk_id": "chunk_1167_f0eaa76c",
+    "target_source": "data/pdfs/direct_preference_optimization.pdf",
+    "target_page": 20,
+    "target_filename": "direct_preference_optimization.pdf",
+    "split": "tune"
   },
   {
-    "id": "q12_synonym_sparse",
-    "query": "Which information retrieval technique scores document relevance based on word occurrence counts and inverse rarity?",
-    "ground_truth_answer": "BM25 Okapi evaluates term frequency saturation and inverted document frequency (IDF) for exact keyword retrieval across structured corpora.",
-    "expected_keywords": ["bm25 okapi", "term frequency", "inverted document frequency"],
-    "expected_context_substr": "BM25 Okapi evaluates term frequency saturation and inverted document frequency"
+    "id": "exact_012_qlora_nf4",
+    "category": "exact_identifier",
+    "query": "What novel 4-bit data type theoretically optimal for normally distributed weights is introduced in QLoRA?",
+    "ground_truth_answer": "QLoRA introduces the 4-bit NormalFloat (NF4) data type, an information-theoretically optimal quantile quantization for zero-mean normal distributions.",
+    "expected_keywords": [
+      "nf4",
+      "normalfloat",
+      "qlora",
+      "4-bit"
+    ],
+    "expected_context_substr": "NF4",
+    "target_chunk_id": "chunk_2942_c4325d19",
+    "target_source": "data/pdfs/qlora_efficient_finetuning.pdf",
+    "target_page": 1,
+    "target_filename": "qlora_efficient_finetuning.pdf",
+    "split": "tune"
   },
   {
-    "id": "q13_synonym_embeddings",
-    "query": "How do continuous mathematical coordinate vectors capture nuanced conceptual topics?",
-    "ground_truth_answer": "Dense embedding representations map textual meaning into a continuous 384-dimensional vector space to recognize synonyms and semantic relevance.",
-    "expected_keywords": ["dense embedding", "384-dimensional", "vector space", "synonyms"],
-    "expected_context_substr": "Dense embedding representations map textual meaning into a continuous 384-dimensional vector space"
+    "id": "exact_013_qlora_double_quant",
+    "category": "exact_identifier",
+    "query": "How many bits per parameter on average does Double Quantization DQ save in QLoRA?",
+    "ground_truth_answer": "Double Quantization (DQ) in QLoRA quantizes the quantization constants, saving approximately 0.37 bits per parameter.",
+    "expected_keywords": [
+      "double quantization",
+      "0.37",
+      "bits per parameter",
+      "qlora"
+    ],
+    "expected_context_substr": "Double Quantization",
+    "target_chunk_id": "chunk_2948_fecaa69f",
+    "target_source": "data/pdfs/qlora_efficient_finetuning.pdf",
+    "target_page": 2,
+    "target_filename": "qlora_efficient_finetuning.pdf",
+    "split": "tune"
   },
   {
-    "id": "q14_synonym_drift",
-    "query": "How does the deployment pipeline detect when retrieval accuracy decays after ingesting new materials?",
-    "ground_truth_answer": "Ingestion manifests track document checksums and version history, while automated CI evaluation detects retrieval drift before deployments.",
-    "expected_keywords": ["ingestion manifests", "checksums", "retrieval drift", "ci evaluation"],
-    "expected_context_substr": "Ingestion manifests track document checksums and version history, while automated CI evaluation"
+    "id": "exact_014_mistral_window_size",
+    "category": "exact_identifier",
+    "query": "What is the sliding window size W used by Mistral 7B in its Sliding Window Attention SWA layer?",
+    "ground_truth_answer": "Mistral 7B uses a sliding window size W = 4096 in its Sliding Window Attention (SWA).",
+    "expected_keywords": [
+      "4096",
+      "sliding window",
+      "mistral 7b",
+      "w"
+    ],
+    "expected_context_substr": "4096",
+    "target_chunk_id": "chunk_2909_f332ae5c",
+    "target_source": "data/pdfs/mistral_7b.pdf",
+    "target_page": 2,
+    "target_filename": "mistral_7b.pdf",
+    "split": "test"
   },
   {
-    "id": "q15_hybrid_rag",
-    "query": "How does hybrid search in Retrieva combine dense semantic vectors with BM25?",
-    "ground_truth_answer": "Hybrid search in Retrieva combines dense semantic vectors with BM25 lexical retrieval using a tunable alpha parameter to maximize recall.",
-    "expected_keywords": ["hybrid search", "retrieva", "dense semantic", "bm25", "alpha"],
-    "expected_context_substr": "Hybrid search in Retrieva combines dense semantic vectors with BM25"
+    "id": "exact_015_mistral_gqa_heads",
+    "category": "exact_identifier",
+    "query": "How many query heads and key/value heads are configured in Mistral 7B's Grouped Query Attention GQA?",
+    "ground_truth_answer": "Mistral 7B uses 32 query attention heads and 8 key/value heads (4:1 ratio) with Grouped-Query Attention (GQA).",
+    "expected_keywords": [
+      "grouped-query attention",
+      "gqa",
+      "mistral 7b"
+    ],
+    "expected_context_substr": "Grouped-query attention",
+    "target_chunk_id": "chunk_2903_d4ed11da",
+    "target_source": "data/pdfs/mistral_7b.pdf",
+    "target_page": 1,
+    "target_filename": "mistral_7b.pdf",
+    "split": "test"
   },
   {
-    "id": "q16_prometheus_hist",
-    "query": "How does Prometheus scrape request latency distributions using rag_request_duration_seconds histogram buckets?",
-    "ground_truth_answer": "Prometheus scrapes histogram metrics such as rag_request_duration_seconds across predefined latency buckets from 0.05s to 10.0s.",
-    "expected_keywords": ["prometheus", "rag_request_duration_seconds", "buckets", "histogram"],
-    "expected_context_substr": "Prometheus scrapes histogram metrics such as rag_request_duration_seconds"
+    "id": "exact_016_colbert_maxsim",
+    "category": "exact_identifier",
+    "query": "What mathematical operator does ColBERT use to compute the sum of maximum cosine similarities between query tokens and document tokens?",
+    "ground_truth_answer": "ColBERT utilizes the MaxSim operator, calculating the sum of maximum inner products between each query token vector and document token vectors.",
+    "expected_keywords": [
+      "maxsim",
+      "colbert",
+      "late interaction",
+      "similarity"
+    ],
+    "expected_context_substr": "MaxSim",
+    "target_chunk_id": "chunk_531_6ffdd6a5",
+    "target_source": "data/pdfs/colbert_late_interaction.pdf",
+    "target_page": 2,
+    "target_filename": "colbert_late_interaction.pdf",
+    "split": "test"
   },
   {
-    "id": "q17_feedback_loop",
-    "query": "How does the UI record thumbs up and thumbs down user feedback into Prometheus metrics?",
-    "ground_truth_answer": "Streamlit user feedback thumbs up and thumbs down triggers POST /feedback, updating rag_feedback_total counters in Prometheus.",
-    "expected_keywords": ["streamlit", "thumbs up", "rag_feedback_total", "prometheus"],
-    "expected_context_substr": "Streamlit user feedback thumbs up and thumbs down triggers POST /feedback"
+    "id": "exact_017_bge_m3_context_len",
+    "category": "exact_identifier",
+    "query": "What maximum input sequence length does BGE-M3 support for multi-granular text embeddings?",
+    "ground_truth_answer": "BGE-M3 supports an extended context window length of up to 8192 tokens.",
+    "expected_keywords": [
+      "8192",
+      "bge-m3",
+      "tokens",
+      "length"
+    ],
+    "expected_context_substr": "8192",
+    "target_chunk_id": "chunk_221_e15a2a63",
+    "target_source": "data/pdfs/bge_m3_text_embeddings.pdf",
+    "target_page": 1,
+    "target_filename": "bge_m3_text_embeddings.pdf",
+    "split": "test"
   },
   {
-    "id": "q18_alpha_parameter",
-    "query": "What role does the hybrid alpha parameter play between BM25 alpha 0.0 and dense search alpha 1.0?",
-    "ground_truth_answer": "The hybrid alpha parameter weights the fusion between sparse BM25 (alpha 0.0) and dense vector search (alpha 1.0) with 0.5 as balanced default.",
-    "expected_keywords": ["hybrid alpha", "sparse bm25", "dense vector", "0.5"],
-    "expected_context_substr": "The hybrid alpha parameter weights the fusion between sparse BM25"
+    "id": "exact_018_dpr_inbatch_negatives",
+    "category": "exact_identifier",
+    "query": "Which training technique does DPR use to efficiently treat passages paired with other queries in the same mini-batch as negative examples?",
+    "ground_truth_answer": "DPR uses the 'in-batch negatives' technique to compute contrastive loss using other passages in the same batch as negative samples.",
+    "expected_keywords": [
+      "in-batch",
+      "negatives",
+      "dpr",
+      "contrastive"
+    ],
+    "expected_context_substr": "in-batch",
+    "target_chunk_id": "chunk_1223_71b9d551",
+    "target_source": "data/pdfs/dpr_dense_passage_retrieval.pdf",
+    "target_page": 3,
+    "target_filename": "dpr_dense_passage_retrieval.pdf",
+    "split": "test"
   },
   {
-    "id": "q19_docker_compose",
-    "query": "What four coordinated services are orchestrated by docker-compose.yml?",
-    "ground_truth_answer": "docker-compose.yml orchestrates four coordinated containers: FastAPI chatbot-api, Streamlit frontend UI, Prometheus, and Grafana.",
-    "expected_keywords": ["docker-compose.yml", "chatbot-api", "streamlit", "prometheus", "grafana"],
-    "expected_context_substr": "docker-compose.yml orchestrates four coordinated containers"
+    "id": "exact_019_raft_election_timeout",
+    "category": "exact_identifier",
+    "query": "What typical randomized range of election timeouts in milliseconds is chosen in the Raft consensus algorithm?",
+    "ground_truth_answer": "Raft typically randomizes election timeouts between 150ms and 300ms to avoid split votes during leader election.",
+    "expected_keywords": [
+      "election timeouts",
+      "raft",
+      "randomized"
+    ],
+    "expected_context_substr": "randomized election timeouts",
+    "target_chunk_id": "chunk_3110_21ad87d9",
+    "target_source": "data/pdfs/raft_consensus_algorithm.pdf",
+    "target_page": 6,
+    "target_filename": "raft_consensus_algorithm.pdf",
+    "split": "tune"
   },
   {
-    "id": "q20_data_validation",
-    "query": "How does data_validation.py compute MD5 hashes to detect duplicate document chunks?",
+    "id": "exact_020_raft_rpc_names",
+    "category": "exact_identifier",
+    "query": "What are the two basic Remote Procedure Calls RPCs used between servers in the Raft consensus algorithm?",
+    "ground_truth_answer": "The two primary RPCs in Raft are RequestVote (initiated by candidates during elections) and AppendEntries (initiated by leaders for log replication and heartbeats).",
+    "expected_keywords": [
+      "appendentries",
+      "requestvote",
+      "raft",
+      "rpc"
+    ],
+    "expected_context_substr": "AppendEntries",
+    "target_chunk_id": "chunk_3098_df44c3f7",
+    "target_source": "data/pdfs/raft_consensus_algorithm.pdf",
+    "target_page": 4,
+    "target_filename": "raft_consensus_algorithm.pdf",
+    "split": "test"
+  },
+  {
+    "id": "exact_021_adam_beta1_beta2",
+    "category": "exact_identifier",
+    "query": "What are the default recommended values for hyper-parameters beta_1, beta_2, and epsilon in the Adam optimizer?",
+    "ground_truth_answer": "In Adam, the default hyperparameter values are beta_1 = 0.9, beta_2 = 0.999, and epsilon = 10^-8.",
+    "expected_keywords": [
+      "0.9",
+      "0.999",
+      "adam",
+      "beta_1",
+      "beta_2"
+    ],
+    "expected_context_substr": "0.999",
+    "target_chunk_id": "chunk_6_153b2570",
+    "target_source": "data/pdfs/adam_optimization.pdf",
+    "target_page": 2,
+    "target_filename": "adam_optimization.pdf",
+    "split": "test"
+  },
+  {
+    "id": "exact_022_resnet_layers",
+    "category": "exact_identifier",
+    "query": "What is the deepest residual neural network architecture evaluated on the ImageNet dataset in the ResNet paper?",
+    "ground_truth_answer": "ResNet evaluated a 152-layer deep residual network on the ImageNet dataset, winning the ILSVRC 2015 competition.",
+    "expected_keywords": [
+      "152-layer",
+      "resnet",
+      "imagenet",
+      "residual"
+    ],
+    "expected_context_substr": "152-layer",
+    "target_chunk_id": "chunk_913_702dded6",
+    "target_source": "data/pdfs/deep_residual_learning_resnet.pdf",
+    "target_page": 5,
+    "target_filename": "deep_residual_learning_resnet.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "exact_023_diffusion_t_steps",
+    "category": "exact_identifier",
+    "query": "How many total diffusion timesteps T are used in DDPM for the forward noising process?",
+    "ground_truth_answer": "DDPM uses T = 1000 total diffusion timesteps for the Gaussian noising schedule.",
+    "expected_keywords": [
+      "t = 1000",
+      "timesteps",
+      "ddpm",
+      "diffusion"
+    ],
+    "expected_context_substr": "T = 1000",
+    "target_chunk_id": "chunk_993_9ad2cff3",
+    "target_source": "data/pdfs/diffusion_models_ddpm.pdf",
+    "target_page": 5,
+    "target_filename": "diffusion_models_ddpm.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "exact_024_roformer_theta",
+    "category": "exact_identifier",
+    "query": "What base constant theta is commonly used in the rotary embedding frequency calculation in RoFormer?",
+    "ground_truth_answer": "RoFormer uses a base frequency theta = 10000 to construct sinusoidal rotary position matrices.",
+    "expected_keywords": [
+      "10000",
+      "roformer",
+      "rotary",
+      "rope"
+    ],
+    "expected_context_substr": "10000",
+    "target_chunk_id": "chunk_3488_52cd8c0f",
+    "target_source": "data/pdfs/roformer_rotary_position_embedding.pdf",
+    "target_page": 3,
+    "target_filename": "roformer_rotary_position_embedding.pdf",
+    "split": "test"
+  },
+  {
+    "id": "exact_025_gpt3_params",
+    "category": "exact_identifier",
+    "query": "How many total parameters does the largest GPT-3 autoregressive language model have?",
+    "ground_truth_answer": "The largest GPT-3 model contains 175 billion parameters across 96 attention layers with 96 heads and d_model = 12288.",
+    "expected_keywords": [
+      "175 billion",
+      "gpt-3",
+      "parameters"
+    ],
+    "expected_context_substr": "175 billion",
+    "target_chunk_id": "chunk_1587_6a267b3d",
+    "target_source": "data/pdfs/gpt3_few_shot_learners.pdf",
+    "target_page": 1,
+    "target_filename": "gpt3_few_shot_learners.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "exact_026_llama2_token_count",
+    "category": "exact_identifier",
+    "query": "How many tokens of pre-training data were used to train Llama 2 models?",
+    "ground_truth_answer": "Llama 2 was pre-trained on 2 trillion tokens of publicly available online data.",
+    "expected_keywords": [
+      "2 trillion",
+      "tokens",
+      "llama 2"
+    ],
+    "expected_context_substr": "2 trillion",
+    "target_chunk_id": "chunk_2409_ea453f37",
+    "target_source": "data/pdfs/llama2_open_foundation_models.pdf",
+    "target_page": 5,
+    "target_filename": "llama2_open_foundation_models.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "exact_027_rag_seq_token",
+    "category": "exact_identifier",
+    "query": "What are the two distinct model formulations proposed in RAG for conditioning on retrieved documents?",
+    "ground_truth_answer": "The two formulations are RAG-Sequence (retrieves documents once per generated sequence) and RAG-Token (can retrieve different documents for each generated token).",
+    "expected_keywords": [
+      "rag-sequence",
+      "rag-token",
+      "documents",
+      "generation"
+    ],
+    "expected_context_substr": "RAG-Sequence",
+    "target_chunk_id": "chunk_3218_1918f55d",
+    "target_source": "data/pdfs/rag_retrieval_augmented_generation.pdf",
+    "target_page": 3,
+    "target_filename": "rag_retrieval_augmented_generation.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "exact_028_self_rag_tokens",
+    "category": "exact_identifier",
+    "query": "What is the exact name of the special reflection token used in Self-RAG to determine whether retrieval should occur?",
+    "ground_truth_answer": "Self-RAG uses the special reflection token Retrieve to dynamically decide whether retrieval is necessary.",
+    "expected_keywords": [
+      "retrieve",
+      "self-rag",
+      "reflection token"
+    ],
+    "expected_context_substr": "Retrieve",
+    "target_chunk_id": "chunk_3677_3ce3b758",
+    "target_source": "data/pdfs/self_rag_learning_to_retrieve.pdf",
+    "target_page": 1,
+    "target_filename": "self_rag_learning_to_retrieve.pdf",
+    "split": "test"
+  },
+  {
+    "id": "exact_029_graphrag_leiden",
+    "category": "exact_identifier",
+    "query": "Which community detection algorithm is used in GraphRAG to partition the knowledge graph into hierarchical communities?",
+    "ground_truth_answer": "GraphRAG utilizes the Leiden community detection algorithm to partition entity-relationship graphs hierarchically.",
+    "expected_keywords": [
+      "leiden",
+      "graphrag",
+      "community detection",
+      "graph"
+    ],
+    "expected_context_substr": "Leiden",
+    "target_chunk_id": "chunk_1950_2b8c7b9f",
+    "target_source": "data/pdfs/graphrag_local_to_global.pdf",
+    "target_page": 4,
+    "target_filename": "graphrag_local_to_global.pdf",
+    "split": "test"
+  },
+  {
+    "id": "exact_030_tree_of_thoughts_games",
+    "category": "exact_identifier",
+    "query": "Which mathematical puzzle game requiring reaching the number 24 from four numbers was used to evaluate Tree of Thoughts ToT?",
+    "ground_truth_answer": "Tree of Thoughts was evaluated on Game of 24, where standard prompting achieved ~7% success while ToT achieved 74%.",
+    "expected_keywords": [
+      "game of 24",
+      "tree of thoughts",
+      "puzzle"
+    ],
+    "expected_context_substr": "Game of 24",
+    "target_chunk_id": "chunk_4017_80d2ac2a",
+    "target_source": "data/pdfs/tree_of_thoughts.pdf",
+    "target_page": 1,
+    "target_filename": "tree_of_thoughts.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "exact_031_speculative_gamma",
+    "category": "exact_identifier",
+    "query": "In speculative decoding, what Greek letter variable gamma represents the number of lookahead candidate tokens generated by the draft model?",
+    "ground_truth_answer": "The parameter gamma denotes the number of speculative tokens generated by the small draft model per iteration.",
+    "expected_keywords": [
+      "gamma",
+      "speculative decoding",
+      "draft model",
+      "tokens"
+    ],
+    "expected_context_substr": "gamma",
+    "target_chunk_id": "chunk_786_739a5b4e",
+    "target_source": "data/pdfs/constitutional_ai.pdf",
+    "target_page": 32,
+    "target_filename": "constitutional_ai.pdf",
+    "split": "test"
+  },
+  {
+    "id": "exact_032_gemma_geglu",
+    "category": "exact_identifier",
+    "query": "Which activation function replacing standard ReLU or GELU is used in the feed-forward layers of Gemma models?",
+    "ground_truth_answer": "Gemma models use the GeGLU gated activation function in their feedforward blocks.",
+    "expected_keywords": [
+      "geglu",
+      "activation",
+      "gemma",
+      "feed-forward"
+    ],
+    "expected_context_substr": "GeGLU",
+    "target_chunk_id": "chunk_1517_2ab74ef7",
+    "target_source": "data/pdfs/gemma_open_models.pdf",
+    "target_page": 2,
+    "target_filename": "gemma_open_models.pdf",
+    "split": "test"
+  },
+  {
+    "id": "exact_033_scaling_law_power",
+    "category": "exact_identifier",
+    "query": "According to Kaplan et al., how does cross-entropy test loss scale with model parameter count N and dataset size D?",
+    "ground_truth_answer": "Cross-entropy loss scales as a power-law with model size N, dataset size D, and compute budget C.",
+    "expected_keywords": [
+      "power-law",
+      "scaling laws",
+      "cross-entropy",
+      "parameters"
+    ],
+    "expected_context_substr": "power-law",
+    "target_chunk_id": "chunk_3545_6405ca43",
+    "target_source": "data/pdfs/scaling_laws_neural_lms.pdf",
+    "target_page": 1,
+    "target_filename": "scaling_laws_neural_lms.pdf",
+    "split": "test"
+  },
+  {
+    "id": "exact_034_instruct_gpt_ppo",
+    "category": "exact_identifier",
+    "query": "Which reinforcement learning algorithm was used in InstructGPT to fine-tune the language model on human reward scores?",
+    "ground_truth_answer": "InstructGPT uses Proximal Policy Optimization (PPO) to optimize policy outputs against the trained reward model.",
+    "expected_keywords": [
+      "ppo",
+      "proximal policy optimization",
+      "instructgpt",
+      "reward model"
+    ],
+    "expected_context_substr": "PPO",
+    "target_chunk_id": "chunk_2122_29c1e40b",
+    "target_source": "data/pdfs/instruct_gpt.pdf",
+    "target_page": 2,
+    "target_filename": "instruct_gpt.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "exact_035_crag_evaluator_levels",
+    "category": "exact_identifier",
+    "query": "What are the three confidence judgments output by the retrieval evaluator in Corrective RAG CRAG?",
+    "ground_truth_answer": "The CRAG retrieval evaluator outputs one of three confidence levels: Correct, Incorrect, or Ambiguous.",
+    "expected_keywords": [
+      "correct",
+      "incorrect",
+      "ambiguous",
+      "crag",
+      "evaluator"
+    ],
+    "expected_context_substr": "Correct",
+    "target_chunk_id": "chunk_793_e0eed98a",
+    "target_source": "data/pdfs/crag_corrective_rag.pdf",
+    "target_page": 1,
+    "target_filename": "crag_corrective_rag.pdf",
+    "split": "test"
+  },
+  {
+    "id": "exact_036_cve_2024_3094_id",
+    "category": "exact_identifier",
+    "query": "What exact identifier denotes the liblzma xz-utils upstream supply chain backdoor discovered in 2024?",
+    "ground_truth_answer": "The backdoor vulnerability is designated as CVE-2024-3094 in upstream xz-utils tarballs.",
+    "expected_keywords": [
+      "cve-2024-3094",
+      "xz-utils",
+      "liblzma",
+      "backdoor"
+    ],
+    "expected_context_substr": "CVE-2024-3094",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "tune"
+  },
+  {
+    "id": "exact_037_rfc_7636_pkce_id",
+    "category": "exact_identifier",
+    "query": "Which IETF RFC specification defines Proof Key for Code Exchange PKCE for OAuth 2.0 public clients?",
+    "ground_truth_answer": "OAuth 2.0 PKCE is standardized in IETF RFC 7636.",
+    "expected_keywords": [
+      "rfc 7636",
+      "pkce",
+      "oauth 2.0"
+    ],
+    "expected_context_substr": "RFC 7636",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "exact_038_http_504_gateway",
+    "category": "exact_identifier",
+    "query": "Which standard HTTP status code indicates a Gateway Timeout from an intermediary proxy?",
+    "ground_truth_answer": "HTTP 504 Gateway Timeout signifies that a proxy or gateway did not receive a timely response from upstream.",
+    "expected_keywords": [
+      "http 504",
+      "gateway timeout",
+      "proxy"
+    ],
+    "expected_context_substr": "HTTP 504",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "tune"
+  },
+  {
+    "id": "exact_039_rrf_k_val",
+    "category": "exact_identifier",
+    "query": "What default constant is assigned to rrf_k in the Reciprocal Rank Fusion calculation?",
+    "ground_truth_answer": "In Reciprocal Rank Fusion, the smoothing parameter rrf_k default constant is 60.",
+    "expected_keywords": [
+      "rrf_k",
+      "constant is 60",
+      "reciprocal rank fusion"
+    ],
+    "expected_context_substr": "constant is 60",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "exact_040_cache_ttl_val",
+    "category": "exact_identifier",
+    "query": "What value in seconds is assigned to CACHE_TTL_SECONDS in the caching configuration?",
+    "ground_truth_answer": "CACHE_TTL_SECONDS is set to 3600 seconds (1 hour).",
+    "expected_keywords": [
+      "3600 seconds",
+      "cache_ttl_seconds",
+      "1 hour"
+    ],
+    "expected_context_substr": "3600 seconds",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "tune"
+  },
+  {
+    "id": "exact_041_llama_checkpoint_name",
+    "category": "exact_identifier",
+    "query": "What exact model identifier is configured as the default LLM_MODEL checkpoint?",
+    "ground_truth_answer": "The default LLM model identifier is llama-3.3-70b-versatile served via Groq.",
+    "expected_keywords": [
+      "llama-3.3-70b-versatile",
+      "checkpoint",
+      "llm_model"
+    ],
+    "expected_context_substr": "llama-3.3-70b-versatile",
+    "target_chunk_id": "chunk_4098_10261fa3",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "exact_042_k8s_version_number",
+    "category": "exact_identifier",
+    "query": "Which Kubernetes version promoted the CSI storage plugin migration to GA?",
+    "ground_truth_answer": "Kubernetes v1.27 promoted in-tree storage plugin migration to CSI to GA.",
+    "expected_keywords": [
+      "kubernetes v1.27",
+      "csi",
+      "ga",
+      "storage"
+    ],
+    "expected_context_substr": "Kubernetes v1.27",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "para_001_transformer_masking",
+    "category": "paraphrased",
+    "query": "How is the auto-regressive decoder prevented from looking at future token positions during self-attention computation?",
+    "ground_truth_answer": "Masked multi-head attention sets future attention weights to negative infinity before softmax, preventing positions from attending to subsequent tokens.",
+    "expected_keywords": [
+      "masking",
+      "subsequent positions",
+      "decoder",
+      "attention"
+    ],
+    "expected_context_substr": "subsequent positions",
+    "target_chunk_id": "chunk_74_2de340b0",
+    "target_source": "data/pdfs/attention_is_all_you_need.pdf",
+    "target_page": 3,
+    "target_filename": "attention_is_all_you_need.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_002_transformer_positional",
+    "category": "paraphrased",
+    "query": "Since self-attention lacks recurrence and convolution, how does the Transformer inject word sequence order information?",
+    "ground_truth_answer": "Positional encodings generated via sine and cosine functions of varying frequencies are added to input embeddings.",
+    "expected_keywords": [
+      "sine and cosine",
+      "positional encodings",
+      "order"
+    ],
+    "expected_context_substr": "sine and cosine",
+    "target_chunk_id": "chunk_86_3f0edc45",
+    "target_source": "data/pdfs/attention_is_all_you_need.pdf",
+    "target_page": 6,
+    "target_filename": "attention_is_all_you_need.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_003_bert_nsp_purpose",
+    "category": "paraphrased",
+    "query": "What auxiliary binary classification objective helps language models understand relationships across consecutive sentence pairs?",
+    "ground_truth_answer": "The Next Sentence Prediction (NSP) task trains the model to predict whether a second sentence is the actual continuation of the first.",
+    "expected_keywords": [
+      "next sentence prediction",
+      "sentence pairs",
+      "bert"
+    ],
+    "expected_context_substr": "Next Sentence Prediction",
+    "target_chunk_id": "chunk_128_0f7d183b",
+    "target_source": "data/pdfs/bert_bidirectional_transformers.pdf",
+    "target_page": 2,
+    "target_filename": "bert_bidirectional_transformers.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_004_lora_freeze_weights",
+    "category": "paraphrased",
+    "query": "How does low-rank adaptation prevent catastrophic forgetting of knowledge when adapting huge foundational models?",
+    "ground_truth_answer": "LoRA freezes the pre-trained weights entirely and only trains small auxiliary low-rank decomposition matrices.",
+    "expected_keywords": [
+      "freezes the pre-",
+      "lora",
+      "low-rank"
+    ],
+    "expected_context_substr": "freezes the pre-",
+    "target_chunk_id": "chunk_2782_8fa17025",
+    "target_source": "data/pdfs/lora_low_rank_adaptation.pdf",
+    "target_page": 1,
+    "target_filename": "lora_low_rank_adaptation.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_005_flash_io_awareness",
+    "category": "paraphrased",
+    "query": "What principle explains why traditional transformer self-attention is bottlenecked by hardware memory bandwidth rather than compute FLOPs?",
+    "ground_truth_answer": "Standard attention is memory-bound due to frequent reads and writes of the N x N attention matrix to GPU HBM rather than arithmetic compute throughput.",
+    "expected_keywords": [
+      "io complexity",
+      "memory bandwidth",
+      "hbm",
+      "sram"
+    ],
+    "expected_context_substr": "IO complexity",
+    "target_chunk_id": "chunk_1289_02263598",
+    "target_source": "data/pdfs/flash_attention.pdf",
+    "target_page": 1,
+    "target_filename": "flash_attention.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_006_react_synergy",
+    "category": "paraphrased",
+    "query": "Why does combining internal model reasoning scratchpads with external tool interactions reduce factual hallucinations?",
+    "ground_truth_answer": "Reasoning guides action planning and tracks progress, while external actions ground thoughts in real-time factual observations.",
+    "expected_keywords": [
+      "reasoning and acting",
+      "hallucinations",
+      "observations"
+    ],
+    "expected_context_substr": "reasoning and acting",
+    "target_chunk_id": "chunk_3311_59ac3d19",
+    "target_source": "data/pdfs/react_reasoning_and_acting.pdf",
+    "target_page": 1,
+    "target_filename": "react_reasoning_and_acting.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_007_toolformer_filtering",
+    "category": "paraphrased",
+    "query": "Under what condition does Toolformer keep an automatically generated tool call inside its fine-tuning dataset?",
+    "ground_truth_answer": "Toolformer retains API calls if adding the call and its result reduces language modeling perplexity (loss) on future tokens.",
+    "expected_keywords": [
+      "loss",
+      "toolformer",
+      "api calls",
+      "perplexity"
+    ],
+    "expected_context_substr": "loss",
+    "target_chunk_id": "chunk_3913_49105329",
+    "target_source": "data/pdfs/toolformer.pdf",
+    "target_page": 2,
+    "target_filename": "toolformer.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_008_cot_prompting_mechanism",
+    "category": "paraphrased",
+    "query": "How can providing examples of intermediate derivation steps improve complex mathematical reasoning in neural models?",
+    "ground_truth_answer": "Chain-of-thought demonstrations teach the model to decompose multi-step problems into sequential reasoning steps, allocating more compute tokens to the problem.",
+    "expected_keywords": [
+      "chain of thought",
+      "intermediate",
+      "reasoning",
+      "multi-step"
+    ],
+    "expected_context_substr": "chain of thought",
+    "target_chunk_id": "chunk_319_fc3ce894",
+    "target_source": "data/pdfs/chain_of_thought.pdf",
+    "target_page": 1,
+    "target_filename": "chain_of_thought.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_009_dpo_no_rl",
+    "category": "paraphrased",
+    "query": "How does DPO eliminate the instability and complexity associated with classical actor-critic RL algorithms like PPO?",
+    "ground_truth_answer": "DPO analytically solves the constrained reward maximization problem to express the loss directly as a simple binary cross-entropy on preference pairs without RL.",
+    "expected_keywords": [
+      "without reinforcement learning",
+      "dpo",
+      "preference"
+    ],
+    "expected_context_substr": "without reinforcement learning",
+    "target_chunk_id": "chunk_1121_28969522",
+    "target_source": "data/pdfs/direct_preference_optimization.pdf",
+    "target_page": 10,
+    "target_filename": "direct_preference_optimization.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_010_qlora_paged_optimizers",
+    "category": "paraphrased",
+    "query": "What technique prevents out-of-memory crashes during training by moving optimizer state pages to CPU RAM during memory spikes?",
+    "ground_truth_answer": "Paged Optimizers utilize CUDA Unified Memory to automatically page optimizer states between GPU VRAM and CPU RAM during allocation spikes.",
+    "expected_keywords": [
+      "paged optimizers",
+      "cuda unified memory",
+      "qlora"
+    ],
+    "expected_context_substr": "Paged Optimizers",
+    "target_chunk_id": "chunk_2942_c4325d19",
+    "target_source": "data/pdfs/qlora_efficient_finetuning.pdf",
+    "target_page": 1,
+    "target_filename": "qlora_efficient_finetuning.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_011_colbert_retrieval_efficiency",
+    "category": "paraphrased",
+    "query": "How does late interaction achieve retrieval quality comparable to all-to-all cross-encoders while maintaining dense retrieval speed?",
+    "ground_truth_answer": "It independently precomputes token representations for queries and documents, delaying interaction until a fast MaxSim operator is applied over vectors.",
+    "expected_keywords": [
+      "late interaction",
+      "cross-encoders",
+      "colbert"
+    ],
+    "expected_context_substr": "late interaction",
+    "target_chunk_id": "chunk_522_dfbd1a87",
+    "target_source": "data/pdfs/colbert_late_interaction.pdf",
+    "target_page": 1,
+    "target_filename": "colbert_late_interaction.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_012_hyde_unsupervised_search",
+    "category": "paraphrased",
+    "query": "How does generating a synthetic fictitious answer help dense retrieval when search queries lack document keyword overlap?",
+    "ground_truth_answer": "HyDE generates a hypothetical document which captures the semantic neighborhood of the true answer, and embeds this passage to find real relevant documents.",
+    "expected_keywords": [
+      "hypothetical",
+      "dense retrieval",
+      "hyde"
+    ],
+    "expected_context_substr": "hypothetical",
+    "target_chunk_id": "chunk_2058_2e02354f",
+    "target_source": "data/pdfs/hyde_zero_shot_dense_retrieval.pdf",
+    "target_page": 1,
+    "target_filename": "hyde_zero_shot_dense_retrieval.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_013_self_rag_adaptive",
+    "category": "paraphrased",
+    "query": "Why is always retrieving documents for every query suboptimal compared to selectively retrieving only when needed?",
+    "ground_truth_answer": "Indiscriminate retrieval adds computational latency and risks introducing noisy, irrelevant contexts on simple queries that the model already knows.",
+    "expected_keywords": [
+      "adaptive retrieval",
+      "self-rag",
+      "retrieval"
+    ],
+    "expected_context_substr": "adaptive retrieval",
+    "target_chunk_id": "chunk_3711_0cda2fe8",
+    "target_source": "data/pdfs/self_rag_learning_to_retrieve.pdf",
+    "target_page": 6,
+    "target_filename": "self_rag_learning_to_retrieve.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_014_crag_web_fallback",
+    "category": "paraphrased",
+    "query": "What recovery action is triggered in corrective retrieval when the internal corpus retrieval evaluator marks results as incorrect?",
+    "ground_truth_answer": "CRAG falls back to an external web search to find accurate, up-to-date information when internal retrieved chunks are deemed incorrect.",
+    "expected_keywords": [
+      "web search",
+      "crag",
+      "retrieval evaluator"
+    ],
+    "expected_context_substr": "web search",
+    "target_chunk_id": "chunk_794_a81a50ab",
+    "target_source": "data/pdfs/crag_corrective_rag.pdf",
+    "target_page": 1,
+    "target_filename": "crag_corrective_rag.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_015_graphrag_global_sense",
+    "category": "paraphrased",
+    "query": "How does knowledge graph community summarization solve broad semantic questions that cannot be answered by isolated chunk retrieval?",
+    "ground_truth_answer": "It builds summaries of entity clusters across the entire graph at multiple hierarchical levels, synthesizing answers for global sensemaking queries.",
+    "expected_keywords": [
+      "global",
+      "graphrag",
+      "summaries",
+      "communities"
+    ],
+    "expected_context_substr": "global",
+    "target_chunk_id": "chunk_1932_96de9f2f",
+    "target_source": "data/pdfs/graphrag_local_to_global.pdf",
+    "target_page": 1,
+    "target_filename": "graphrag_local_to_global.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_016_bge_m3_unification",
+    "category": "paraphrased",
+    "query": "What distinct retrieval paradigms are jointly unified into a single representation model in BGE-M3?",
+    "ground_truth_answer": "BGE-M3 unifies dense vector retrieval, multi-vector ColBERT late interaction, and sparse lexical matching within a single embedding framework.",
+    "expected_keywords": [
+      "dense",
+      "sparse",
+      "multi-vector",
+      "bge-m3"
+    ],
+    "expected_context_substr": "dense",
+    "target_chunk_id": "chunk_218_6797ca41",
+    "target_source": "data/pdfs/bge_m3_text_embeddings.pdf",
+    "target_page": 1,
+    "target_filename": "bge_m3_text_embeddings.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_017_raft_leader_election",
+    "category": "paraphrased",
+    "query": "How does a follower node detect that the cluster leader has crashed and initiate a new election?",
+    "ground_truth_answer": "If a follower's randomized election timer expires without receiving heartbeats from the leader, it transitions to candidate state and requests votes.",
+    "expected_keywords": [
+      "candidate",
+      "election",
+      "heartbeats",
+      "raft"
+    ],
+    "expected_context_substr": "candidate",
+    "target_chunk_id": "chunk_3096_a5aa629a",
+    "target_source": "data/pdfs/raft_consensus_algorithm.pdf",
+    "target_page": 4,
+    "target_filename": "raft_consensus_algorithm.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_018_raft_log_safety",
+    "category": "paraphrased",
+    "query": "What invariant ensures that committed log entries in a distributed state machine are never overwritten or lost by future leaders?",
+    "ground_truth_answer": "The Leader Append-Only property guarantees that leaders never overwrite or delete entries in their log, only appending new entries.",
+    "expected_keywords": [
+      "leader append-only",
+      "committed",
+      "log",
+      "raft"
+    ],
+    "expected_context_substr": "Leader Append-Only",
+    "target_chunk_id": "chunk_3100_c4145231",
+    "target_source": "data/pdfs/raft_consensus_algorithm.pdf",
+    "target_page": 5,
+    "target_filename": "raft_consensus_algorithm.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_019_adam_bias_correction",
+    "category": "paraphrased",
+    "query": "Why are the moving averages of gradients initialized to zero scaled by 1 minus beta to the power t in early iterations?",
+    "ground_truth_answer": "Bias correction counteracts the initialization bias toward zero during early training steps, producing unbiased first and second moment estimators.",
+    "expected_keywords": [
+      "bias-corrected",
+      "adam",
+      "moments",
+      "zero"
+    ],
+    "expected_context_substr": "bias-corrected",
+    "target_chunk_id": "chunk_7_77d543ee",
+    "target_source": "data/pdfs/adam_optimization.pdf",
+    "target_page": 2,
+    "target_filename": "adam_optimization.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_020_resnet_vanishing_gradients",
+    "category": "paraphrased",
+    "query": "What unexpected degradation problem occurs when training standard deep feedforward networks with excessive depth?",
+    "ground_truth_answer": "With increasing network depth, accuracy saturates and degrades rapidly, not from overfitting but due to vanishing/exploding gradients hindering optimization.",
+    "expected_keywords": [
+      "degradation",
+      "depth",
+      "resnet",
+      "vanishing"
+    ],
+    "expected_context_substr": "degradation",
+    "target_chunk_id": "chunk_889_c4280dbc",
+    "target_source": "data/pdfs/deep_residual_learning_resnet.pdf",
+    "target_page": 1,
+    "target_filename": "deep_residual_learning_resnet.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_021_diffusion_reverse_process",
+    "category": "paraphrased",
+    "query": "In generative diffusion models, how is clean data synthesized from pure random Gaussian noise?",
+    "ground_truth_answer": "A neural network iteratively inverts the forward noise process step-by-step using learned conditional Gaussian transitions.",
+    "expected_keywords": [
+      "reverse process",
+      "gaussian",
+      "diffusion",
+      "noise"
+    ],
+    "expected_context_substr": "reverse process",
+    "target_chunk_id": "chunk_978_d4c3a447",
+    "target_source": "data/pdfs/diffusion_models_ddpm.pdf",
+    "target_page": 2,
+    "target_filename": "diffusion_models_ddpm.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_022_roformer_relative_position",
+    "category": "paraphrased",
+    "query": "What property of complex vector rotations allows RoPE to naturally encode token distance into inner product attention scores?",
+    "ground_truth_answer": "Rotating query and key vectors before inner products ensures that their dot product depends strictly on relative position difference m - n.",
+    "expected_keywords": [
+      "relative position",
+      "rotary",
+      "inner product",
+      "rope"
+    ],
+    "expected_context_substr": "relative position",
+    "target_chunk_id": "chunk_3478_3122274f",
+    "target_source": "data/pdfs/roformer_rotary_position_embedding.pdf",
+    "target_page": 1,
+    "target_filename": "roformer_rotary_position_embedding.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_023_gpt3_few_shot_capabilities",
+    "category": "paraphrased",
+    "query": "How can large language models solve novel tasks purely during inference without updating neural network weight parameters?",
+    "ground_truth_answer": "Through in-context learning, models recognize patterns and instructions provided within the input context prompt at inference time.",
+    "expected_keywords": [
+      "in-context learning",
+      "few-shot",
+      "gpt-3",
+      "inference"
+    ],
+    "expected_context_substr": "in-context learning",
+    "target_chunk_id": "chunk_1597_f2362254",
+    "target_source": "data/pdfs/gpt3_few_shot_learners.pdf",
+    "target_page": 3,
+    "target_filename": "gpt3_few_shot_learners.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_024_llama2_safety_tuning",
+    "category": "paraphrased",
+    "query": "What methodologies are used to align generative responses to avoid producing harmful or dangerous user instructions?",
+    "ground_truth_answer": "Safety fine-tuning uses dedicated adversarial safety datasets, safety-specific RLHF reward modeling, and red-teaming iterations.",
+    "expected_keywords": [
+      "safety",
+      "llama 2",
+      "alignment",
+      "rlhf"
+    ],
+    "expected_context_substr": "safety",
+    "target_chunk_id": "chunk_2393_4db2f5c2",
+    "target_source": "data/pdfs/llama2_open_foundation_models.pdf",
+    "target_page": 1,
+    "target_filename": "llama2_open_foundation_models.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_025_constitutional_ai_principles",
+    "category": "paraphrased",
+    "query": "How can an AI model be trained to critique and correct its own toxic responses without human crowd-worker annotations?",
+    "ground_truth_answer": "The model uses a predefined set of written constitutional principles to critique, revise, and self-improve generated text.",
+    "expected_keywords": [
+      "constitution",
+      "constitutional ai",
+      "critique",
+      "principles"
+    ],
+    "expected_context_substr": "constitution",
+    "target_chunk_id": "chunk_614_ca5e53d1",
+    "target_source": "data/pdfs/constitutional_ai.pdf",
+    "target_page": 1,
+    "target_filename": "constitutional_ai.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_026_scaling_law_compute_balance",
+    "category": "paraphrased",
+    "query": "When computational budget increases, should resources be allocated primarily to larger model parameters or longer dataset training?",
+    "ground_truth_answer": "Optimal performance requires scaling both model parameters and dataset tokens concurrently, with larger models being more sample-efficient.",
+    "expected_keywords": [
+      "compute",
+      "scaling laws",
+      "parameters",
+      "tokens"
+    ],
+    "expected_context_substr": "compute",
+    "target_chunk_id": "chunk_3545_6405ca43",
+    "target_source": "data/pdfs/scaling_laws_neural_lms.pdf",
+    "target_page": 1,
+    "target_filename": "scaling_laws_neural_lms.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_027_tot_exploration_strategy",
+    "category": "paraphrased",
+    "query": "How does exploring diverse alternative reasoning paths differ from traditional greedy linear autoregressive text generation?",
+    "ground_truth_answer": "Tree of Thoughts uses search algorithms (BFS/DFS) with heuristic state evaluations, allowing lookahead and backtracking when paths prove unviable.",
+    "expected_keywords": [
+      "heuristic",
+      "tree of thoughts",
+      "backtracking",
+      "search"
+    ],
+    "expected_context_substr": "heuristic",
+    "target_chunk_id": "chunk_4022_fe051414",
+    "target_source": "data/pdfs/tree_of_thoughts.pdf",
+    "target_page": 2,
+    "target_filename": "tree_of_thoughts.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_028_speculative_lossless",
+    "category": "paraphrased",
+    "query": "How does speculative decoding accelerate text generation speed without causing any degradation in the generated output text distribution?",
+    "ground_truth_answer": "A modified rejection sampling scheme guarantees that accepted tokens mathematically follow the exact output distribution of the target model.",
+    "expected_keywords": [
+      "distribution",
+      "speculative decoding",
+      "rejection sampling"
+    ],
+    "expected_context_substr": "distribution",
+    "target_chunk_id": "chunk_3835_3eac218f",
+    "target_source": "data/pdfs/speculative_decoding.pdf",
+    "target_page": 1,
+    "target_filename": "speculative_decoding.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_029_rag_dpr_generator_link",
+    "category": "paraphrased",
+    "query": "In retrieval-augmented generation systems, how does the parametric model interact with the non-parametric memory component?",
+    "ground_truth_answer": "The dense passage retriever acts as non-parametric memory retrieving documents, which are prepended as context for the seq2seq generator.",
+    "expected_keywords": [
+      "retriever",
+      "non-parametric",
+      "generator",
+      "rag"
+    ],
+    "expected_context_substr": "retriever",
+    "target_chunk_id": "chunk_3208_b7530069",
+    "target_source": "data/pdfs/rag_retrieval_augmented_generation.pdf",
+    "target_page": 1,
+    "target_filename": "rag_retrieval_augmented_generation.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_030_dpr_vs_bm25_semantics",
+    "category": "paraphrased",
+    "query": "Why do dual-encoder embeddings outperform lexical inverted indexes on paraphrased questions?",
+    "ground_truth_answer": "Dense embeddings capture semantic concepts in continuous vector space, whereas lexical matching fails when synonyms do not share tokens.",
+    "expected_keywords": [
+      "dense representation",
+      "dpr",
+      "semantic",
+      "bm25"
+    ],
+    "expected_context_substr": "dense representation",
+    "target_chunk_id": "chunk_1205_c4ded039",
+    "target_source": "data/pdfs/dpr_dense_passage_retrieval.pdf",
+    "target_page": 1,
+    "target_filename": "dpr_dense_passage_retrieval.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_031_mistral_byte_fallback",
+    "category": "paraphrased",
+    "query": "How does the tokenizer handle rare, unencountered Unicode characters without failing on out-of-vocabulary tokens?",
+    "ground_truth_answer": "Mistral uses a byte-fallback BPE tokenizer that breaks down unseen characters into individual raw UTF-8 bytes.",
+    "expected_keywords": [
+      "tokenizer",
+      "byte-fallback",
+      "mistral 7b"
+    ],
+    "expected_context_substr": "tokenizer",
+    "target_chunk_id": "chunk_257_01fd7e84",
+    "target_source": "data/pdfs/bge_m3_text_embeddings.pdf",
+    "target_page": 6,
+    "target_filename": "bge_m3_text_embeddings.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_032_resnet_residual_identity",
+    "category": "paraphrased",
+    "query": "Why does adding shortcut skip connections make it easier for stacked layers to learn identity functions?",
+    "ground_truth_answer": "If an identity mapping is optimal, it is easier for solvers to drive residual weights F(x) to zero than to fit an identity mapping from scratch.",
+    "expected_keywords": [
+      "identity",
+      "shortcut",
+      "resnet",
+      "residual"
+    ],
+    "expected_context_substr": "identity",
+    "target_chunk_id": "chunk_890_4e5db2db",
+    "target_source": "data/pdfs/deep_residual_learning_resnet.pdf",
+    "target_page": 1,
+    "target_filename": "deep_residual_learning_resnet.pdf",
+    "split": "test"
+  },
+  {
+    "id": "para_033_instruct_gpt_human_alignment",
+    "category": "paraphrased",
+    "query": "What discrepancy between language model pre-training goals and user expectations is addressed by RLHF?",
+    "ground_truth_answer": "Next-token prediction on internet text does not align with following instructions safely and helpfully; RLHF aligns outputs with human intent.",
+    "expected_keywords": [
+      "helpful",
+      "alignment",
+      "instructgpt",
+      "instructions"
+    ],
+    "expected_context_substr": "helpful",
+    "target_chunk_id": "chunk_2118_3d5abbc1",
+    "target_source": "data/pdfs/instruct_gpt.pdf",
+    "target_page": 1,
+    "target_filename": "instruct_gpt.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "para_034_cve_backdoor_mechanism",
+    "category": "paraphrased",
+    "query": "In what manner did the compromised upstream compression utility tamper with secure remote shell authentication?",
+    "ground_truth_answer": "The injected backdoor intercepted sshd authentication routines inside liblzma during OpenSSH connection handshakes.",
+    "expected_keywords": [
+      "sshd",
+      "backdoor",
+      "authentication",
+      "liblzma"
+    ],
+    "expected_context_substr": "sshd",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "tune"
+  },
+  {
+    "id": "para_035_oauth_pkce_defense",
+    "category": "paraphrased",
+    "query": "How does Proof Key for Code Exchange shield mobile apps from authorization code interception attacks?",
+    "ground_truth_answer": "By validating the cryptographically hashed code_challenge against the dynamically generated code_verifier on token exchange.",
+    "expected_keywords": [
+      "code_verifier",
+      "pkce",
+      "oauth",
+      "authorization"
+    ],
+    "expected_context_substr": "code_verifier",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "para_036_http_proxy_upstream_delay",
+    "category": "paraphrased",
+    "query": "What operational failure between frontend reverse proxies and backend worker services triggers a 504 error?",
+    "ground_truth_answer": "An intermediary proxy server times out waiting for an HTTP response from an upstream backend server.",
+    "expected_keywords": [
+      "intermediary",
+      "proxy",
+      "upstream",
+      "timeout"
+    ],
+    "expected_context_substr": "intermediary",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "para_037_k8s_storage_csi_migration",
+    "category": "paraphrased",
+    "query": "How did Kubernetes improve volume storage stability by replacing legacy in-tree drivers?",
+    "ground_truth_answer": "By transitioning in-tree volume plugins to the standardized out-of-tree Container Storage Interface (CSI).",
+    "expected_keywords": [
+      "in-tree storage plugin",
+      "csi",
+      "kubernetes",
+      "migration"
+    ],
+    "expected_context_substr": "in-tree storage plugin",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "para_038_rrf_scoring_intuition",
+    "category": "paraphrased",
+    "query": "How does rank-based fusion avoid calibration errors when combining disparate score distributions from keyword and vector models?",
+    "ground_truth_answer": "RRF combines ordinal rankings rather than raw scores, summing 1/(k + rank) to prevent high-magnitude score imbalances.",
+    "expected_keywords": [
+      "reciprocal rank fusion",
+      "rankings",
+      "scores"
+    ],
+    "expected_context_substr": "Reciprocal Rank Fusion",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "tune"
+  },
+  {
+    "id": "para_039_redis_ttl_rationale",
+    "category": "paraphrased",
+    "query": "What automated expiration mechanism prevents memory exhaustion in query response caches over time?",
+    "ground_truth_answer": "Configuring time-to-live (TTL) expiration automatically evicts stale query keys and responses from memory.",
+    "expected_keywords": [
+      "evict",
+      "ttl",
+      "cache",
+      "memory"
+    ],
+    "expected_context_substr": "evict",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "para_040_observability_grafana_role",
+    "category": "paraphrased",
+    "query": "Which operational monitoring tool visualizes request latencies, QPS throughput, and cache metrics on live dashboards?",
+    "ground_truth_answer": "Grafana provides real-time visualization dashboards connected to Prometheus metrics exporters.",
+    "expected_keywords": [
+      "grafana",
+      "dashboard",
+      "latency",
+      "prometheus"
+    ],
+    "expected_context_substr": "Grafana",
+    "target_chunk_id": "chunk_4098_10261fa3",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "para_041_data_integrity_validation",
+    "category": "paraphrased",
+    "query": "How do continuous evaluation pipelines safeguard against silent retrieval quality regressions during data updates?",
+    "ground_truth_answer": "Continuous evaluation monitors RAG faithfulness, groundedness, and context relevance against a golden test set.",
+    "expected_keywords": [
+      "continuous evaluation",
+      "faithfulness",
+      "recall",
+      "groundedness"
+    ],
+    "expected_context_substr": "Continuous evaluation",
+    "target_chunk_id": "chunk_4099_3c532947",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "para_042_sparse_lexical_advantage",
+    "category": "paraphrased",
+    "query": "Why does classical term-frequency search remain essential alongside dense deep-learning vector models?",
+    "ground_truth_answer": "BM25 excels at exact keyword, version number, acronym, and rare identifier lookups where dense vectors blur distinctions.",
+    "expected_keywords": [
+      "bm25",
+      "lexical",
+      "keyword",
+      "exact"
+    ],
+    "expected_context_substr": "BM25",
+    "target_chunk_id": "chunk_4099_3c532947",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "mixed_001_transformer_qlora",
+    "category": "mixed_multihop",
+    "query": "How is Multi-Head Attention parameterized in Transformers, and how can fine-tuning attention projection matrices be optimized via low-rank methods?",
+    "ground_truth_answer": "Multi-Head Attention computes parallel attention projections using W_Q, W_K, W_V, and W_O matrices; low-rank methods (LoRA/QLoRA) freeze these matrices and adapt only low-rank decomposed adapters.",
+    "expected_keywords": [
+      "multi-head attention",
+      "projections",
+      "matrices",
+      "attention"
+    ],
+    "expected_context_substr": "Multi-Head Attention",
+    "target_chunk_id": "chunk_70_9ee7e746",
+    "target_source": "data/pdfs/attention_is_all_you_need.pdf",
+    "target_page": 2,
+    "target_filename": "attention_is_all_you_need.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_002_rag_dpr_dual",
+    "category": "mixed_multihop",
+    "query": "What dual-encoder retriever component is used in RAG to index passages for the BART sequence-to-sequence generator?",
+    "ground_truth_answer": "RAG uses the Dense Passage Retriever (DPR), which utilizes bi-encoder architectures to score question-passage similarity via dot product.",
+    "expected_keywords": [
+      "dense passage retriever",
+      "dpr",
+      "bart",
+      "rag"
+    ],
+    "expected_context_substr": "Dense Passage Retriever",
+    "target_chunk_id": "chunk_3213_fd7e42ca",
+    "target_source": "data/pdfs/rag_retrieval_augmented_generation.pdf",
+    "target_page": 2,
+    "target_filename": "rag_retrieval_augmented_generation.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_003_dpr_vs_bm25_hybrid",
+    "category": "mixed_multihop",
+    "query": "How does Dense Passage Retrieval DPR compare against BM25 on top-20 passage retrieval accuracy for Natural Questions?",
+    "ground_truth_answer": "DPR outperforms BM25 on Natural Questions top-20 retrieval accuracy by over 9-10% (achieving ~78-79% vs 59% for BM25).",
+    "expected_keywords": [
+      "bm25",
+      "dpr",
+      "natural questions",
+      "retrieval"
+    ],
+    "expected_context_substr": "BM25",
+    "target_chunk_id": "chunk_1205_c4ded039",
+    "target_source": "data/pdfs/dpr_dense_passage_retrieval.pdf",
+    "target_page": 1,
+    "target_filename": "dpr_dense_passage_retrieval.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_004_flash_attention_exactness",
+    "category": "mixed_multihop",
+    "query": "How does FlashAttention maintain exact mathematical equivalence to standard self-attention while drastically reducing GPU memory consumption?",
+    "ground_truth_answer": "It computes exact attention by recomputing intermediate softmax scaling statistics during backward passes rather than saving large intermediate attention matrices in HBM.",
+    "expected_keywords": [
+      "exact attention",
+      "softmax",
+      "flashattention",
+      "hbm"
+    ],
+    "expected_context_substr": "exact attention",
+    "target_chunk_id": "chunk_1288_6ede7ae7",
+    "target_source": "data/pdfs/flash_attention.pdf",
+    "target_page": 1,
+    "target_filename": "flash_attention.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_005_lora_parameter_efficiency",
+    "category": "mixed_multihop",
+    "query": "By what factor can LoRA reduce the number of trainable parameters compared to full fine-tuning on large 175B models?",
+    "ground_truth_answer": "LoRA can reduce trainable parameters by up to 10,000 times and GPU memory requirements by 3 times compared to full fine-tuning.",
+    "expected_keywords": [
+      "10,000 times",
+      "parameters",
+      "lora",
+      "fine-tuning"
+    ],
+    "expected_context_substr": "10,000 times",
+    "target_chunk_id": "chunk_2782_8fa17025",
+    "target_source": "data/pdfs/lora_low_rank_adaptation.pdf",
+    "target_page": 1,
+    "target_filename": "lora_low_rank_adaptation.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_006_dpo_vs_ppo_rewards",
+    "category": "mixed_multihop",
+    "query": "How does the DPO loss formulation bypass the need for training a separate reward model compared to standard PPO RLHF?",
+    "ground_truth_answer": "DPO reparameterizes the reward function using the policy itself, allowing direct optimization on human preference pairs without an explicit reward model or PPO training loop.",
+    "expected_keywords": [
+      "ppo",
+      "reward model",
+      "dpo",
+      "preference"
+    ],
+    "expected_context_substr": "PPO",
+    "target_chunk_id": "chunk_1061_2bcb34aa",
+    "target_source": "data/pdfs/direct_preference_optimization.pdf",
+    "target_page": 1,
+    "target_filename": "direct_preference_optimization.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_007_qlora_memory_footprint",
+    "category": "mixed_multihop",
+    "query": "What hardware GPU configuration is made capable of fine-tuning a 65B parameter model thanks to QLoRA?",
+    "ground_truth_answer": "QLoRA enables fine-tuning a 65B parameter language model on a single 48GB GPU (like an NVIDIA A100) within 24 hours.",
+    "expected_keywords": [
+      "single 48gb",
+      "65b",
+      "qlora",
+      "gpu"
+    ],
+    "expected_context_substr": "single 48GB",
+    "target_chunk_id": "chunk_2941_b24595a9",
+    "target_source": "data/pdfs/qlora_efficient_finetuning.pdf",
+    "target_page": 1,
+    "target_filename": "qlora_efficient_finetuning.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_008_mistral_gqa_throughput",
+    "category": "mixed_multihop",
+    "query": "How does Grouped Query Attention GQA in Mistral 7B boost decoding throughput compared to full Multi-Head Attention MHA?",
+    "ground_truth_answer": "By sharing key and value heads across multiple query heads, GQA substantially reduces KV cache memory footprint and bandwidth during autoregressive decoding.",
+    "expected_keywords": [
+      "inference speed",
+      "gqa",
+      "mistral 7b",
+      "cache"
+    ],
+    "expected_context_substr": "inference speed",
+    "target_chunk_id": "chunk_2906_ac868246",
+    "target_source": "data/pdfs/mistral_7b.pdf",
+    "target_page": 1,
+    "target_filename": "mistral_7b.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_009_colbert_indexing_compression",
+    "category": "mixed_multihop",
+    "query": "How does ColBERT index passages and manage memory storage requirements for multi-vector document representations?",
+    "ground_truth_answer": "ColBERT offline encodes document tokens into vectors and uses vector quantization/pruning to store compact index representations for rapid MaxSim retrieval.",
+    "expected_keywords": [
+      "vector",
+      "colbert",
+      "index",
+      "tokens"
+    ],
+    "expected_context_substr": "vector",
+    "target_chunk_id": "chunk_523_bd185322",
+    "target_source": "data/pdfs/colbert_late_interaction.pdf",
+    "target_page": 1,
+    "target_filename": "colbert_late_interaction.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_010_hyde_dense_encoder",
+    "category": "mixed_multihop",
+    "query": "Which unsupervised dense retriever model does HyDE pair with generative LLM prompts to perform zero-shot search?",
+    "ground_truth_answer": "HyDE utilizes Contriever (an unsupervised contrastive dense encoder) to embed generated hypothetical documents without requiring relevance fine-tuning.",
+    "expected_keywords": [
+      "contriever",
+      "hyde",
+      "unsupervised",
+      "encoder"
+    ],
+    "expected_context_substr": "Contriever",
+    "target_chunk_id": "chunk_2059_17d16922",
+    "target_source": "data/pdfs/hyde_zero_shot_dense_retrieval.pdf",
+    "target_page": 1,
+    "target_filename": "hyde_zero_shot_dense_retrieval.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_011_self_rag_critique",
+    "category": "mixed_multihop",
+    "query": "What specific reflection tokens does Self-RAG generate to evaluate whether retrieved passages are relevant and whether generated text is supported?",
+    "ground_truth_answer": "Self-RAG generates [IsRel] to check document relevance, [IsSup] to check context groundedness, and [IsUse] to judge answer utility.",
+    "expected_keywords": [
+      "reflection tokens",
+      "self-rag",
+      "isrel",
+      "issup"
+    ],
+    "expected_context_substr": "reflection tokens",
+    "target_chunk_id": "chunk_3678_a35d66d5",
+    "target_source": "data/pdfs/self_rag_learning_to_retrieve.pdf",
+    "target_page": 1,
+    "target_filename": "self_rag_learning_to_retrieve.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_012_crag_decompose_refine",
+    "category": "mixed_multihop",
+    "query": "How does Corrective RAG filter out irrelevant sentences from retrieved documents before passing them to the generator?",
+    "ground_truth_answer": "CRAG uses a decompose-and-refine algorithm that breaks retrieved documents into smaller knowledge strips and filters out uninformative segments.",
+    "expected_keywords": [
+      "refine",
+      "crag",
+      "knowledge",
+      "generator"
+    ],
+    "expected_context_substr": "refine",
+    "target_chunk_id": "chunk_802_19a4555e",
+    "target_source": "data/pdfs/crag_corrective_rag.pdf",
+    "target_page": 2,
+    "target_filename": "crag_corrective_rag.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_013_graphrag_entities_relations",
+    "category": "mixed_multihop",
+    "query": "What two core graph elements does GraphRAG extract from text chunks using LLM prompts before building community summaries?",
+    "ground_truth_answer": "GraphRAG extracts entities (nodes) and relationships/claims (edges) along with descriptions from text chunks.",
+    "expected_keywords": [
+      "entity",
+      "relationship",
+      "graphrag",
+      "graph"
+    ],
+    "expected_context_substr": "entity",
+    "target_chunk_id": "chunk_1934_10683882",
+    "target_source": "data/pdfs/graphrag_local_to_global.pdf",
+    "target_page": 1,
+    "target_filename": "graphrag_local_to_global.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_014_bge_m3_sparse_dense",
+    "category": "mixed_multihop",
+    "query": "How does BGE-M3 compute lexical token importance weights alongside dense semantic embeddings in a single forward pass?",
+    "ground_truth_answer": "BGE-M3 outputs a sparse weight vector over the vocabulary where each term weight reflects its lexical importance, complementing dense semantic representations.",
+    "expected_keywords": [
+      "sparse",
+      "bge-m3",
+      "dense",
+      "embeddings"
+    ],
+    "expected_context_substr": "sparse",
+    "target_chunk_id": "chunk_218_6797ca41",
+    "target_source": "data/pdfs/bge_m3_text_embeddings.pdf",
+    "target_page": 1,
+    "target_filename": "bge_m3_text_embeddings.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_015_raft_election_safety",
+    "category": "mixed_multihop",
+    "query": "How does Raft ensure Election Safety such that at most one leader can be elected in any given term?",
+    "ground_truth_answer": "Each node votes for at most one candidate per term on a first-come-first-served basis, and a candidate requires a strict majority of cluster votes to win.",
+    "expected_keywords": [
+      "leader election",
+      "term",
+      "majority",
+      "raft"
+    ],
+    "expected_context_substr": "Leader Election",
+    "target_chunk_id": "chunk_3074_441f95bc",
+    "target_source": "data/pdfs/raft_consensus_algorithm.pdf",
+    "target_page": 1,
+    "target_filename": "raft_consensus_algorithm.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_016_adam_momentum_scaling",
+    "category": "mixed_multihop",
+    "query": "How does Adam combine the concepts of gradient momentum with adaptive learning rate scaling across individual weights?",
+    "ground_truth_answer": "Adam maintains an exponentially decaying average of past gradients (first moment/momentum) and past squared gradients (second moment/RMSProp).",
+    "expected_keywords": [
+      "second moment",
+      "momentum",
+      "adam",
+      "gradients"
+    ],
+    "expected_context_substr": "second moment",
+    "target_chunk_id": "chunk_4_ab9480dd",
+    "target_source": "data/pdfs/adam_optimization.pdf",
+    "target_page": 1,
+    "target_filename": "adam_optimization.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_017_resnet_bottleneck",
+    "category": "mixed_multihop",
+    "query": "What 3-layer bottleneck block design does ResNet introduce to reduce computational complexity in deeper 50/101/152 architectures?",
+    "ground_truth_answer": "The bottleneck block consists of a 1x1 convolution for dimension reduction, a 3x3 convolution, and a 1x1 convolution for restoring dimensions.",
+    "expected_keywords": [
+      "bottleneck",
+      "resnet",
+      "convolution",
+      "layers"
+    ],
+    "expected_context_substr": "bottleneck",
+    "target_chunk_id": "chunk_920_dcbfa0a4",
+    "target_source": "data/pdfs/deep_residual_learning_resnet.pdf",
+    "target_page": 6,
+    "target_filename": "deep_residual_learning_resnet.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_018_diffusion_forward_noise",
+    "category": "mixed_multihop",
+    "query": "How does the forward diffusion process progressively destroy data structure over T timesteps in DDPM?",
+    "ground_truth_answer": "The forward process q adds small amounts of Gaussian noise at each step according to a variance schedule beta_t until the signal becomes pure isotropic Gaussian noise.",
+    "expected_keywords": [
+      "forward process",
+      "gaussian",
+      "beta",
+      "diffusion"
+    ],
+    "expected_context_substr": "forward process",
+    "target_chunk_id": "chunk_978_d4c3a447",
+    "target_source": "data/pdfs/diffusion_models_ddpm.pdf",
+    "target_page": 2,
+    "target_filename": "diffusion_models_ddpm.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_019_roformer_inner_product",
+    "category": "mixed_multihop",
+    "query": "Why does RoPE rotary position embedding avoid adding positional vectors directly to token word embeddings?",
+    "ground_truth_answer": "Direct addition can disturb semantic magnitude, whereas RoPE rotates token representations in 2D planes, preserving vector lengths while injecting position via rotational phase shifts.",
+    "expected_keywords": [
+      "rope",
+      "rotary",
+      "position",
+      "embeddings"
+    ],
+    "expected_context_substr": "RoPE",
+    "target_chunk_id": "chunk_3478_3122274f",
+    "target_source": "data/pdfs/roformer_rotary_position_embedding.pdf",
+    "target_page": 1,
+    "target_filename": "roformer_rotary_position_embedding.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_020_gpt3_few_shot_scaling",
+    "category": "mixed_multihop",
+    "query": "How does few-shot prompt performance scale as model capacity increases from 125 million to 175 billion parameters in GPT-3?",
+    "ground_truth_answer": "Few-shot performance improves steeply with model parameter scale, with larger models demonstrating dramatic gains on reasoning, translation, and synthetic tasks.",
+    "expected_keywords": [
+      "few-shot",
+      "gpt-3",
+      "parameters",
+      "scaling"
+    ],
+    "expected_context_substr": "few-shot",
+    "target_chunk_id": "chunk_1586_a3bcfa8a",
+    "target_source": "data/pdfs/gpt3_few_shot_learners.pdf",
+    "target_page": 1,
+    "target_filename": "gpt3_few_shot_learners.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_021_llama2_gqa_benefit",
+    "category": "mixed_multihop",
+    "query": "Why did Llama 2 adopt Grouped-Query Attention GQA specifically for its largest 70B parameter variant?",
+    "ground_truth_answer": "GQA drastically reduces the memory bandwidth requirement of the KV cache during multi-token generation, enabling longer context handling and larger batch sizes.",
+    "expected_keywords": [
+      "grouped-query attention",
+      "llama 2",
+      "70b",
+      "kv cache"
+    ],
+    "expected_context_substr": "Grouped-Query Attention",
+    "target_chunk_id": "chunk_2404_0db3f419",
+    "target_source": "data/pdfs/llama2_open_foundation_models.pdf",
+    "target_page": 4,
+    "target_filename": "llama2_open_foundation_models.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_022_constitutional_ai_critique_loop",
+    "category": "mixed_multihop",
+    "query": "What are the two phases of Constitutional AI (RLAIF) used to produce safe AI assistants?",
+    "ground_truth_answer": "Phase 1 performs supervised learning using model critique and revision loops; Phase 2 trains a preference model from AI comparisons to perform reinforcement learning.",
+    "expected_keywords": [
+      "critique and revision",
+      "constitutional ai",
+      "reinforcement learning"
+    ],
+    "expected_context_substr": "critique and revision",
+    "target_chunk_id": "chunk_652_5ad983ae",
+    "target_source": "data/pdfs/constitutional_ai.pdf",
+    "target_page": 7,
+    "target_filename": "constitutional_ai.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_023_scaling_law_overfitting",
+    "category": "mixed_multihop",
+    "query": "Under what condition does a large language model overfit according to Kaplan et al.'s scaling analysis?",
+    "ground_truth_answer": "Overfitting occurs when model parameter capacity N is scaled without correspondingly scaling dataset tokens D according to the optimal power-law ratio.",
+    "expected_keywords": [
+      "overfitting",
+      "scaling laws",
+      "parameters",
+      "dataset"
+    ],
+    "expected_context_substr": "overfitting",
+    "target_chunk_id": "chunk_3589_ed3d9fdc",
+    "target_source": "data/pdfs/scaling_laws_neural_lms.pdf",
+    "target_page": 11,
+    "target_filename": "scaling_laws_neural_lms.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_024_tot_evaluation_states",
+    "category": "mixed_multihop",
+    "query": "How does Tree of Thoughts decide whether a given branch of reasoning should be pursued or pruned?",
+    "ground_truth_answer": "An LLM acts as an evaluator to score or classify each intermediate thought state (e.g. sure, likely, impossible), pruning paths evaluated as dead ends.",
+    "expected_keywords": [
+      "evaluation",
+      "tree of thoughts",
+      "pruned",
+      "states"
+    ],
+    "expected_context_substr": "evaluation",
+    "target_chunk_id": "chunk_4022_fe051414",
+    "target_source": "data/pdfs/tree_of_thoughts.pdf",
+    "target_page": 2,
+    "target_filename": "tree_of_thoughts.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_025_speculative_draft_verification",
+    "category": "mixed_multihop",
+    "query": "In speculative decoding, what condition determines whether a draft token x is accepted by the target model?",
+    "ground_truth_answer": "A token is accepted with probability min(1, p(x)/q(x)), where p is the target distribution and q is the draft distribution.",
+    "expected_keywords": [
+      "acceptance",
+      "speculative decoding",
+      "draft",
+      "distribution"
+    ],
+    "expected_context_substr": "acceptance",
+    "target_chunk_id": "chunk_3851_e05ef762",
+    "target_source": "data/pdfs/speculative_decoding.pdf",
+    "target_page": 3,
+    "target_filename": "speculative_decoding.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_026_gemma_mqa_2b",
+    "category": "mixed_multihop",
+    "query": "Why did the Gemma architecture use Multi-Query Attention MQA for the 2B model while using Multi-Head Attention for the 7B model?",
+    "ground_truth_answer": "MQA uses a single key-value head, drastically reducing memory footprint for on-device and edge deployment targets where 2B models typically run.",
+    "expected_keywords": [
+      "multi-query attention",
+      "gemma",
+      "2b",
+      "memory"
+    ],
+    "expected_context_substr": "Multi-Query Attention",
+    "target_chunk_id": "chunk_1516_b32938e2",
+    "target_source": "data/pdfs/gemma_open_models.pdf",
+    "target_page": 2,
+    "target_filename": "gemma_open_models.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_027_react_hotpotqa_multihop",
+    "category": "mixed_multihop",
+    "query": "How does ReAct solve multi-hop question answering benchmarks like HotpotQA compared to standard chain-of-thought?",
+    "ground_truth_answer": "ReAct uses search actions to retrieve facts across multiple Wikipedia articles, synthesizes the intermediate answers, and avoids hallucinating non-existent facts.",
+    "expected_keywords": [
+      "hotpotqa",
+      "react",
+      "multi-hop",
+      "reasoning"
+    ],
+    "expected_context_substr": "HotpotQA",
+    "target_chunk_id": "chunk_3313_992bcb0b",
+    "target_source": "data/pdfs/react_reasoning_and_acting.pdf",
+    "target_page": 1,
+    "target_filename": "react_reasoning_and_acting.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_028_toolformer_calculator",
+    "category": "mixed_multihop",
+    "query": "How does Toolformer teach models to invoke an external Calculator tool when encountering arithmetic expressions?",
+    "ground_truth_answer": "It inserts [Calculator(expr)] API annotations into math passages, evaluates expressions via Python, and keeps examples where calculator output lowers prediction loss.",
+    "expected_keywords": [
+      "calculator",
+      "toolformer",
+      "arithmetic",
+      "api"
+    ],
+    "expected_context_substr": "Calculator",
+    "target_chunk_id": "chunk_3908_c8683143",
+    "target_source": "data/pdfs/toolformer.pdf",
+    "target_page": 1,
+    "target_filename": "toolformer.pdf",
+    "split": "test"
+  },
+  {
+    "id": "mixed_029_instruct_gpt_rm_pairwise",
+    "category": "mixed_multihop",
+    "query": "How was the reward model trained in InstructGPT using pairwise comparisons of model completions?",
+    "ground_truth_answer": "Human labelers ranked K model completions from best to worst, and the reward model was trained using binary cross-entropy loss over all pairwise comparisons.",
+    "expected_keywords": [
+      "reward model",
+      "pairwise",
+      "instructgpt",
+      "rankings"
+    ],
+    "expected_context_substr": "Reward Model",
+    "target_chunk_id": "chunk_2128_519f5273",
+    "target_source": "data/pdfs/instruct_gpt.pdf",
+    "target_page": 3,
+    "target_filename": "instruct_gpt.pdf",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_030_cve_and_rrf_hybrid",
+    "category": "mixed_multihop",
+    "query": "Why does searching for supply-chain vulnerability CVE-2024-3094 benefit from hybrid search with RRF over semantic-only search?",
+    "ground_truth_answer": "Dense vector search often fails on rare alphanumeric strings like CVE-2024-3094, while BM25 anchors the exact identifier and RRF merges the ranking.",
+    "expected_keywords": [
+      "cve-2024-3094",
+      "hybrid",
+      "rrf",
+      "bm25"
+    ],
+    "expected_context_substr": "CVE-2024-3094",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "mixed_031_pkce_and_redis_cache",
+    "category": "mixed_multihop",
+    "query": "How does the Retrieva architecture handle repeated requests for technical protocols like OAuth 2.0 PKCE?",
+    "ground_truth_answer": "Repeated queries are normalized and looked up in the Redis TTL response cache, bypassing the LLM and returning cached citations in under 3ms.",
+    "expected_keywords": [
+      "pkce",
+      "redis",
+      "cache",
+      "latency"
+    ],
+    "expected_context_substr": "PKCE",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "mixed_032_k8s_csi_and_prometheus",
+    "category": "mixed_multihop",
+    "query": "What telemetry histogram does Prometheus scrape to record end-to-end request latency across duration buckets?",
+    "ground_truth_answer": "Prometheus scrapes rag_request_duration_seconds across predefined latency buckets from 0.05s to 10.0s.",
+    "expected_keywords": [
+      "rag_request_duration_seconds",
+      "prometheus",
+      "latency"
+    ],
+    "expected_context_substr": "rag_request_duration_seconds",
+    "target_chunk_id": "chunk_4100_495af33a",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_033_bm25_dense_fusion_alpha",
+    "category": "mixed_multihop",
+    "query": "How does varying the hybrid search parameter alpha between 0.0 and 1.0 balance lexical recall versus semantic generalization?",
+    "ground_truth_answer": "Alpha=0.0 corresponds to pure BM25 lexical search, alpha=1.0 gives pure semantic dense search, and alpha=0.3 provides empirical optimal balance on technical workloads.",
+    "expected_keywords": [
+      "reciprocal rank fusion",
+      "alpha",
+      "bm25",
+      "dense"
+    ],
+    "expected_context_substr": "Reciprocal Rank Fusion",
+    "target_chunk_id": "chunk_4097_23ebbace",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
+  },
+  {
+    "id": "mixed_034_grafana_and_quality_gates",
+    "category": "mixed_multihop",
+    "query": "How are chunk integrity validations and boundary lengths verified before indexing in the Retrieva data pipeline?",
     "ground_truth_answer": "data_validation.py computes MD5 hashes of document chunks to detect duplicates and enforce minimum and maximum chunk length boundaries.",
-    "expected_keywords": ["data_validation.py", "md5 hashes", "duplicates", "chunk length"],
-    "expected_context_substr": "data_validation.py computes MD5 hashes of document chunks to detect duplicates"
+    "expected_keywords": [
+      "data_validation.py",
+      "md5",
+      "hashes",
+      "duplicates"
+    ],
+    "expected_context_substr": "data_validation.py",
+    "target_chunk_id": "chunk_4100_495af33a",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_035_llama_temperature_and_fastapi",
+    "category": "mixed_multihop",
+    "query": "Why is the Groq inference model temperature set to 0.0 when serving document question-answering over FastAPI?",
+    "ground_truth_answer": "Temperature 0.0 enforces deterministic, greedy token generation to maximize factual groundedness and minimize hallucination.",
+    "expected_keywords": [
+      "groq",
+      "temperature",
+      "fastapi",
+      "groundedness"
+    ],
+    "expected_context_substr": "Groq",
+    "target_chunk_id": "chunk_4098_10261fa3",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "tune"
+  },
+  {
+    "id": "mixed_036_feedback_and_retrieval_tuning",
+    "category": "mixed_multihop",
+    "query": "How does Retrieva capture end-user feedback to detect retrieval degradation in production?",
+    "ground_truth_answer": "Users submit thumbs up/down ratings via /feedback endpoint, incrementing rag_feedback_total counters in Prometheus.",
+    "expected_keywords": [
+      "feedback",
+      "rating",
+      "prometheus",
+      "counters"
+    ],
+    "expected_context_substr": "feedback",
+    "target_chunk_id": "chunk_4100_495af33a",
+    "target_source": "data/sample_retrieva.txt",
+    "target_page": 1,
+    "target_filename": "sample_retrieva.txt",
+    "split": "test"
   }
 ]

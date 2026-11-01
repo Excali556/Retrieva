@@ -38,6 +38,28 @@ RAG_RETRIEVAL_DURATION_SECONDS = Histogram(
     buckets=[0.01, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0]
 )
 
+# --- Cross-Encoder Reranking Metrics (Phase 2) ---
+RAG_RERANK_DURATION_SECONDS = Histogram(
+    "rag_rerank_duration_seconds",
+    "Time spent scoring candidates with CrossEncoder in seconds",
+    ["model"],
+    buckets=[0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.0, 5.0]
+)
+
+# --- Query Rewriting & Multi-Query Metrics (Phase 3) ---
+RAG_QUERY_REWRITE_DURATION_SECONDS = Histogram(
+    "rag_query_rewrite_duration_seconds",
+    "Time spent in LLM query rewriting / expansion in seconds",
+    ["mode"],
+    buckets=[0.05, 0.1, 0.25, 0.5, 1.0, 2.0, 4.0]
+)
+
+RAG_QUERY_REWRITE_TOTAL = Counter(
+    "rag_query_rewrite_total",
+    "Total count of query rewrite/expansion requests",
+    ["mode", "status"]
+)
+
 RAG_LLM_DURATION_SECONDS = Histogram(
     "rag_llm_duration_seconds",
     "Time spent waiting for LLM completion in seconds",
@@ -91,4 +113,14 @@ RAG_EVAL_RECALL = Gauge(
 RAG_EVAL_FAITHFULNESS = Gauge(
     "rag_generation_faithfulness",
     "Latest batch faithfulness score (groundedness in context)"
+)
+
+RAG_EVAL_ANSWER_RELEVANCE = Gauge(
+    "rag_generation_answer_relevance",
+    "Latest batch answer relevance evaluation score"
+)
+
+RAG_EVAL_CORRECTNESS = Gauge(
+    "rag_generation_correctness",
+    "Latest batch ground-truth semantic correctness score"
 )
