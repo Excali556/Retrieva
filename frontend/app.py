@@ -5,7 +5,7 @@ import time
 from streamlit_lottie import st_lottie
 
 # --- API CONFIG ---
-API_BASE_URL = os.getenv("API_BASE_URL", "http://chatbot-api:8000")
+API_BASE_URL = os.getenv("API_BASE_URL", "http://chatbot-api:8000").rstrip("/")
 GRAFANA_URL = os.getenv("GRAFANA_URL", "http://localhost:3000")
 PROMETHEUS_URL = os.getenv("PROMETHEUS_URL", "http://localhost:9090")
 

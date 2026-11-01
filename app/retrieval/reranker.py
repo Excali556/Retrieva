@@ -1,5 +1,5 @@
 import time
-from typing import List, Optional
+from typing import List, Optional, Any
 
 try:
     from sentence_transformers import CrossEncoder
@@ -34,9 +34,9 @@ class Reranker:
     def rerank(
         self,
         query: str,
-        candidates: List[any],
+        candidates: List[Any],
         top_k: int = 4
-    ) -> List[any]:
+    ) -> List[Any]:
         """
         Scores (query, chunk.page_content) pairs and returns top_k re-ranked DocumentChunks.
         """
